@@ -1,0 +1,564 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Work+Sans:wght@300;400;600;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif; /* Agregué comillas y 'sans-serif' para la seguridad */
+    margin: 0;
+    padding: 0;
+}
+/* ---------------------------------------Media Queries -----------------------------------------------------------------------------*/
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+    .sobremi .fila {
+        flex-direction: column; /* Apilar en columnas en pantallas pequeñas */
+        align-items: center; /* Centrar contenido */
+    }
+
+    .sobremi .fila .datos,
+    .sobremi .fila .col {
+        width: 100%; /* Ocupa todo el ancho */
+        text-align: center; /* Centrar texto */
+    }
+
+    .sobremi .fila .col .contenedor-intereses .interes {
+        flex: 1 1 40%; /* Intereses ocupan 40% del ancho */
+        margin-bottom: 15px; /* Espaciado inferior */
+    }
+
+    /* Ocultar el menú de navegación y el menú hamburguesa en pantallas pequeñas */
+    .contenedor-header nav {
+        display: none; /* Ocultar el menú por defecto en pantallas pequeñas */
+    }
+
+    .nav-responsive {
+        display: none; /* Ocultar el menú hamburguesa en pantallas pequeñas */
+    }
+}
+
+/* Para pantallas grandes (PC) */
+@media (min-width: 768px) {
+    .contenedor-header nav {
+        display: flex; /* Mostrar el menú por defecto en pantallas grandes */
+        flex-direction: row; /* Alinear los elementos horizontalmente */
+    }
+
+    .nav-responsive {
+        display: none; /* Ocultar el menú hamburguesa en pantallas grandes */
+    }
+}
+
+/* Para pantallas pequeñas (móviles) */
+@media (max-width: 720px ) {
+    .contenedor-header nav {
+        display: none; /* Ocultar el menú por defecto en pantallas pequeñas */
+        flex-direction: column; /* Cambiar a dirección vertical */
+        position: absolute; /* Posicionarlo de forma absoluta */
+        top: 60px; /* Ajusta según el alto de tu header */
+        right: 0; /* Alinear a la derecha */
+        background: #1e2326; /* Fondo del menú */
+        width: 100%; /* Ancho completo */
+        z-index: 100; /* Mantenerlo encima de otros elementos */
+    }
+
+    .contenedor-header nav.active {
+        display: flex; /* Mostrar el menú cuando está activo en pantallas pequeñas */
+    }
+
+    .nav-responsive {
+        display: flex; /* Mostrar el menú hamburguesa en pantallas pequeñas */
+        background-color: #1cb698;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        position: fixed;
+        top: 10px; /* Ajusta según sea necesario para la distancia desde la parte superior */
+        right: 10px; /* Ajusta según sea necesario para la distancia desde la derecha */
+        z-index: 100;
+    }
+}
+
+
+.hidden {
+    display: none; /* O puedes usar visibility: hidden; */
+}
+
+/* ---------------------------------------html -----------------------------------------------------------------------------*/
+html {
+    scroll-behavior: smooth;
+}
+
+/* ---------------------------------------contenedor -----------------------------------------------------------------------------*/
+/* Estilos generales */
+.contenedor-header {
+    background: #1e2326;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+/* Encabezado */
+.contenedor-header header {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.contenedor-header header .logo a {
+    font-family: 'Righteous';
+    font-size: 36px;
+    color: #1cb698;
+    text-decoration: none;
+}
+
+/* ---------------------------------------nav barra de navegacion -----------------------------------------------------------------------------*/
+/* Estilos para el menú de navegación responsivo */
+.contenedor-header nav {
+    display: none; /* Ocultar el menú por defecto */
+}
+
+.contenedor-header nav.active {
+    display: flex; /* Mostrar el menú cuando se activa */
+    flex-direction: column; /* Alinear los elementos verticalmente */
+    position: absolute; /* Para que se superponga sobre el contenido */
+    background-color: #1e2326; /* Fondo del menú */
+    top: 60px; /* Ajusta según sea necesario */
+    right: 0; /* Alinear a la derecha */
+    width: 100%; /* Ancho completo */
+    z-index: 99; /* Asegura que esté en la parte superior */
+    align-items: center;
+}
+
+/* Estilos para el menú de navegación */
+.contenedor-header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+.contenedor-header nav ul li {
+    margin-right: 20px;
+}
+
+.contenedor-header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1.5; /* Ajusta según sea necesario */
+}
+
+.contenedor-header nav ul li a:hover {
+    color: #1cb698;
+}
+
+/* Estilos para el menú de navegación responsivo */
+.nav-responsive {
+    display: flex;
+    background-color: #1cb698;
+    color: #ffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: fixed;
+    top: 10px; /* Ajusta según sea necesario para la distancia desde la parte superior */
+    right: 10px; /* Ajusta según sea necesario para la distancia desde la derecha */
+    z-index: 100;
+}
+
+#nav.active {
+    display: flex; /* O como quieras que se muestre el menú */
+}
+
+/* ---------------------------------------inicio -----------------------------------------------------------------------------*/
+
+.inicio {
+    background: linear-gradient(to top, rgba(30, 35, 38, .8), rgba(30, 35, 38, 1)),
+                url(img/fondoportafolio.png);
+    background-size: cover;
+    background-position: center; /* Centra la imagen en la pantalla */
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.inicio img {
+    width: 180px;
+    height: 180px;
+    border: 5px solid #1cb698; /* Ajusta el grosor y el color del borde según sea necesario */
+    border-radius: 50%; /* Hace que el borde sea redondeado, adecuado para imágenes de perfil */
+}
+
+.inicio h1,
+.inicio h2 {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.inicio h1 {
+    font-size: 2em; /* Ajusta según sea necesario */
+    font-weight: 700; /* Puedes ajustar el peso de la fuente si lo necesitas */
+}
+
+.inicio h2 {
+    font-size: 1.5em; /* Ajusta según sea necesario */
+    font-weight: 400; /* Puedes ajustar el peso de la fuente si lo necesitas */
+}
+
+.inicio .contenido-banner {
+    padding: 20px;
+    background-color: #1e2326;
+    margin: auto;
+    text-align: center;
+    border-radius: 50px;
+    max-width: 350px;
+}
+
+.inicio .contenido-banner h1 {
+    font-family: 'Righteous';
+    margin-top: 40px;
+    font-size: 42px;
+}
+
+.inicio .contenido-banner .redes a {
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    border: 1px solid white;
+    border-radius: 100%;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    margin: 40px 5px;
+    font-size: 20px;
+    transition: .3s;
+}
+
+.inicio .contenido-banner .redes a:hover {
+    background-color: #1cb698;
+}
+/* ---------------------------------------sobre mi -----------------------------------------------------------------------------*/
+
+.sobremi {
+    background-color: #1cb698;
+    color: #fff;
+    padding: 50px 20px;
+}
+
+.sobremi .seccion-contenido {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.sobremi .seccion-contenido p {       /*aqui se modifca el texto SOBRE MI de manera visual no literar yo del futuro*/
+    font-size: 18px; 
+    line-height: 26px;
+    margin-bottom: 100px;
+}
+
+.sobremi .seccion-contenido p span {
+    color: #1cb698;
+    font-weight: bold;
+}
+
+.sobremi h2 {
+    font-size: 48px;
+    font-family: 'Righteous';
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* no sabia como pero le pedi ayuda a chatgptgod */
+.sobremi .fila {   
+    display: flex;
+    flex-direction: column; /* Coloca los elementos uno sobre otro */
+    justify-content: flex-start; /* Asegura que los elementos empiecen desde el principio */
+    align-items: center; /* Centra los elementos horizontalmente */
+    margin: 10px 0; /* Espaciado entre los elementos */
+}
+
+.sobremi .fila .datos,
+.sobremi .fila .col {
+    flex: 1 1 300px; /* Ancho flexible */
+    margin: 10px; /* Espaciado exterior */
+}
+
+.sobremi .fila .datos ul {
+    list-style: none;
+    padding: 0; /* Elimina el relleno de la lista para evitar espaciado adicional */
+}
+
+.sobremi .fila .datos ul li {
+    margin: 10px 0; /* Ajusta el margen superior e inferior de cada elemento de la lista */
+}
+
+.sobremi .fila .col h3 {
+    font-size: 20px;
+    font-family: 'Righteous';
+    margin-bottom: 25px;
+}
+
+.sobremi .fila .col ul {
+    list-style: none;
+}
+
+.sobremi .fila .col ul li {
+    margin: 12px 0;
+}
+
+.sobremi .fila .col ul li strong {
+    display: inline-block;
+    color: #1cb698;
+    width: 130px;
+}
+
+.sobremi strong {
+    background-color: #1cb698;
+    padding: 3px 0 2px 0;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.sobremi .fila .col .contenedor-intereses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrar intereses */
+}
+
+.sobremi .fila .col .contenedor-intereses .interes {
+    width: 100px;
+    height: 100px;
+    background-color: #252A2E;
+    border-radius: 10px;
+    margin: 0 15px 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: .3s;
+}
+
+.sobremi .fila .col .contenedor-intereses .interes:hover {
+    background-color: #1CB698;
+}
+
+.sobremi .fila .col .contenedor-intereses .interes i {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+/* ---------------------------------------datos profesionales -----------------------------------------------------------------------------*/
+
+.datos-profesionales {
+    background-color: #1cb698; /* Fondo de la sección */
+    color: #fff; /* Color del texto */
+    padding: 50px 20px; /* Espaciado interno */
+}
+
+.datos-profesionales .cursos {
+    text-align: center; /* Centrado del texto */
+    margin-bottom: 30px; /* Margen inferior */
+    flex: 1 1 300px; /* Ancho flexible */
+    margin: 10px; /* Espaciado exterior */
+}
+
+.datos-profesionales .fila .areas-de-especializacion ul {
+    list-style: none;
+    padding: 0; /* Elimina el relleno de la lista para evitar espaciado adicional */
+}
+
+.datos-profesionales h3 {
+    font-size: 24px; /* Tamaño de fuente del párrafo */
+    line-height: 26px; /* Altura de línea */
+    margin-bottom: 20px; /* Margen inferior */
+    text-align: center; 
+    font-family: 'Righteous'
+}
+
+.datos-profesionales ul {
+    list-style: none; /* Sin estilo de lista */
+    padding: 5px; /* Sin relleno */
+    margin-bottom: 20px; /* Margen inferior */
+    text-align: left; 
+    font-family: 'Righteous'
+}
+
+.datos-profesionales ul li {
+    margin: 10px 0; /* Espaciado entre elementos */
+    font-size: 15px; /* Tamaño de fuente */
+}
+
+.datos-profesionales ul li i {
+    color: #1cb698; /* Color del icono */
+    margin-right: 5px; /* Margen derecho para espacio entre icono y texto */
+}
+
+.datos-profesionales .fila {
+    display: flex; /* Flexbox para alinear elementos */
+    flex-direction: column; /* Elementos en columna */
+    justify-content: flex-start; /* Alinear al inicio */
+    margin-top: 30px; /* Margen superior */
+}
+
+.datos-profesionales .areas-de-especializacion ,
+.datos-profesionales .experiencia-profesional {
+    margin-bottom: 30px; /* Margen inferior para separar las secciones */
+}
+
+.datos-profesionales .fila .Áreas {
+    flex: 1; /* Flex: ocupando espacio disponible */
+    margin-right: 20px; /* Margen derecho */
+}
+
+.datos-profesionales .fila h3 {
+    font-size: 24px; /* Tamaño de fuente del subtítulo */
+    margin-bottom: 15px; /* Margen inferior */
+}
+.datos-profesionales .fila .col ul {
+    list-style: none; /* Sin estilo de lista */
+    padding: 0; /* Sin relleno */
+}
+
+.datos-profesionales .fila .col ul li {
+    margin: 10px 0; /* Espaciado entre elementos */
+}
+
+.datos-profesionales .fila .col ul li strong {
+    color: #1cb698; /* Color del texto fuerte */
+}
+/* ---------------------------------------CV -----------------------------------------------------------------------------*/
+
+.curriculum {
+    background-color: #1cb698;
+    position: relative;
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: #fff;
+    display: flex;                                                              /* ------------------------desde aqui display-----------------------------*/
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    padding: 50px 20px;
+    text-align: center; /* Asegura que el contenido esté alineado al centro */
+}                                                                               /* -------------------------hasta aqi tengo entendido que se usa para dejar las cosas en el centro de la pantalla----------------------------*/
+
+.curriculum .cv {
+    position: relative; /* Para controlar el posicionamiento del pseudo-elemento del botón */
+}
+
+.curriculum button {
+    cursor: pointer;
+    background-color: transparent;
+    border: 5px solid white;
+    width: fit-content;
+    display: block;
+    margin: 20px auto;
+    padding: 10px 22px;
+    font-size: 18px;
+    color: #FF6F61;
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    z-index: 10; 
+}
+
+/* Agregar un fondo redondo alrededor del botón */
+.curriculum button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px; /* Ajusta el tamaño del círculo */
+    height: 150px; /* Ajusta el tamaño del círculo */
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+    border-radius: 50%; /* Hacer que el fondo sea un círculo */
+    transform: translate(-50%, -50%); /* Centrar el círculo en el botón */
+    z-index: -1; /* Asegúrate de que el círculo esté detrás del botón */
+}
+
+.curriculum button .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #FF6F61;
+    z-index: 9;
+    transition: width 1s ease;
+    border-radius: 25px;
+}
+
+.curriculum button:hover .overlay {
+    width: 100%;
+}
+
+.curriculum .cv h3 {
+    font-size: 24px;
+    line-height: 26px;
+    margin-bottom: 20px;
+    text-align: center; 
+    font-family: 'Righteous';
+}
+
+.curriculum .cv button {
+    background-color: #fff;
+    margin: 10px 0;
+    font-size: 15px;
+    flex-direction: column;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+/* ---------------------------------------CORREO-----------------------------------------------------------------------------*/
+
+.contacto {
+    background-color: #1cb698;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.contacto h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.contacto-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.contacto form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contacto label {
+    margin: 10px 0 5px;
+}
+
+.contacto input, .contacto textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contacto button {
+    background-color: #1aa589;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: width 1s ease;
+}
+
+.contacto button:hover {
+    background-color: #4cff16;
+}
+
+/**/
