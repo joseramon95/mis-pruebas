@@ -1,6 +1,7 @@
-# Nombre del Proyecto
+#proyecto portafio inicial
 
-Breve descripción de lo que hace tu proyecto.
+este proyecto se basa mas que nada en crear algo como parte de una meta que dia a dia crece y va mas lejos por ahora solo es esto pero espero tener tiempo libre en un futuro para poder 
+mejorar con creces y añadir funciones y dejar de crear algo estatico para empezar a conocer y mejorar en este terreno
 
 ## Tecnologías Utilizadas
 
@@ -33,15 +34,9 @@ Haz tus cambios y haz un commit (git commit -m 'Agregué una nueva característi
 Haz un push a la rama (git push origin feature/nueva-caracteristica).
 Abre un Pull Request.
 Licencia
-Especifica la licencia del proyecto (por ejemplo, MIT, GPL, etc.). Si no tienes una, puedes omitir esta sección o agregar que el proyecto es de código abierto.
+proyecto es de código abierto.
 
 Contacto
-Tu nombre o el de los autores, con un correo electrónico o enlace a tu perfil de GitHub.
+jose ramon joserramonmadridvaldez@gmail.com
 
-### Consejos adicionales
 
-- **Sé claro y conciso**: Escribe de manera que cualquier persona pueda entender tu proyecto y cómo utilizarlo.
-- **Incluye imágenes**: Si es necesario, incluye capturas de pantalla o diagramas para mostrar cómo se ve o cómo funciona tu proyecto.
-- **Actualiza regularmente**: A medida que tu proyecto evoluciona, asegúrate de mantener el README actualizado con la información más reciente.
-
-¡Una vez que tengas tu README listo, guárdalo en la raíz de tu proyecto y súbelo a GitHub junto con el resto de tu código! Si necesitas más ayuda con algún aspecto específico, no dudes en preguntar.
