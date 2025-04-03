@@ -5,4 +5,4 @@ app = Flask(__name__)
 
 if __name__ == "__main__":
     iniciar_gui()  # Lanza la interfaz Tkinter
-    app.run(debug=True)  # Inicia Flask (opcional si decides agregar API)
+    app.run(debug=True)  # Inicia Flask 
