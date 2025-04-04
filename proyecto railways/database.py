@@ -1,20 +1,20 @@
+import os
 import sqlite3
 
+# Obtener la ruta ABSOLUTA 
+BASE_DIR = os.path.dirname(os.path.abspath('_file_'))
+DATABASE_NAME = os.path.join(BASE_DIR, "Gestor_de_Tareas.sqlite")  # Ruta completa
 
-DATABASE_NAME = "Gestor_de_Tareas.sqlite"
+print("Directorio del proyecto:", os.path.dirname(os.path.abspath('_file_')))
+print("Ruta de la base de datos:", DATABASE_NAME)
 
-#se crea la base de datos
-def conectar_bd():
-
-    conn = sqlite3.connect(DATABASE_NAME)
-    return conn
 
 #funcion para crear tabla tareas
 def jls_extract_def():
     return """
             CREATE TABLE IF NOT EXISTS tareas(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_usuarios INTEGER,
+                id_usuario INTEGER,
                 nombre_tarea varchar (50),
                 porcentaje INTEGER
             )
