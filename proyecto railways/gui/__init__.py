@@ -1,10 +1,12 @@
+#poner todo en su respictivo archivo 
+
 import tkinter as tk
 from tkinter import messagebox, ttk
 import sqlite3
 from models import conectar_bd
 
 
-class GestoTareas:
+class GestorTareas:
     def __init__(self, root):
         self.root = root
         try:
@@ -18,6 +20,19 @@ class GestoTareas:
 
         self.crear_interfaz()
         self.actualizar_lista()
+
+def interfaz (self):
+    "esto sirve para crear las vetanas graficas "
+    #esto creas frames para los controles
+    frame_controles = tk.frame(self.root, padx=10, pady=10)
+    frame_controles.pack(fill=tk.X)
+
+#campos de entrada
+tk.Label(frame_controles, text="Nombre:").grid(row=0, column=0, sticky="w")
+self.entry_nombre = tk.Entry(frame_controles, width=30)
+self.entry_nombre.grid(row=0, column=1, padx=5, pady=2)
+
+
 
 
 if __name__ == "__main__":
