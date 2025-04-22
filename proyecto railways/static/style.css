@@ -1,0 +1,115 @@
+:root {
+    --bg: #f7f7f7;
+    --text: #333;
+    --primary: #0077cc;
+    --card: #ffffff;
+    --border: #ccc;
+    --hover: #005fa3;
+    --footer: #666;
+}
+
+body.dark-mode {
+    --bg: #1e1e1e;
+    --text: #eee;
+    --primary: #3399ff;
+    --card: #2c2c2c;
+    --border: #444;
+    --hover: #66bfff;
+    --footer: #999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background-color: var(--primary);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Botón modo oscuro */
+.toggle-theme {
+    background: none;
+    color: white;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
+/* Main */
+main {
+    background-color: var(--card);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--border);
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+input[type="submit"] {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--hover);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: var(--footer);
+}

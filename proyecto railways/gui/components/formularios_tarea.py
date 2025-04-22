@@ -23,20 +23,9 @@ class formulario_Tareas():
         self.lbl_porcentaje.grid (row=2, column=0, sticky="w")
         self.entry_porcentaje.grid(row=2, column=1 )
 
-def interfaz (self):
-    "esto sirve para crear las vetanas graficas "
-    #esto creas frames para los controles
-    frame_controles = tk.frame(self.root, padx=10, pady=10)
-    frame_controles.pack(fill=tk.X)
-
-
-"""
-#esto se usara en en formulario para registrar usuario
-tk.Label(frame_controles, text="Correo Electronico:").grid(row=0, column=0, sticky="w")
-self.entry_nombre = tk.Entry(frame_controles, width=30)
-self.entry_nombre.grid(row=0, column=1, padx=5, pady=2)
-
-tk.Label(frame_controles, text="Numero Telefonico:").grid(row=0, column=0, sticky="w")
-self.entry_nombre = tk.Entry(frame_controles, width=30)
-self.entry_nombre.grid(row=0, column=1, padx=5, pady=2)
-"""
+def obtener_datos(self):
+    return {
+        "nombre": self.entry_nombre.get(),
+        "id_usuario": self.entry_id.get(),
+        "porcentaje": self.entry_porcentaje.get()
+    }

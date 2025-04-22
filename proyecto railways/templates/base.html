@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi sitio{% endblock %}</title>
+</head>
+<body>
+
+    <header>
+        <h1>Mi Sitio Flask</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Inicio</a> |
+            <a href="{{ url_for('login') }}">Login</a>|
+            <a href="{{ url_for('register') }}">Registro</a> |
+            {% if session.username %}
+                <span>Bienvenido, {{ session.username }}</span>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </nav>
+        <button class="toggle-theme" onclick="toggleTheme()">Modo Oscuro</button>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2025 Mi Sitio Flask</p>
+    </footer>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+        
+        // Mantener el tema al recargar
+        window.onload = () => {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        };
+        </script>
+</body>
+</html>
