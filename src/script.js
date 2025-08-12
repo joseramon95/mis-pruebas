@@ -1,35 +1,56 @@
 // Declarando constantes
 const NAVBAR = document.querySelector('.contenedor-header');
 const MENU_HAMBURGUESA = document.querySelector('.nav-responsive');
-const NAV = document.querySelector('nav'); // Seleccionar el elemento nav
+const NAV = document.querySelector('nav');
 
-// Agregar evento de scroll para ocultar la barra de navegación y el menú hamburguesa al hacer scroll
+// Ocultar navbar y menú hamburguesa al hacer scroll
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-        NAVBAR.classList.add('hidden'); // Ocultar la barra al hacer scroll
-        MENU_HAMBURGUESA.classList.add('hidden'); // Ocultar el menú hamburguesa al hacer scroll
+        NAVBAR.classList.add('hidden');
+        MENU_HAMBURGUESA.classList.add('hidden');
     } else {
-        NAVBAR.classList.remove('hidden'); // Mostrar la barra al volver arriba
-        MENU_HAMBURGUESA.classList.remove('hidden'); // Mostrar el menú hamburguesa al volver arriba
+        NAVBAR.classList.remove('hidden');
+        MENU_HAMBURGUESA.classList.remove('hidden');
     }
 });
 
-// Evento click en el menú hamburguesa para mostrar/ocultar el menú de navegación
-MENU_HAMBURGUESA.addEventListener('click', () => {
-    NAV.classList.toggle('active'); // Cambiar la clase para mostrar/ocultar el menú
+// Mostrar/ocultar menú hamburguesa al hacer clic (solo en móvil)
+MENU_HAMBURGUESA.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evitar que el clic se propague y cierre el menú inmediatamente
+    NAV.classList.toggle('active');
 });
 
-// Asegúrate de que el menú se oculte automáticamente si la pantalla es mayor a 768px
+// Ocultar menú al hacer clic fuera (solo en móvil)
+document.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+        NAV.classList.remove('active');
+    }
+});
+
+// Evitar que al hacer clic dentro del menú no se oculte inmediatamente
+NAV.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// En desktop: ocultar menú si el cursor sale del nav
+NAV.addEventListener('mouseleave', () => {
+    if (window.innerWidth > 768) {
+        NAV.classList.remove('active');
+    }
+});
+
+// Ocultar menú automáticamente si la pantalla es mayor a 768px (desktop)
 window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
-        NAV.classList.remove('active'); // Ocultar el menú en pantallas grandes
+        NAV.classList.remove('active');
     }
 });
 
+// Validación formulario
 document.querySelector('form').addEventListener('submit', function(event) {
-    const email = document.getElementById('email').value;
-    const nombre = document.getElementById('nombre').value;
-    const mensaje = document.getElementById('mensaje').value;
+    const email = document.getElementById('email').value.trim();
+    const nombre = document.getElementById('nombre').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
 
     if (!email || !nombre || !mensaje) {
         alert('Por favor, rellena todos los campos.');
