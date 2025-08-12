@@ -7,74 +7,44 @@
     padding: 0;
 }
 /* ---------------------------------------Media Queries -----------------------------------------------------------------------------*/
-/* Media Queries para Responsividad */
 @media (max-width: 768px) {
-    .sobremi .fila {
-        flex-direction: column; /* Apilar en columnas en pantallas pequeñas */
-        align-items: center; /* Centrar contenido */
-    }
-
-    .sobremi .fila .datos,
-    .sobremi .fila .col {
-        width: 100%; /* Ocupa todo el ancho */
-        text-align: center; /* Centrar texto */
-    }
-
-    .sobremi .fila .col .contenedor-intereses .interes {
-        flex: 1 1 40%; /* Intereses ocupan 40% del ancho */
-        margin-bottom: 15px; /* Espaciado inferior */
-    }
-
-    /* Ocultar el menú de navegación y el menú hamburguesa en pantallas pequeñas */
     .contenedor-header nav {
-        display: none; /* Ocultar el menú por defecto en pantallas pequeñas */
-    }
-
-    .nav-responsive {
-        display: none; /* Ocultar el menú hamburguesa en pantallas pequeñas */
-    }
-}
-
-/* Para pantallas grandes (PC) */
-@media (min-width: 768px) {
-    .contenedor-header nav {
-        display: flex; /* Mostrar el menú por defecto en pantallas grandes */
-        flex-direction: row; /* Alinear los elementos horizontalmente */
-    }
-
-    .nav-responsive {
-        display: none; /* Ocultar el menú hamburguesa en pantallas grandes */
-    }
-}
-
-/* Para pantallas pequeñas (móviles) */
-@media (max-width: 720px ) {
-    .contenedor-header nav {
-        display: none; /* Ocultar el menú por defecto en pantallas pequeñas */
-        flex-direction: column; /* Cambiar a dirección vertical */
-        position: absolute; /* Posicionarlo de forma absoluta */
-        top: 60px; /* Ajusta según el alto de tu header */
-        right: 0; /* Alinear a la derecha */
-        background: #1e2326; /* Fondo del menú */
-        width: 100%; /* Ancho completo */
-        z-index: 100; /* Mantenerlo encima de otros elementos */
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #1e2326;
+        width: 100%;
+        z-index: 100;
     }
 
     .contenedor-header nav.active {
-        display: flex; /* Mostrar el menú cuando está activo en pantallas pequeñas */
+        display: flex;
     }
 
     .nav-responsive {
-        display: flex; /* Mostrar el menú hamburguesa en pantallas pequeñas */
+        display: flex;
         background-color: #1cb698;
         color: #fff;
         padding: 5px 10px;
         border-radius: 5px;
         cursor: pointer;
         position: fixed;
-        top: 10px; /* Ajusta según sea necesario para la distancia desde la parte superior */
-        right: 10px; /* Ajusta según sea necesario para la distancia desde la derecha */
+        top: 10px;
+        right: 10px;
         z-index: 100;
+    }
+}
+
+@media (min-width: 769px) {
+    .contenedor-header nav {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .nav-responsive {
+        display: none;
     }
 }
 
@@ -241,195 +211,264 @@ html {
     background-color: #1cb698;
 }
 /* ---------------------------------------sobre mi -----------------------------------------------------------------------------*/
-
 .sobremi {
     background-color: #1cb698;
     color: #fff;
-    padding: 50px 20px;
+    padding: 60px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .sobremi .seccion-contenido {
     max-width: 1100px;
-    margin: auto;
-}
-
-.sobremi .seccion-contenido p {       /*aqui se modifca el texto SOBRE MI de manera visual no literar yo del futuro*/
-    font-size: 18px; 
-    line-height: 26px;
-    margin-bottom: 100px;
-}
-
-.sobremi .seccion-contenido p span {
-    color: #1cb698;
-    font-weight: bold;
+    margin: 0 auto;
 }
 
 .sobremi h2 {
     font-size: 48px;
-    font-family: 'Righteous';
+    font-family: 'Righteous', cursive;
     text-align: center;
-    padding: 20px 0;
+    margin-bottom: 40px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
-/* no sabia como pero le pedi ayuda a chatgptgod */
-.sobremi .fila {   
+/* Texto principal con buen tamaño y buena línea */
+.sobremi .seccion-contenido p {
+    font-size: 18px;
+    line-height: 1.6; /* Mejor que un número fijo en px */
+    margin-bottom: 60px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Destacar texto con un color vibrante y bold */
+.sobremi .seccion-contenido p span {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Contenedor flex que se adapta en pantallas pequeñas */
+.sobremi .fila {
     display: flex;
-    flex-direction: column; /* Coloca los elementos uno sobre otro */
-    justify-content: flex-start; /* Asegura que los elementos empiecen desde el principio */
-    align-items: center; /* Centra los elementos horizontalmente */
-    margin: 10px 0; /* Espaciado entre los elementos */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Mejor que margin para separación */
+    margin-bottom: 60px;
 }
 
+/* Columnas flexibles que se adaptan y tienen un máximo ancho */
 .sobremi .fila .datos,
 .sobremi .fila .col {
-    flex: 1 1 300px; /* Ancho flexible */
-    margin: 10px; /* Espaciado exterior */
+    flex: 1 1 320px;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease;
 }
 
-.sobremi .fila .datos ul {
-    list-style: none;
-    padding: 0; /* Elimina el relleno de la lista para evitar espaciado adicional */
+.sobremi .fila .datos:hover,
+.sobremi .fila .col:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
-.sobremi .fila .datos ul li {
-    margin: 10px 0; /* Ajusta el margen superior e inferior de cada elemento de la lista */
-}
-
-.sobremi .fila .col h3 {
-    font-size: 20px;
-    font-family: 'Righteous';
-    margin-bottom: 25px;
-}
-
+/* Listas limpias */
+.sobremi .fila .datos ul,
 .sobremi .fila .col ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
+.sobremi .fila .datos ul li,
 .sobremi .fila .col ul li {
     margin: 12px 0;
+    font-size: 16px;
+    color: #e6f2f1;
 }
 
+/* Encabezados secundarios */
+.sobremi .fila .col h3 {
+    font-size: 22px;
+    font-family: 'Righteous', cursive;
+    margin-bottom: 25px;
+    color: #def0eb;
+}
+
+/* Etiquetas en lista */
 .sobremi .fila .col ul li strong {
     display: inline-block;
-    color: #1cb698;
-    width: 130px;
+    color: #17b89f;
+    width: 140px;
+    font-weight: 700;
 }
 
+/* Resaltados con fondo suave y bordes redondeados */
 .sobremi strong {
-    background-color: #1cb698;
-    padding: 3px 0 2px 0;
-    font-weight: bold;
-    border-radius: 5px;
+    background-color: rgba(23, 184, 159, 0.15);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    color: #0d6157;
 }
 
+/* Contenedor de intereses centrado con espacio */
 .sobremi .fila .col .contenedor-intereses {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centrar intereses */
+    justify-content: center;
+    gap: 15px;
 }
 
+/* Caja de interés con transición suave y sombra */
 .sobremi .fila .col .contenedor-intereses .interes {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     background-color: #252A2E;
-    border-radius: 10px;
-    margin: 0 15px 15px 0;
+    border-radius: 14px;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: .3s;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .sobremi .fila .col .contenedor-intereses .interes:hover {
     background-color: #1CB698;
+    box-shadow: 0 6px 18px rgba(28, 182, 152, 0.7);
+    transform: translateY(-5px);
 }
 
+/* Iconos con tamaño y color */
 .sobremi .fila .col .contenedor-intereses .interes i {
-    font-size: 30px;
-    margin-bottom: 10px;
+    font-size: 34px;
+    margin-bottom: 12px;
+    color: #fff;
 }
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 720px) {
+    .sobremi .fila {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .sobremi .fila .datos,
+    .sobremi .fila .col {
+        max-width: 100%;
+        padding: 20px;
+    }
+    
+    .sobremi h2 {
+        font-size: 36px;
+    }
+    
+    .sobremi .seccion-contenido p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+}
+
 /* ---------------------------------------datos profesionales -----------------------------------------------------------------------------*/
-
 .datos-profesionales {
-    background-color: #1cb698; /* Fondo de la sección */
-    color: #fff; /* Color del texto */
-    padding: 50px 20px; /* Espaciado interno */
-}
-
-.datos-profesionales .cursos {
-    text-align: center; /* Centrado del texto */
-    margin-bottom: 30px; /* Margen inferior */
-    flex: 1 1 300px; /* Ancho flexible */
-    margin: 10px; /* Espaciado exterior */
-}
-
-.datos-profesionales .fila .areas-de-especializacion ul {
-    list-style: none;
-    padding: 0; /* Elimina el relleno de la lista para evitar espaciado adicional */
+    background-color: #1cb698; /* Fondo */
+    color: #fff; /* Texto */
+    padding: 60px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .datos-profesionales h3 {
-    font-size: 24px; /* Tamaño de fuente del párrafo */
-    line-height: 26px; /* Altura de línea */
-    margin-bottom: 20px; /* Margen inferior */
-    text-align: center; 
-    font-family: 'Righteous'
+    font-size: 28px;
+    line-height: 1.3;
+    margin-bottom: 25px;
+    text-align: center;
+    font-family: 'Righteous', cursive;
+    color: #e0f7f5;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
-.datos-profesionales ul {
-    list-style: none; /* Sin estilo de lista */
-    padding: 5px; /* Sin relleno */
-    margin-bottom: 20px; /* Margen inferior */
-    text-align: left; 
-    font-family: 'Righteous'
-}
-
-.datos-profesionales ul li {
-    margin: 10px 0; /* Espaciado entre elementos */
-    font-size: 15px; /* Tamaño de fuente */
-}
-
-.datos-profesionales ul li i {
-    color: #1cb698; /* Color del icono */
-    margin-right: 5px; /* Margen derecho para espacio entre icono y texto */
-}
-
+/* Contenedor flexible para columnas, con responsive */
 .datos-profesionales .fila {
-    display: flex; /* Flexbox para alinear elementos */
-    flex-direction: column; /* Elementos en columna */
-    justify-content: flex-start; /* Alinear al inicio */
-    margin-top: 30px; /* Margen superior */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
 }
 
-.datos-profesionales .areas-de-especializacion ,
+/* Cada columna ocupa mínimo 300px y crece si hay espacio */
+.datos-profesionales .fila > div {
+    flex: 1 1 320px;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease;
+}
+
+.datos-profesionales .fila > div:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Listas limpias sin estilo */
+.datos-profesionales ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    text-align: left;
+    font-family: 'Righteous', cursive;
+    color: #d4f0eb;
+}
+
+/* Items con margen y tamaño cómodo */
+.datos-profesionales ul li {
+    margin: 12px 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+/* Iconos coloridos y con espacio */
+.datos-profesionales ul li i {
+    color: #0f7f6e;
+    margin-right: 12px;
+    font-size: 18px;
+    min-width: 20px;
+}
+
+/* Texto fuerte resaltado */
+.datos-profesionales ul li strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Secciones internas con margen para separar */
+.datos-profesionales .areas-de-especializacion,
 .datos-profesionales .experiencia-profesional {
-    margin-bottom: 30px; /* Margen inferior para separar las secciones */
+    margin-bottom: 30px;
 }
 
-.datos-profesionales .fila .Áreas {
-    flex: 1; /* Flex: ocupando espacio disponible */
-    margin-right: 20px; /* Margen derecho */
+/* Responsive para pantallas pequeñas */
+@media (max-width: 720px) {
+    .datos-profesionales .fila {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .datos-profesionales h3 {
+        font-size: 24px;
+    }
+
+    .datos-profesionales ul li {
+        font-size: 15px;
+    }
 }
 
-.datos-profesionales .fila h3 {
-    font-size: 24px; /* Tamaño de fuente del subtítulo */
-    margin-bottom: 15px; /* Margen inferior */
-}
-.datos-profesionales .fila .col ul {
-    list-style: none; /* Sin estilo de lista */
-    padding: 0; /* Sin relleno */
-}
-
-.datos-profesionales .fila .col ul li {
-    margin: 10px 0; /* Espaciado entre elementos */
-}
-
-.datos-profesionales .fila .col ul li strong {
-    color: #1cb698; /* Color del texto fuerte */
-}
 /* ---------------------------------------CV -----------------------------------------------------------------------------*/
-
 .curriculum {
     background-color: #1cb698;
     position: relative;
@@ -438,47 +477,75 @@ html {
     background-position: center;
     height: 100vh;
     color: #fff;
-    display: flex;                                                              /* ------------------------desde aqui display-----------------------------*/
+    display: flex;              
     justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
+    align-items: center;     /* Centrar verticalmente */
     padding: 50px 20px;
-    text-align: center; /* Asegura que el contenido esté alineado al centro */
-}                                                                               /* -------------------------hasta aqi tengo entendido que se usa para dejar las cosas en el centro de la pantalla----------------------------*/
-
-.curriculum .cv {
-    position: relative; /* Para controlar el posicionamiento del pseudo-elemento del botón */
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Contenedor del contenido */
+.curriculum .cv {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    padding: 40px 30px;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transition: background 0.3s ease;
+}
+
+.curriculum .cv:hover {
+    background: rgba(255 255 255 / 0.15);
+}
+
+/* Título */
+.curriculum .cv h3 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-family: 'Righteous', cursive;
+    color: #fff;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+/* Botón estilizado con animación de overlay */
 .curriculum button {
+    position: relative;
     cursor: pointer;
     background-color: transparent;
-    border: 5px solid white;
-    width: fit-content;
-    display: block;
-    margin: 20px auto;
-    padding: 10px 22px;
+    border: 3px solid #FF6F61;
+    padding: 12px 28px;
     font-size: 18px;
     color: #FF6F61;
-    position: relative;
-    border-radius: 25px;
+    border-radius: 30px;
     overflow: hidden;
-    z-index: 10; 
+    transition: color 0.4s ease, border-color 0.4s ease;
+    font-weight: 600;
+    z-index: 1;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(255,111,97,0.4);
 }
 
-/* Agregar un fondo redondo alrededor del botón */
+/* Fondo circular detrás del botón */
 .curriculum button::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 150px; /* Ajusta el tamaño del círculo */
-    height: 150px; /* Ajusta el tamaño del círculo */
-    background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
-    border-radius: 50%; /* Hacer que el fondo sea un círculo */
-    transform: translate(-50%, -50%); /* Centrar el círculo en el botón */
-    z-index: -1; /* Asegúrate de que el círculo esté detrás del botón */
+    width: 140px;
+    height: 140px;
+    background-color: rgba(255, 111, 97, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    transition: background-color 0.4s ease;
 }
 
+/* Overlay animado que llena el botón */
 .curriculum button .overlay {
     position: absolute;
     top: 0;
@@ -486,48 +553,83 @@ html {
     width: 0;
     height: 100%;
     background-color: #FF6F61;
-    z-index: 9;
-    transition: width 1s ease;
-    border-radius: 25px;
+    border-radius: 30px;
+    z-index: 0;
+    transition: width 0.5s ease;
+}
+
+/* Al hacer hover, se expande el overlay y cambia el texto */
+.curriculum button:hover {
+    color: #fff;
+    border-color: #FF6F61;
+}
+
+.curriculum button:hover::before {
+    background-color: rgba(255, 111, 97, 0.35);
 }
 
 .curriculum button:hover .overlay {
     width: 100%;
 }
 
-.curriculum .cv h3 {
-    font-size: 24px;
-    line-height: 26px;
-    margin-bottom: 20px;
-    text-align: center; 
-    font-family: 'Righteous';
+/* Ajuste para el texto del botón y que no se superponga */
+.curriculum button span {
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    pointer-events: none;
 }
 
+/* Para un texto adicional dentro del botón, si lo hay */
 .curriculum .cv button {
-    background-color: #fff;
-    margin: 10px 0;
-    font-size: 15px;
-    flex-direction: column;
-    text-align: center;
-    text-transform: lowercase;
+    background-color: transparent;
+    margin: 15px 0 0 0;
+    font-size: 16px;
+    text-transform: none;
+    width: auto;
+}
+
+/* Responsive: reduce tamaño en móviles */
+@media (max-width: 480px) {
+    .curriculum .cv {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+
+    .curriculum .cv h3 {
+        font-size: 24px;
+    }
+
+    .curriculum button {
+        font-size: 16px;
+        max-width: 100%;
+        padding: 10px 20px;
+    }
 }
 
 /* ---------------------------------------CORREO-----------------------------------------------------------------------------*/
-
 .contacto {
     background-color: #1cb698;
-    padding: 50px 20px;
+    padding: 60px 20px;
     text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
 }
 
 .contacto h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .contacto-container {
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto;
+    background: rgba(255 255 255 / 0.12);
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 
 .contacto form {
@@ -536,29 +638,76 @@ html {
 }
 
 .contacto label {
-    margin: 10px 0 5px;
+    margin: 15px 0 8px 0;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: left;
+    color: #e0f0eb;
 }
 
-.contacto input, .contacto textarea {
+.contacto input,
+.contacto textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 14px 15px;
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-size: 16px;
+    resize: vertical;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    font-family: inherit;
+    background-color: rgba(255 255 255 / 0.15);
+    color: #fff;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+}
+
+.contacto input::placeholder,
+.contacto textarea::placeholder {
+    color: #d1e7e0;
+    opacity: 1;
+}
+
+.contacto input:focus,
+.contacto textarea:focus {
+    border-color: #4cff16;
+    background-color: rgba(255 255 255 / 0.25);
+    outline: none;
+    box-shadow: 0 0 8px #4cff16;
 }
 
 .contacto button {
     background-color: #1aa589;
     color: white;
-    padding: 10px 20px;
+    padding: 14px 25px;
+    font-size: 18px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
-    transition: width 1s ease;
+    border-radius: 30px;
+    font-weight: 700;
+    transition: background-color 0.4s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(26, 165, 137, 0.6);
 }
 
-.contacto button:hover {
+.contacto button:hover,
+.contacto button:focus {
     background-color: #4cff16;
+    box-shadow: 0 6px 20px #4cff16;
+    outline: none;
+}
+
+@media (max-width: 480px) {
+    .contacto h3 {
+        font-size: 22px;
+    }
+
+    .contacto-container {
+        padding: 25px 15px;
+    }
+
+    .contacto button {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
 }
 
 /**/
