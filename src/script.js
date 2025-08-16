@@ -57,3 +57,21 @@ document.querySelector('form').addEventListener('submit', function(event) {
         event.preventDefault();
     }
 });
+
+
+const tooltips = {
+    selenium: "Automatización de pruebas web con Python y Selenium, Cuento con años de experiencia y conocimeinto en trabajo real, En situaciones de alto rendimiento",
+    pytest: "Pruebas funcionales con PyTest y unittest, con proyectos de retail comercio pequeño",
+    sql: "Optimización de consultas SQL y gestión de datos",
+    pendiente : "esta nota esta pendinete , luego lo añadire"
+};
+
+document.querySelectorAll('.tooltip').forEach(el => {
+    const key = el.dataset.tooltip.toLowerCase(); // coincide con claves minúsculas
+    if (tooltips[key]) {
+        const span = document.createElement('span');
+        span.className = 'tooltip-text';
+        span.textContent = tooltips[key];
+        el.appendChild(span);
+    }
+});

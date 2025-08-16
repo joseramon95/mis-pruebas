@@ -293,11 +293,6 @@ textarea:focus {
     outline: none;
 }
 
-textarea {
-    min-height: 120px;
-    background-color: #1f2937;
-}
-
 /* ====== Responsive ====== */
 @media (max-width: 768px) {
     .fila {
@@ -377,4 +372,32 @@ nav.active {
         gap: 1.5rem;            /* Reduce un poco el espacio */
         align-items: stretch;   /* Que ocupen el ancho disponible */
     }
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 250px;               /* Más ancho para texto tipo cuadro */
+    background-color: #fff;     /* Fondo tipo cuadro */
+    color: #252A2E;             /* Texto oscuro */
+    border: 2px solid #1cb698; /* Borde resaltado */
+    border-radius: 8px;         /* Esquinas redondeadas */
+    padding: 10px 15px;         /* Espacio interior más grande */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra para efecto de tarjeta */
+    text-align: left;
+    font-size: 14px;
+
+    position: absolute;
+    left: 105%;                 /* A la derecha del elemento; cambia según necesidad */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s; /* Animación suave */
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(-50%) translateX(0); /* Se desplaza suavemente al aparecer */
 }
