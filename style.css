@@ -176,9 +176,21 @@ ul li i.fa-circle {
     flex-wrap: wrap;
 }
 
-.datos, .col, .areas-de-especializacion, .experiencia-profesional, .proyectos {
+.areas-de-especializacion, .experiencia-profesional, .proyectos {
     flex: 1 1 300px;
 }
+
+.curriculum, .cv, .cv-ing {
+    display: flex;
+    gap: 3rem;           
+    flex-wrap: wrap;       
+    justify-content: center;
+    align-items: center;    
+    flex: 1 1 300px;        /* Hace los elementos flexibles, mínimo 300px */
+}
+
+
+
 
 /* ====== Intereses estilo tarjetas ====== */
 .contenedor-intereses {
@@ -357,4 +369,12 @@ nav.active {
   nav {
     display: flex !important; /* o block, según diseño */
   }
+}
+
+@media (max-width: 768px) {
+    .curriculum, .cv, .cv-ing {
+        flex-direction: column; /* Coloca todo en columna */
+        gap: 1.5rem;            /* Reduce un poco el espacio */
+        align-items: stretch;   /* Que ocupen el ancho disponible */
+    }
 }
