@@ -63,7 +63,7 @@ const tooltips = {
     selenium: "Automatización de pruebas web con Python y Selenium, Cuento con años de experiencia y conocimeinto en trabajo real, En situaciones de alto rendimiento",
     pytest: "Pruebas funcionales con PyTest y unittest, con proyectos de retail comercio pequeño",
     sql: "Optimización de consultas SQL y gestión de datos",
-    pendiente : "esta nota esta pendinete , luego lo añadire"
+    pendiente : "esta nota esta pendinete , luego lo añadire en la siguiente actualizacion"
 };
 
 document.querySelectorAll('.tooltip').forEach(el => {
