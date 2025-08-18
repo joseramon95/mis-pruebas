@@ -403,3 +403,7 @@ nav.active {
     opacity: 1;
     transform: translateY(-50%) translateX(0); /* Se desplaza suavemente al aparecer */
 }
+
+html {
+  scroll-behavior: smooth;
+}
