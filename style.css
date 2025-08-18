@@ -13,6 +13,7 @@ body {
     background-color: #121212; /* fondo oscuro */
     color: #e0e0e0; /* texto claro */
     min-height: 100vh;
+
 }
 
 /* ====== Contenedor general ====== */
@@ -189,6 +190,25 @@ ul li i.fa-circle {
     flex: 1 1 300px;        /* Hace los elementos flexibles, mínimo 300px */
 }
 
+/*seccion de proyectos*/
+
+.proyecto {
+    display: flex;
+    padding: 0.5rem;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.proyecto-YouTube,
+.proyecto-railways,
+.proyecto-test {
+    flex: 1 1 300px;
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
 
 
 
@@ -238,6 +258,10 @@ ul li i.fa-circle {
     text-decoration: none;
     user-select: none;
     transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background: #2980b9;
 }
 
 .btn:hover,
@@ -320,29 +344,7 @@ textarea:focus {
         display: block;
     }
 }
-/* ====== proyecto descargar de youtube ====== */
-pre {
-  background-color: #2d2d2d;
-  color: #f8f8f2;
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-x: auto;
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  box-shadow: 0 0 10px rgba(0,0,0,0.7);
-  margin-bottom: 1.5rem;
-  
-  display: inline-block;   /* para que no ocupe todo el ancho */
-  max-width: 100%;         /* que no exceda el contenedor padre */
-  white-space: pre;        /* mantiene espacios y saltos de línea */
-}
-
-code {
-  font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  color: #f8f8f2;  /* color claro */
-}
-
+/* ====== hoja de estilos de los proyectos se movieron ====== */
 /* ====== para el script ====== */
 .hidden {
   display: none !important;
@@ -377,7 +379,7 @@ nav.active {
 .tooltip .tooltip-text {
     visibility: hidden;
     width: 250px;               /* Más ancho para texto tipo cuadro */
-    background-color: #fff;     /* Fondo tipo cuadro */
+    background-color: #ffffff;     /* Fondo tipo cuadro */
     color: #252A2E;             /* Texto oscuro */
     border: 2px solid #1cb698; /* Borde resaltado */
     border-radius: 8px;         /* Esquinas redondeadas */
