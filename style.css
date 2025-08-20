@@ -6,13 +6,22 @@
     margin: 0;
     padding: 0;
 }
-
+html {
+  scroll-behavior: smooth;
+}
+html, body {
+  width: 100%;
+  max-width: 100%;
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     background-color: #121212; /* fondo oscuro */
     color: #e0e0e0; /* texto claro */
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 
 }
 
@@ -453,16 +462,13 @@ nav.active {
     opacity: 1;
     transform: translateY(-50%) translateX(0); /* Se desplaza suavemente al aparecer */
 }
-
-html {
-  scroll-behavior: smooth;
-}
 /*estilos de las etiquetas de aside donde estan mis fotos 
 /* ====== Sidebar ====== */
+/* Sidebar completamente oculto inicialmente */
 #sidebar {
   position: fixed;
   top: 0;
-  left: auto; 
+  left: -190px; /* fuera de la pantalla */
   height: 100vh;
   width: 200px;
   background-color: #1f2937;
@@ -475,11 +481,7 @@ html {
   padding-top: 20px;
   border-radius: 0 8px 8px 0;
   z-index: 999;
-  cursor: pointer; /* ayuda a notar que es interactivo */
-}
-
-#sidebar:hover {
-  left: 0;
+  cursor: pointer;
 }
 
 /* Franja invisible para detectar hover */
@@ -491,6 +493,12 @@ html {
   height: 100vh;
   background: transparent;
   cursor: pointer;
+  z-index: 1000; /* arriba del sidebar */
+}
+
+/* Mostrar sidebar al pasar sobre trigger */
+#trigger:hover + #sidebar {
+  left: 0;
 }
 
 /* Imágenes dentro del sidebar */
@@ -498,22 +506,20 @@ html {
   width: 80px;
   margin: 15px 0;
   border-radius: 8px;
-  border: 2px solid #60a5fa; /* borde azul como las fotos principales */
+  border: 2px solid #60a5fa;
   transition: transform 0.3s, filter 0.3s, border-color 0.3s;
-  flex: auto;
 }
 
-/* Hover consistente con el estilo general */
 #sidebar img:hover {
   transform: scale(1.5);
   filter: brightness(1.2);
-  border-color: #a5b4fc; /* cambio de color de borde en hover */
+  border-color: #a5b4fc;
 }
 
 /* Contenedor de texto debajo de las imágenes */
 aside p {
   font-family: sans-serif;
-  color: #60a5fa; /* azul suave como headings */
+  color: #60a5fa;
   font-size: 14px;
   margin-top: 8px;
   text-align: center;
@@ -529,6 +535,7 @@ aside {
   gap: 15px;
   width: 100%;
 }
+
 /*easteregg xd*/
 .easteregg {
   display: flex;
