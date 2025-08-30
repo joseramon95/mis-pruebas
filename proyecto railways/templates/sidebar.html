@@ -1,0 +1,10 @@
+<div class="sidebar">
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+        {% if 'username' in session %}
+        <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+        {% endif %}
+    </ul>
+</div>

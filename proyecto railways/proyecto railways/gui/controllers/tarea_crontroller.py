@@ -2,7 +2,7 @@ from models import crear_tarea
 
 class TareaController :
     @staticmethod
-    def agregar_tarea (datos): #investigar como podemos asignar tareas al usuario (session = usuario ==> insert en tareas nombre = usuario 
+    def agregar_tarea (datos):
         try:
             crear_tarea(
                 nombre = datos ["nombre"],
