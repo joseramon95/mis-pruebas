@@ -375,34 +375,6 @@ form button:hover {
     width: 90%;
 }
 
-
-/* ====== Responsive ====== */
-@media (max-width: 768px) {
-    .fila {
-        flex-direction: column;
-    }
-    nav#nav ul {
-        flex-direction: column;
-        background-color: #1f2937;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-        display: none;
-        border-radius: 0 0 0 8px;
-        padding: 1rem;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-    }
-    nav#nav ul.show {
-        display: flex;
-    }
-    nav#nav ul li {
-        margin-bottom: 1rem;
-    }
-    .nav-responsive {
-        display: block;
-    }
-}
 /* ====== hoja de estilos de los proyectos se movieron ====== */
 /* ====== para el script ====== */
 .hidden {
@@ -420,20 +392,6 @@ nav.active {
   display: block;
 }
 
-/* Para pantallas grandes, mostrar siempre el menú nav */
-@media screen and (min-width: 769px) {
-  nav {
-    display: flex !important; /* o block, según diseño */
-  }
-}
-
-@media (max-width: 768px) {
-    .curriculum, .cv, .cv-ing {
-        flex-direction: column; /* Coloca todo en columna */
-        gap: 1.5rem;            /* Reduce un poco el espacio */
-        align-items: stretch;   /* Que ocupen el ancho disponible */
-    }
-}
 
 .tooltip .tooltip-text {
     visibility: hidden;
@@ -625,4 +583,113 @@ footer {
   border-top: 1px solid #334155;
   padding-top: 15px;
   font-size: 14px;
+}
+
+.contenedor-header ul li {
+  transition: opacity 0.3s ease;
+}
+
+.contenedor-header ul:hover li:not(:hover) {
+  opacity: 0.2;
+}
+
+
+
+/* ======                     media querrys                                        ====== */
+/* ====== Móviles (teléfonos) ====== */
+@media (max-width: 479px) {
+  /* reglas para teléfonos */
+  #sidebar {
+    width: 150px;
+  }
+  #sidebar img {
+    width: 60px;
+  }
+}
+
+/* ====== Tablets ====== */
+@media (min-width: 480px) and (max-width: 767px) {
+  /* reglas para tablets */
+  #sidebar {
+    width: 180px;
+  }
+  #sidebar img {
+    width: 70px;
+  }
+}
+
+/* ====== Laptops ====== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* reglas para laptops */
+  #sidebar {
+    width: 200px;
+  }
+  #sidebar img {
+    width: 80px;
+  }
+}
+
+/* ====== Pantallas grandes / desktop largo ====== */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  /* reglas para pantallas largas */
+  #sidebar {
+    width: 220px;
+  }
+  #sidebar img {
+    width: 90px;
+  }
+}
+
+/* ====== Pantallas extra grandes ====== */
+@media (min-width: 1200px) {
+  /* reglas para pantallas extra grandes */
+  #sidebar {
+    width: 240px;
+  }
+  #sidebar img {
+    width: 100px;
+  }
+}
+
+/* Para pantallas grandes, mostrar siempre el menú nav */
+@media screen and (min-width: 769px) {
+  nav {
+    display: flex !important; /* o block, según diseño */
+  }
+}
+
+@media (max-width: 768px) {
+    .curriculum, .cv, .cv-ing {
+        flex-direction: column; /* Coloca todo en columna */
+        gap: 1.5rem;            /* Reduce un poco el espacio */
+        align-items: stretch;   /* Que ocupen el ancho disponible */
+    }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+    .fila {
+        flex-direction: column;
+    }
+    nav#nav ul {
+        flex-direction: column;
+        background-color: #1f2937;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        display: none;
+        border-radius: 0 0 0 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    }
+    nav#nav ul.show {
+        display: flex;
+    }
+    nav#nav ul li {
+        margin-bottom: 1rem;
+    }
+    .nav-responsive {
+        display: block;
+    }
 }
