@@ -3,8 +3,10 @@
 {% block title %}Registro{% endblock %}
 
 {% block content %}
-    <h2>REGISTRARSE</h2>
     <form method="POST">
+        <img src="{{ url_for('static', filename='images/sign up.png') }}" alt="Logo" width="80">
+        <h2>REGISTRARSE</h2>
+
         Usuario: <input type="text" name="username" required><br>
         Contraseña: <input type="password" name="password" required><br>
         <input type="submit" value="Registrar">
