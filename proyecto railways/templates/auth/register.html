@@ -11,4 +11,10 @@
         Contraseña: <input type="password" name="password" required><br>
         <input type="submit" value="Registrar">
     </form>
+    {% if error %}
+    <div class="alert alert-warning">
+        {{ error }}
+    </div>
+    {% endif %}
+
 {% endblock %}

@@ -9,3 +9,8 @@ window.onload = () => {
         document.body.classList.add('dark-mode');
     }
 };
+<<<<<<< HEAD:static/js/scrips.js
+
+
+=======
+>>>>>>> 049ad2247eab6cf7880927b972c46d30af2df293:proyecto railways/static/js/scrips.js

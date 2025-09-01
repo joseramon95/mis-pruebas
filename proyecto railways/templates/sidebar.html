@@ -3,8 +3,15 @@
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li><a href="{{ url_for('login') }}">Login</a></li>
         <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+<<<<<<< HEAD:templates/sidebar.html
+        {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+        {% endif %}
+
+=======
         {% if 'username' in session %}
         <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
         {% endif %}
+>>>>>>> 049ad2247eab6cf7880927b972c46d30af2df293:proyecto railways/templates/sidebar.html
     </ul>
 </div>

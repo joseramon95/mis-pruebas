@@ -3,6 +3,20 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-    <h2>Bienvenido a la app {{ username }}</h2>
-    <p>Esta es la página principal.</p>
+<h2>Bienvenido, {{ current_user.username }}<p>Esta es la página principal.</p></h2>
+
+<h3>Tus Tareas</h3>
+<ul>
+  {% for tarea in tareas %}
+    <li>
+      <strong>{{ tarea.titulo }}</strong> - {{ tarea.descripcion }}
+      <em>(Usuario: {{ tarea.usuario.username }})</em>
+    </li>
+  {% else %}
+    <li>No tienes tareas todavía.</li>
+  {% endfor %}
+</ul>
+  <section>
+  {% include 'add_tarea.html' %}
+  </section>
 {% endblock %}
