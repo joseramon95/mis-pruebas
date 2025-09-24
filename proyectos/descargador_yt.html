@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Descargador Multimedia desde YouTube</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+    <h1>Proyecto: Descargador Multimedia desde YouTube</h1>
+    <p>Este proyecto permite descargar el video y extraer el audio en formato MP3 desde una URL de YouTube usando Flask, Pafy y MoviePy.</p>
+
+    <div class="etiqueta">🧪 Muestra de código:</div>
+    
+    <div class="codigo">
+        <pre><code>
+                @app.route('/envia2', methods=['GET','POST'])
+           
+                def envia2():
+                if request.method == 'POST':
+                    url = request.form['url']
+                    video = pafy.new(url)
+                    best = video.getbest(preftype="mp4")
+                    best.download(path)
+                    name = path + video.title + ".mp4"
+                    clip = mp.VideoFileClip(name)
+                    clip.audio.write_audiofile(path + video.title + ".mp3")
+                    p = path + video.title + ".mp3"
+                    return send_file(p)
+        </code></pre>
+    </div>
+
+  <div class="volver">
+        <a href="../index.html#proyectos">
+            <button class="btn-volver">Volver a proyectos</button>
+        </a>
+  </div>
+
+<script src="../src/script_prueba_de_gif.js"></script>
+</body>
+</html>

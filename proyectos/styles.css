@@ -1,0 +1,114 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e293b; /* gris azulado más claro que #121212 */
+    color: #e0e0e0;
+    padding: 2rem;
+    line-height: 1.6;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
+  color: #e0e0e0;
+  padding: 2rem;
+  line-height: 1.6;
+  position: relative;
+  z-index: 0;
+  transition: background-image 1s ease-in-out; /* efecto suave al cambiar */
+}
+
+/* Capa oscura encima del fondo */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 18, 18, 0.85);
+  z-index: -1;
+}
+
+
+/* ====== Botones ====== */
+.btn {
+    background-color: #2563eb; /* azul medio */
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    text-decoration: none;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color: #1e40af; /* azul oscuro */
+}
+
+/* Overlay efecto en botón */
+.btn .overlay {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    transition: left 0.3s ease;
+}
+.btn:hover .overlay {
+    left: 0;
+}
+
+h1 {
+    color: #60a5fa; /* azul suave */
+    margin-bottom: 1.5rem;
+}
+
+.codigo {
+    background-color: #0f172a; /* fondo más oscuro */
+    color: #f8f8f2;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+    border: 1px solid #334155;
+}
+
+.etiqueta {
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 0.7rem;
+    color: #a5b4fc;
+    font-size: 1.2rem;
+}
+
+.volver {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.btn-volver {
+    background-color: #2563eb; /* azul */
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background-color: #1e40af; /* azul más oscuro */
+    transform: scale(1.05);
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pruebas Automatizadas del Sistema</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+    <h1>Proyecto: Pruebas Automatizadas del Sistema</h1>
+    <p>Este módulo presenta tres enfoques de testing aplicados al sistema de inventario: pruebas unitarias con `unittest`, simulación de entorno gráfico con `Tkinter`, y pruebas funcionales con `pytest`.</p>
+
+    <div class="etiqueta">🧪 Prueba unitaria con mockeo de funciones en entorno gráfico (Tkinter):</div>
+    <div class="codigo">
+<pre><code>import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+from ULS_INVENTARIO import guarda, eliminar
+import unittest
+from tkinter import Tk, Entry, Button
+from unittest.mock import MagicMock
+
+class TestApp(unittest.TestCase):
+    def setUp(self):
+        self.root = Tk()
+        self.entry_producto = Entry(self.root)
+        self.entry_precio = Entry(self.root)
+        self.btn_guardar = Button(self.root, text="Guardar")
+        self.guardar_producto = MagicMock()
+</code></pre>
+    </div>
+
+    <div class="etiqueta">🧪 Prueba funcional simulada en entorno gráfico con pytest:</div>
+    <div class="codigo">
+<pre><code>import pytest
+import sqlite3
+
+@pytest.fixture
+def setup_db():
+    connection = sqlite3.connect(":memory:")
+    cursor = connection.cursor()
+    cursor.execute("CREATE TABLE articulos (codigo INTEGER PRIMARY KEY, nombre TEXT, precio REAL)")
+    cursor.execute("INSERT INTO articulos (codigo, nombre, precio) VALUES (1, 'Producto de prueba', 50.0)")
+    connection.commit()
+    yield connection, cursor
+    connection.close()
+
+@pytest.mark.repeat(5)
+def test_modificar_producto(setup_db):
+    connection, cursor = setup_db
+    nuevo_nombre = 'Producto modificado'
+    nuevo_precio = 500
+</code></pre>
+    </div>
+
+    <div class="etiqueta">🧪 Prueba funcional de la lógica del sistema:</div>
+    <div class="codigo">
+<pre><code>import unittest
+from unittest.mock import patch, MagicMock
+import sqlite3
+
+class TestApp(unittest.TestCase):
+    def setUp(self):
+        self.connection = sqlite3.connect(":memory:")
+        self.cursor = self.connection.cursor()
+        self.cursor.execute("CREATE TABLE articulos (codigo INTEGER PRIMARY KEY, nombre TEXT, precio REAL)")
+        self.cursor.execute("INSERT INTO articulos (codigo, nombre, precio) VALUES (1, 'Producto de prueba', 50.0)")
+        self.connection.commit()
+
+    def tearDown(self):
+        self.connection.close()
+</code></pre>
+    </div>
+
+  <div class="volver">
+        <a href="../index.html#proyectos">
+            <button class="btn-volver">Volver a proyectos</button>
+        </a>
+  </div>
+
+<script src="../src/script_prueba_de_gif.js"></script>
+</body>
+</html>

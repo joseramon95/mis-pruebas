@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Tareas con Flask y Railways</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+    <h1>Proyecto: Gestor de Tareas con Flask y Railways</h1>
+    <p>Este proyecto implementa un sistema de autenticación y gestión de tareas usando Flask, SQLite y Flask-Login, desplegado en Railways.</p>
+
+    <div class="etiqueta">🧪 Muestra de código:</div>
+    <div class="codigo">
+<pre><code>from flask import Flask, render_template, redirect, url_for, request, session
+from flask_login import login_required, login_user, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from extensions import db, login_manager
+from models import User, Tarea
+from utils import autenticar_usuario
+import os
+
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'supersecreto')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Gestor_de_Tareas.sqlite'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
+    login_manager.login_message = "Debes iniciar sesión primero"
+    login_manager.login_message_category = "alert-danger"
+
+    with app.app_context():
+        db.create_all()
+
+    return app
+
+app = create_app()
+
+@app.route("/")
+def index():
+    return redirect(url_for('login'))
+</code></pre>
+    </div>
+
+  <div class="volver">
+        <a href="../index.html#proyectos">
+            <button class="btn-volver">Volver a proyectos</button>
+        </a>
+  </div>
+
+<script src="../src/script_prueba_de_gif.js"></script>
+</body>
+</html>
