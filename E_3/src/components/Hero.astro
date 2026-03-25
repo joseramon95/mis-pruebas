@@ -1,0 +1,47 @@
+---
+import { sectionBackgrounds } from '../data/backgroundImages';
+
+const heroBackground = sectionBackgrounds.hero;
+---
+
+<section 
+	class="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
+	style={{
+		backgroundImage: `url('${heroBackground.imageUrl}')`,
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		backgroundAttachment: 'fixed',
+	}}
+>
+	<!-- Gradiente superpuesto -->
+	<div
+		class="absolute inset-0"
+		style={{
+			background: heroBackground.gradientOverlay,
+		}}
+	></div>
+
+	<!-- Decorative elements -->
+	<div class="absolute top-10 right-10 w-40 h-40 bg-amber-300 rounded-full opacity-10 blur-3xl"></div>
+	<div class="absolute bottom-10 left-10 w-40 h-40 bg-amber-400 rounded-full opacity-10 blur-3xl"></div>
+	
+	<div class="max-w-4xl mx-auto text-center relative z-10">
+		<h1 class="text-3xl md:text-4xl font-semibold text-white mb-4">
+			Nosotros Resolvemos
+		</h1>
+		<h2 class="text-6xl md:text-8xl font-bold text-amber-400 mb-8">
+			Tus Problemas
+		</h2>
+		<p class="text-xl md:text-2xl text-indigo-100 mb-8 max-w-2xl mx-auto">
+			Soluciones estratégicas de alta complejidad para transformar tu incertidumbre en crecimiento.
+		</p>
+		<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<button class="bg-amber-400 text-indigo-900 px-8 py-4 rounded-lg font-bold hover:bg-amber-300 transition text-lg shadow-lg">
+				Conoce a nuestros asesores
+			</button>
+			<button class="bg-transparent text-white border-2 border-amber-400 px-8 py-4 rounded-lg font-semibold hover:bg-amber-400 hover:text-indigo-900 transition text-lg flex items-center justify-center gap-2">
+				<span class="text-amber-400">●</span> Síguenos en Redes
+			</button>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Astro Dev Server",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "dev"],
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": "^(?:Error|Warning|Info)(?:: \\[)?(.*)(?:\\])?(?:: |: )?(.*)$",
+					"file": 1,
+					"location": 2
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*(localhost|127\\.0\\.0\\.1).*(\\d{4,5}).*$",
+					"endsPattern": "^.*(ready).*$"
+				}
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Astro Build",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "build"],
+			"group": {
+				"kind": "build"
+			}
+		}
+	]
+}
