@@ -8,7 +8,7 @@ interface Props {
 	description?: string;
 }
 
-const { items, title = 'POR QUE ESCOGERNOS?', description = 'Experience the power of island architecture and partial hydration for lightning-fast loading times.' } = Astro.props;
+const { items, title = 'POR QUE ESCOGERNOS?', description = 'Experimente la potencia de la arquitectura insular y la hidratación parcial para lograr tiempos de carga ultrarrápidos.' } = Astro.props;
 const carouselBackground = sectionBackgrounds.carousel;
 ---
 
@@ -39,22 +39,54 @@ const carouselBackground = sectionBackgrounds.carousel;
 		</p>
 
 		<!-- Carousel Container -->
-		<div class="relative">
-			<!-- Carousel Wrapper -->
-			<div class="overflow-hidden rounded-lg">
-				<div id="carousel-track" class="flex transition-transform duration-500 ease-out" style="width: 100%;">
-					{items.map((item) => (
-						<div class="min-w-full px-4 py-8">
-							<div class="bg-white rounded-lg p-8 border-l-4 border-amber-400 h-full hover:shadow-xl transition transform">
-								<div class="text-5xl mb-4">{item.icon}</div>
-								<h3 class="text-2xl font-bold mb-3 text-indigo-900">{item.title}</h3>
-								<p class="text-slate-600 text-lg">{item.description}</p>
+<div class="relative">
+	<!-- Carousel Wrapper -->
+	<div class="overflow-hidden rounded-lg">
+		<div id="carousel-track" class="flex transition-transform duration-500 ease-out" style="width: 100%;">
+			
+			{items.map((item) => (
+				<div class="min-w-full px-4 py-8 flex justify-center">
+					
+					<!-- CONTENEDOR CUADRADO -->
+					<div class="w-full max-w-md aspect-square">
+						
+						<div class="bg-white rounded-lg p-6 border-l-4 border-amber-400 h-full flex flex-col justify-between hover:shadow-xl transition">
+							
+							<!-- Imagen -->
+							<div class="w-32 h-32 object-contain mx-auto mb-4">
+								<img 
+									src={item.image} 
+									alt={item.title} 
+									class="w-full h-full object-cover"
+								/>
 							</div>
-						</div>
-					))}
-				</div>
-			</div>
 
+							<!-- Texto -->
+							<div>
+								<h3 class="text-xl font-bold mb-2 text-indigo-900">
+									{item.title}
+								</h3>
+
+								<p class="text-slate-600 text-sm mb-4">
+									{item.description}
+								</p>
+							</div>
+
+							<!-- Botón -->
+							<a href={item.contact.link} target="_blank" class="btn">
+								{item.contact.text}
+							</a>
+
+						</div>
+
+					</div>
+
+				</div>
+			))}
+
+		</div>
+	</div>
+</div>
 			<!-- Navigation Buttons -->
 			<button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 bg-indigo-800 text-white p-3 rounded-full hover:bg-indigo-900 transition z-20">
 				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

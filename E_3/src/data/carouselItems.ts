@@ -3,27 +3,43 @@ export interface CarouselItem {
 	id: number;
 	title: string;
 	description: string;
-	icon: string;
+	image: string;
+	contact: {
+		text: string;
+		link: string;
+	};
 }
 
 export const featureItems: CarouselItem[] = [
 	{
 		id: 1,
 		title: 'Una Disposición Absoluta',
-		description: 'El Compromiso del "Heme Aquí". Mientras otros analizan desde la distancia, nosotros nos involucramos en el epicentro del desafío. Respondemos con disposición inmediata, sabiendo que el tiempo es el recurso más valioso de nuestros clientes.',
-		icon: '💪',
+		description: 'El Compromiso del "Heme Aquí". Mientras otros analizan desde la distancia, nosotros nos involucramos en el epicentro del desafío.',
+		image: '/persona-no-bg.png',
+		contact: {
+			text: 'Contactar por WhatsApp',
+			link: 'https://wa.me/521234567890'
+		}
 	},
 	{
 		id: 2,
 		title: 'Ingeniería de Resiliencia',
-		description: 'Estructuras Inquebrantables. Nos especializamos en edificar organizaciones estructuralmente inquebrantables. Mediante el rigor del análisis económico, diseñamos sistemas que no solo resisten el cambio, sino que se fortalecen a través de él.',
-		icon: '🏛️',
+		description: 'Estructuras Inquebrantables. Diseñamos sistemas que no solo resisten el cambio, sino que se fortalecen.',
+		image: '/persona-no-bg.png',
+		contact: {
+			text: 'Solicitar información',
+			link: 'https://wa.me/521234567890'
+		}
 	},
 	{
 		id: 3,
 		title: 'Rigor Científico y Ética',
-		description: 'La Fusión del Rigor Científico y la Ética Inflexible. Fusionamos la ciencia económica con una visión estratégica responsable, garantizando que cada decisión sea técnicamente impecable e éticamente sólida.',
-		icon: '⚖️',
-	},
+		description: 'Fusionamos ciencia económica con visión estratégica responsable.',
+		image: '/persona-no-bg.png',
+		contact: {
+			text: 'Hablar con asesor',
+			link: 'https://wa.me/521234567890'
+		}
+	}
 ];
 
