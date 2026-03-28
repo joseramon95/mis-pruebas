@@ -184,3 +184,88 @@ Se instaló Render CLI para gestionar el servicio:
 ### Error en deploy de Render
 - Verificar que el Start Command sea: `gunicorn app:app --bind 0.0.0.0:$PORT`
 - Verificar requirements.txt tenga gunicorn
+
+---
+
+## ⚠️ PROBLEMA: Datos se Borran
+
+### Causa
+El tier gratuito de Render usa **SQLite en sistema de archivos efímero**. Cada vez que el servicio:
+- Se reinicia
+- Hace deploy nuevo
+- Entra en modo sleep
+
+...los datos se pierden porque SQLite se almacena localmente.
+
+### Solución: Usar PostgreSQL
+
+PostgreSQL tiene tier gratuito en Render que persiste los datos.
+
+#### Pasos para Migrar a PostgreSQL
+
+1. **Crear PostgreSQL en Render:**
+   - Ir a https://dashboard.render.com
+   - **New → PostgreSQL**
+   - Configurar:
+     - Name: `e3-admin-db`
+     - Plan: Free
+     - Region: Oregon (misma que el servicio)
+   - Click **Create Database**
+
+2. **Obtener conexión:**
+   - Cuando termine, ir a la DB en el dashboard
+   - Buscar **Internal Database URL** o **External Database URL**
+   - Tiene formato: `postgres://user:pass@host:5432/database`
+
+3. **Actualizar la API:**
+   
+   En la rama `api`, modificar `app.py`:
+   
+   ```python
+   # Cambiar de SQLite a PostgreSQL
+   import os
+   
+   # Antes (SQLite)
+   app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///e3_admin.db"
+   
+   # Después (PostgreSQL)
+   DATABASE_URL = os.environ.get("DATABASE_URL")
+   app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+   ```
+   
+   También agregar al `requirements.txt`:
+   ```
+   psycopg2-binary==2.9.9
+   ```
+
+4. **Agregar variable de entorno en Render:**
+   - Ir al servicio `e3-admin-api` en dashboard
+   - **Environment** → **Add Environment Variable**
+   - Key: `DATABASE_URL`
+   - Value: (la URL de PostgreSQL creada en paso 2)
+
+5. **Hacer deploy de la API:**
+   ```bash
+   # Desde rama api
+   git add . && git commit -m "Migrate to PostgreSQL" && git push origin api
+   
+   # Deploy con Render CLI
+   ./render.exe deploys create srv-d73oq324d50c73bqhih0 --wait --confirm
+   ```
+
+6. **Migrar datos existentes:**
+   - Una vez conectado a PostgreSQL, los datos不会再 se borran
+   - Si había datos en SQLite local, exportarlos e importarlos manualmente
+
+#### Notas Importantes
+
+- PostgreSQL gratis tiene límite de 1 GB
+- Los datos persistirán aunque el servicio se reinicie
+- No hacer deploy frecuente para evitar interrupciones
+
+#### Alternativa: Supabase
+
+Si se prefiere, también se puede usar Supabase (PostgreSQL externo):
+- https://supabase.com
+- Cuenta gratis
+- Se conecta igual con `DATABASE_URL`
