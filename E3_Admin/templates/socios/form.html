@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if socio else 'Nuevo' }} Socio - E³ Admin{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <a href="{{ url_for('listar_socios') }}" class="text-gray-500 hover:text-navy-800 mb-2 inline-flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Volver a Socios
+    </a>
+    <h1 class="text-3xl font-bold text-navy-800">{{ 'Editar' if socio else 'Nuevo' }} Socio</h1>
+</div>
+
+<div class="bg-white rounded-xl shadow-lg p-8 max-w-2xl">
+    <form method="POST" class="space-y-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Nombre *</label>
+            <input type="text" name="nombre" required value="{{ socio.nombre if socio else '' }}" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold-500 focus:outline-none transition">
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Descripción *</label>
+            <textarea name="descripcion" rows="3" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold-500 focus:outline-none transition resize-none">{{ socio.descripcion if socio else '' }}</textarea>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">URL de Imagen *</label>
+            <input type="url" name="imagen" required value="{{ socio.imagen if socio else '' }}" placeholder="https://..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold-500 focus:outline-none transition">
+            <p class="text-xs text-gray-500 mt-1">URL de la imagen del asesor (recomendado: 400x400px)</p>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Link de WhatsApp *</label>
+            <input type="url" name="whatsapp" required value="{{ socio.whatsapp if socio else '' }}" placeholder="https://wa.me/521234567890" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold-500 focus:outline-none transition">
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Orden</label>
+            <input type="number" name="orden" value="{{ socio.orden if socio else '0' }}" min="0" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold-500 focus:outline-none transition">
+            <p class="text-xs text-gray-500 mt-1">Orden de aparición en el carrusel (menor = primero)</p>
+        </div>
+        
+        <div class="flex gap-4 pt-4">
+            <button type="submit" class="flex-1 bg-gold-500 text-navy-900 py-3 rounded-lg font-bold hover:bg-gold-600 transition">
+                {{ 'Guardar Cambios' if socio else 'Crear Socio' }}
+            </button>
+            <a href="{{ url_for('listar_socios') }}" class="px-6 py-3 border-2 border-gray-300 text-gray-600 rounded-lg font-medium hover:bg-gray-50 transition">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
