@@ -19,6 +19,8 @@ app.config["SECRET_KEY"] = "e3-admin-secret-key-2026"
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///e3_admin.db"
