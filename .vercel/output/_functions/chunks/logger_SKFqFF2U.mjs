@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import nodePath from 'node:path';
 
-const LOG_DIR = "logs";
+const LOG_DIR = process.env.VERCEL ? "/tmp/logs" : "logs";
 async function ensureLogDir() {
   try {
     await fs.mkdir(LOG_DIR, { recursive: true });
