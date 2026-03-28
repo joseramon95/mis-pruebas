@@ -1,0 +1,126 @@
+---
+import { sectionBackgrounds } from '../data/backgroundImages';
+
+const cotizacionesBackground = sectionBackgrounds.hero;
+---
+
+<section id="cotizaciones" class="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden">
+	<div 
+		class="absolute inset-0"
+		style={{
+			backgroundImage: `url('${cotizacionesBackground.imageUrl}')`,
+			backgroundSize: 'cover',
+			backgroundPosition: 'center',
+			backgroundAttachment: 'fixed',
+		}}
+	></div>
+	<div class="absolute inset-0" style={{ background: cotizacionesBackground.gradientOverlay }}></div>
+
+	<div class="absolute top-10 right-10 w-40 h-40 bg-gold-400 rounded-full opacity-10 blur-3xl"></div>
+	<div class="absolute bottom-10 left-10 w-40 h-40 bg-gold-500 rounded-full opacity-10 blur-3xl"></div>
+
+	<div class="max-w-3xl mx-auto text-center relative z-10">
+		<h2 class="text-4xl md:text-5xl font-bold text-gold-400 mb-4">
+			¿Te Interesa Alguno de Nuestros Servicios?
+		</h2>
+		<p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+			Completa el formulario y uno de nuestros asesores se pondrá en contacto contigo a la brevedad.
+		</p>
+
+		<form id="cotizacionForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" class="bg-white/95 backdrop-blur-sm rounded-xl border-2 border-gold-500 p-8 shadow-2xl shadow-gold-300/30 text-left">
+			<div class="grid md:grid-cols-2 gap-6 mb-6">
+				<div>
+					<label for="nombre" class="block text-navy-800 font-semibold mb-2">Nombre Completo *</label>
+					<input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 border-2 border-gold-400 rounded-lg focus:outline-none focus:border-navy-800 focus:bg-gold-50 transition" placeholder="Tu nombre" />
+				</div>
+				<div>
+					<label for="email" class="block text-navy-800 font-semibold mb-2">Correo Electrónico *</label>
+					<input type="email" id="email" name="email" required class="w-full px-4 py-3 border-2 border-gold-400 rounded-lg focus:outline-none focus:border-navy-800 focus:bg-gold-50 transition" placeholder="tu@email.com" />
+				</div>
+			</div>
+
+			<div class="grid md:grid-cols-2 gap-6 mb-6">
+				<div>
+					<label for="telefono" class="block text-navy-800 font-semibold mb-2">Teléfono *</label>
+					<input type="tel" id="telefono" name="telefono" required class="w-full px-4 py-3 border-2 border-gold-400 rounded-lg focus:outline-none focus:border-navy-800 focus:bg-gold-50 transition" placeholder="+52 000 000-0000" />
+				</div>
+				<div>
+					<label for="empresa" class="block text-navy-800 font-semibold mb-2">Empresa (Opcional)</label>
+					<input type="text" id="empresa" name="empresa" class="w-full px-4 py-3 border-2 border-gold-400 rounded-lg focus:outline-none focus:border-navy-800 focus:bg-gold-50 transition" placeholder="Nombre de tu empresa" />
+				</div>
+			</div>
+
+			<div class="mb-6">
+				<label for="servicio" class="block text-navy-800 font-semibold mb-2">Servicio de Interés *</label>
+				<select id="servicio" name="servicio" required class="w-full px-4 py-3 border-2 border-gold-400 rounded-lg focus:outline-none focus:border-navy-800 focus:bg-gold-50 transition bg-white">
+					<option value="">Selecciona un servicio</option>
+					<option value="desarrollo-web">Desarrollo Web</option>
+					<option value="aplicaciones-moviles">Aplicaciones Móviles</option>
+					<option value="consultoria">Consultoría</option>
+					<option value="marketing-digital">Marketing Digital</option>
+					<option value="otro">Otro</option>
+				</select>
+			</div>
+
+			<div class="mb-8">
+				<label for="descripcion" class="block text-navy-800 font-semibold mb-2">Describe tu Proyecto o Necesidad *</label>
+				<textarea id="descripcion" name="descripcion" required rows="5" class="w-full px-4 py-3 border-2 border-gold-400 rounded-lg focus:outline-none focus:border-navy-800 focus:bg-gold-50 transition resize-none" placeholder="Cuéntanos sobre tu proyecto, objetivos y cualquier detalle relevante..."></textarea>
+			</div>
+
+			<div class="flex justify-center">
+				<button type="submit" class="bg-gold-400 text-navy-900 px-10 py-4 rounded-lg font-bold hover:bg-gold-300 transition text-lg shadow-lg transform hover:scale-105 border-2 border-gold-500">
+					Solicitar Cotización
+				</button>
+			</div>
+		</form>
+
+		<div id="successMessage" class="hidden bg-white/95 backdrop-blur-sm rounded-xl border-2 border-green-500 p-8 shadow-2xl text-center">
+			<div class="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+				<span class="text-4xl text-green-600">✓</span>
+			</div>
+			<h3 class="text-2xl font-bold text-navy-800 mb-2">¡Solicitud Enviada!</h3>
+			<p class="text-lg text-slate-600">En breve uno de nuestros asesores se comunicará con usted al contacto que ha dejado.</p>
+		</div>
+	</div>
+</section>
+
+<script>
+	const form = document.getElementById('cotizacionForm') as HTMLFormElement;
+	const successMessage = document.getElementById('successMessage');
+
+	async function sendLog(action: string, data: Record<string, unknown>) {
+		try {
+			await fetch('/api/log', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ action, ...data })
+			});
+		} catch {}
+	}
+
+	form?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const formData = new FormData(form);
+		
+		const data = Object.fromEntries(formData);
+		
+		sendLog('COTIZACION', data);
+		
+		try {
+			const response = await fetch(form.action, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					'Accept': 'application/json'
+				}
+			});
+
+			if (response.ok) {
+				form.classList.add('hidden');
+				successMessage?.classList.remove('hidden');
+			}
+		} catch (error) {
+			console.error('Error al enviar:', error);
+		}
+	});
+</script>
