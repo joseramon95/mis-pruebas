@@ -19,8 +19,6 @@ app.config["SECRET_KEY"] = "e3-admin-secret-key-2026"
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
-    if DATABASE_URL.startswith("postgres://"):
-        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///e3_admin.db"
@@ -28,21 +26,6 @@ else:
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
-
-@app.route("/debug/db")
-def debug_db():
-    db_url = os.environ.get("DATABASE_URL", "NOT SET")
-    return jsonify(
-        {
-            "env_DATABASE_URL": db_url[:50] + "..."
-            if db_url and len(db_url) > 50
-            else db_url,
-            "config_DATABASE_URL": app.config["SQLALCHEMY_DATABASE_URI"][:30] + "..."
-            if app.config["SQLALCHEMY_DATABASE_URI"]
-            else "None",
-        }
-    )
 
 
 # Modelos
