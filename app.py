@@ -30,6 +30,17 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
+@app.route("/debug/db")
+def debug_db():
+    return jsonify(
+        {
+            "database_url": app.config["SQLALCHEMY_DATABASE_URI"][:30] + "..."
+            if app.config["SQLALCHEMY_DATABASE_URI"]
+            else "None"
+        }
+    )
+
+
 # Modelos
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
