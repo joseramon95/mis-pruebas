@@ -32,11 +32,15 @@ db = SQLAlchemy(app)
 
 @app.route("/debug/db")
 def debug_db():
+    db_url = os.environ.get("DATABASE_URL", "NOT SET")
     return jsonify(
         {
-            "database_url": app.config["SQLALCHEMY_DATABASE_URI"][:30] + "..."
+            "env_DATABASE_URL": db_url[:50] + "..."
+            if db_url and len(db_url) > 50
+            else db_url,
+            "config_DATABASE_URL": app.config["SQLALCHEMY_DATABASE_URI"][:30] + "..."
             if app.config["SQLALCHEMY_DATABASE_URI"]
-            else "None"
+            else "None",
         }
     )
 
