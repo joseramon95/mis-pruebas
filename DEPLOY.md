@@ -99,6 +99,78 @@ git switch api
 ./render.exe deploys create srv-ID --wait --confirm
 ```
 
+## Proceso de Setup (Historial)
+
+### 1. Situación Inicial
+- Proyecto E³ basado en Astro con Tailwind
+- API Flask local en carpeta `E3_Admin` (Puerto 5000)
+- Frontend consumía datos de `localhost:5000` en desarrollo
+
+### 2. Problema
+- Al hacer deploy en Vercel, la API no existía en producción
+- El sitio intentaba conectar a `localhost:5000` que no existía
+- Errores: `ECONNREFUSED 127.0.0.1:5000`
+
+### 3. Solución Implementada
+Se decidió separar en dos servicios:
+
+1. **Frontend (Vercel):** Proyecto Astro
+2. **API/Admin (Render):** Flask con SQLite
+
+### 4. Pasos Realizados
+
+#### Para Render (API):
+1. Se crearon archivos de configuración:
+   - `runtime.txt` → especifica Python 3.11
+   - `Procfile` → comando de inicio para gunicorn
+   - `requirements.txt` → agregado gunicorn
+
+2. Se creó rama `api` en GitHub con solo archivos de Flask
+
+3. Se configuró el servicio en Render con:
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn app:app --bind 0.0.0.0:$PORT`
+   - Rama: `api`
+
+#### Para Vercel (Frontend):
+1. Se creó archivo `.env` con:
+   ```
+   PUBLIC_API_URL=https://e3-admin-api.onrender.com
+   ```
+
+2. El código ya usaba `import.meta.env.PUBLIC_API_URL` para consumir la API
+
+3. Se hace rebuild después de cada cambio en el admin
+
+### 5. Problemas Técnicos Resueltos
+
+#### Error 1: "Module not found: your_application"
+- **Causa:** Render intentaba usar `gunicorn your_application.wsgi`
+- **Solución:** Especificar correctamente en Start Command: `gunicorn app:app`
+
+#### Error 2: "unrecognized arguments: --host 0.0.0.0 --port $PORT"
+- **Causa:** Sintaxis incorrecta de gunicorn
+- **Solución:** Usar `--bind` en lugar de `--host` y `--port`:
+  ```
+  gunicorn app:app --bind 0.0.0.0:$PORT
+  ```
+
+#### Error 3: El Start Command no se actualizaba
+- **Causa:** Render cacheaba la configuración anterior
+- **Solución:** Se eliminó el servicio y se creó uno nuevo con la configuración correcta
+
+### 6. Render CLI
+
+Se instaló Render CLI para gestionar el servicio:
+- Descarga directa desde GitHub releases
+- Login: `./render.exe login`
+- Comandos útiles:
+  ```bash
+  ./render.exe services              # Listar servicios
+  ./render.exe deploys create SRV_ID --wait --confirm  # Deploy
+  ./render.exe logs SRV_ID -r SRV_ID --limit 50  # Ver logs
+  ```
+
 ## Solución de Problemas
 
 ### La API no responde
