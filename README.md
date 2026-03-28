@@ -668,7 +668,7 @@ El proyecto ya incluye los archivos necesarios:
 | Archivo | Contenido |
 |---------|-----------|
 | `runtime.txt` | `python-3.11.0` |
-| `Procfile` | `web: gunicorn app:app --host 0.0.0.0 --port $PORT` |
+| `Procfile` | `web: gunicorn app:app --bind 0.0.0.0:$PORT` |
 | `requirements.txt` | Flask + gunicorn |
 
 ### Pasos para Deploy
@@ -679,7 +679,7 @@ El proyecto ya incluye los archivos necesarios:
    - Conectar repositorio `joseramon95/mis-pruebas`
    - Branch: `api`
    - Build Command: (vacío)
-   - Start Command: `gunicorn app:app --host 0.0.0.0 --port $PORT`
+   - Start Command: `gunicorn app:app --bind 0.0.0.0:$PORT`
    - Click **Create Web Service**
 
 2. **Esperar Deploy:**
