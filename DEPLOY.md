@@ -8,11 +8,11 @@ Este documento describe la arquitectura de deploy del proyecto E³.
 
 ```
 ┌─────────────────────────────┐         ┌─────────────────────────────┐
-│         VERCEL             │         │          RENDER             │
-│    (Frontend - Astro)      │         │    (API - Flask)           │
-│                            │         │                            │
-│  https://mis-pruebas       │  ────── │  https://e3-admin-api      │
-│  .vercel.app               │   API   │  .onrender.com            │
+│         VERCEL              │         │          RENDER             │
+│    (Frontend - Astro)       │         │    (API - Flask)            │
+│                             │         │                             │
+│  https://mis-pruebas        │  ────── │  https://e3-admin-api       │
+│  .vercel.app                │   API   │  .onrender.com              │
 └─────────────────────────────┘         └─────────────────────────────┘
 ```
 
