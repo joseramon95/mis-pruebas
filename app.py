@@ -18,10 +18,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "e3-admin-secret-key-2026"
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
-if DATABASE_URL:
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
-else:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///e3_admin.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -166,12 +163,17 @@ def listar_socios():
 @login_required
 def nuevo_socio():
     if request.method == "POST":
+        orden_value = request.form.get("orden")
+        try:
+            orden_value = int(orden_value) if orden_value else 0
+        except ValueError:
+            orden_value = 0
         socio = Socio(
             nombre=request.form.get("nombre"),
             descripcion=request.form.get("descripcion"),
             imagen=request.form.get("imagen"),
             whatsapp=request.form.get("whatsapp"),
-            orden=request.form.get("orden", 0),
+            orden=orden_value,
         )
         db.session.add(socio)
         db.session.commit()
@@ -192,7 +194,11 @@ def editar_socio(id):
         socio.descripcion = request.form.get("descripcion")
         socio.imagen = request.form.get("imagen")
         socio.whatsapp = request.form.get("whatsapp")
-        socio.orden = request.form.get("orden", 0)
+        orden_value = request.form.get("orden")
+        try:
+            socio.orden = int(orden_value) if orden_value else 0
+        except ValueError:
+            socio.orden = 0
         db.session.commit()
         log_accion("EDITAR", "Socios", f"Socio modificado: {socio.nombre}")
         flash("Socio actualizado", "success")
