@@ -42,51 +42,53 @@ Desarrollar una aplicación que lea los archivos de una ruta especificada por el
 
 ---
 
-### 2.4 Visualización/Organización (VERSIÓN ACTUAL)
+### 2.4 Visualización/Organización
 
-- Mostrar los archivos agrupados por extensión en pantalla.
-- NO mover ni crear carpetas (futura implementación).
+- Mostrar los archivos agrupados por extensión en pantalla (solo visualización).
+- NO mover ni crear carpetas.
+- Generar archivo de log con la lista de archivos encontrados.
 - Formato de salida: tabla o lista clara por extensión.
 
 ---
 
-### 2.5 Eliminación de archivos (EN DESARROLLO)
+### 2.5 Sistema de Logs
 
-El sistema debe permitir eliminar archivos mediante una lista interactiva.
+- Crear carpeta `logs/` en el directorio del proyecto.
+- Generar archivo con la lista de archivos encontrados (referencia).
+- Generar archivo acumulable `eliminacion masiva de archivos.txt` con registro de eliminaciones.
 
-**Flujo de eliminación:**
+**Formato del log de eliminación:**
+```
+Fecha: YYYY-MM-DD HH:MM:SS
+Archivos eliminados:
+  - archivo1.ext
+  - archivo2.ext
+---
+```
 
-1. El sistema muestra TODOS los archivos encontrados en la carpeta.
-2. Cada archivo tiene un número/índice asociado.
-3. El usuario introduce los índices de los archivos a eliminar (ej: 1,3,5-7,9).
-4. El sistema muestra PREVIEW de lo que se eliminará.
-5. El usuario confirma con "yes" para proceder.
-6. El sistema elimina y muestra reporte final.
+---
 
-**Métodos de selección de archivos:**
+### 2.6 Eliminación de archivos
 
-| Método | Ejemplo | Descripción |
-|--------|---------|-------------|
-| Por índice | `3` | Archivo #3 |
-| Múltiple | `1,3,5` | Archivos 1, 3 y 5 |
-| Rango | `1-10` | Archivos del 1 al 10 |
-| Patrón | `rom*gba*` | Archivos que coincidan |
-| Extensión | `.gba` | Todos los .gba |
-| Todos | `all` | Seleccionar todos |
+**Flujo completo:**
+
+1. Elegir ruta de la carpeta a procesar.
+2. Escanear archivos y crear log de referencia en `logs/`.
+3. Preguntar al usuario: "¿Eliminar duplicados o ingresar nombres?"
+4. Si elige "duplicados": detectar y eliminar automáticamente.
+5. Si elige "ingresar nombres":
+   - Mostrar ubicación del log de referencia.
+   - Solicitar nombres de archivos a eliminar.
+   - Confirmar antes de eliminar.
+6. Registrar todo en el log acumulable.
 
 **Validaciones obligatorias:**
 
-- Verificar que el archivo exista antes de intentar eliminar.
+- Verificar que el archivo exista antes de eliminar.
 - Verificar que no esté protegido/solo lectura.
 - Manejar nombres con espacios o caracteres especiales.
-- Si un archivo no existe, warn y continuar con los demás.
 
-**Registro:**
-
-- Guardar lista de archivos eliminados con timestamp.
-- Mostrar resumen: eliminados, errores, skipped.
-
-**SEGURIDAD:** No hay eliminación automática. Siempre hay confirmación.
+**SEGURIDAD:** Siempre hay confirmación antes de eliminar.
 
 ---
 
@@ -220,6 +222,12 @@ Se deben validar:
 ---
 
 ## HISTORIAL DE CAMBIOS
+
+### v0.2.0 (2026-04-04)
+- Actualizado flujo de eliminación según nuevos requisitos
+- Añadido sistema de logs en carpeta `logs/`
+- Log acumulable para registro de eliminaciones masivas
+- Organizador ahora solo muestra en pantalla (sin mover archivos)
 
 ### v0.1.0 (2026-04-04)
 - Esqueleto MVC creado
