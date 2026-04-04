@@ -108,39 +108,16 @@ class GUIController:
             for name in not_found:
                 self.gui.log_message(f"  - {name}")
 
-            partial_matches = self._find_partial_matches(not_found)
+            excluded = self.gui.show_exclusion_dialog(not_found)
 
-            if partial_matches:
-                match_msg = "Coincidencias parciales:\n"
-                for orig, matches in partial_matches.items():
-                    if matches:
-                        match_msg += f"  '{orig}' -> {matches}\n"
+            if excluded is None:
+                self.gui.log_message("Operacion cancelada por el usuario")
+                return
 
-                if self.gui.show_confirm(
-                    "Archivos no encontrados",
-                    f"No se encontraron {len(not_found)} archivos.\n\n{match_msg}\n¿Guardar en lista de exclusion y continuar?",
-                ):
-                    excluded = not_found
-                    self.model.save_exclusion_list(excluded)
-                    self.gui.log_message(
-                        f"Guardados {len(excluded)} archivos en lista de exclusion"
-                    )
-                else:
-                    self.gui.log_message("Operacion cancelada")
-                    return
-            else:
-                if self.gui.show_confirm(
-                    "Archivos no encontrados",
-                    f"No se encontraron {len(not_found)} archivos.\n\n¿Guardar en lista de exclusion y continuar?",
-                ):
-                    excluded = not_found
-                    self.model.save_exclusion_list(excluded)
-                    self.gui.log_message(
-                        f"Guardados {len(excluded)} archivos en lista de exclusion"
-                    )
-                else:
-                    self.gui.log_message("Operacion cancelada")
-                    return
+            if excluded:
+                self.gui.log_message(
+                    f"Guardados {len(excluded)} archivos en lista de exclusion"
+                )
 
         if not files_to_delete:
             self.gui.show_error("Error", "No hay archivos para eliminar")

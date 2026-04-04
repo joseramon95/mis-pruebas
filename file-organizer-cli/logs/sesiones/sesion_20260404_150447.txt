@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:04:47
+============================================================
+
+[15:04:47] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpli1_cris, Archivos: 4
+
+[15:04:47] Lista guardada: 4 archivos
+

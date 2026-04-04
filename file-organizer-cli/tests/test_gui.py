@@ -100,6 +100,9 @@ class TestGUIControllerLogic:
         controller_mock.set_directory(str(temp_dir))
         controller_mock.on_select_folder()
         controller_mock.gui.get_files_to_delete = Mock(return_value=["nonexistent.txt"])
+        controller_mock.gui.show_exclusion_dialog = Mock(
+            return_value=["nonexistent.txt"]
+        )
 
         controller_mock.on_delete_by_name()
 

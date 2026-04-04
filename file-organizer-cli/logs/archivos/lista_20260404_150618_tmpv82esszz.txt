@@ -1,0 +1,16 @@
+LISTA DE ARCHIVOS
+============================================================
+Carpeta: C:\Users\Naru\AppData\Local\Temp\tmpv82esszz
+Fecha: 2026-04-04 15:06:18
+Total archivos: 6
+------------------------------------------------------------
+
+
+[.txt] (6 archivos)
+----------------------------------------
+  dup1.txt (9.0 B)
+  dup2.txt (9.0 B)
+  file1.txt (8.0 B)
+  file2.txt (8.0 B)
+  file3.txt (8.0 B)
+  file4.txt (8.0 B)

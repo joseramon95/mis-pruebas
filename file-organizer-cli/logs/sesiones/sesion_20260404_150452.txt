@@ -1,0 +1,17 @@
+SESION: 2026-04-04 15:04:52
+============================================================
+
+[15:04:52] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmp_jl1qxl1, Archivos: 2
+
+[15:04:52] Lista guardada: 2 archivos
+
+[15:04:52] Iniciando Eliminacion por nombre
+         Archivos a eliminar: 1
+
+[15:04:52] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0, Excluidos: 0
+
+[15:04:52] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmp_jl1qxl1, Archivos: 1
+

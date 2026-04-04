@@ -1,8 +1,70 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Optional
 from app.model import FileInfo
+
+
+class ExclusionDialog(tk.Toplevel):
+    def __init__(self, parent, excluded_files: list[str]):
+        super().__init__(parent)
+        self.title("Archivos No Encontrados - Lista de Exclusion")
+        self.geometry("500x400")
+        self.resizable(True, True)
+        self.excluded_files = excluded_files
+        self.result: Optional[list[str]] = None
+
+        self.transient(parent)
+        self.grab_set()
+
+        self._setup_ui()
+
+        self.protocol("WM_DELETE_WINDOW", self.on_cancel)
+
+    def _setup_ui(self):
+        main_frame = ttk.Frame(self, padding="10")
+        main_frame.pack(fill=tk.BOTH, expand=True)
+
+        ttk.Label(
+            main_frame, text="Archivos no encontrados:", font=("Arial", 10, "bold")
+        ).pack(anchor=tk.W)
+        ttk.Label(
+            main_frame,
+            text="Edita la lista y guarda los que quieres excluir:",
+            font=("Arial", 9),
+        ).pack(anchor=tk.W, pady=(0, 5))
+
+        text_frame = ttk.Frame(main_frame)
+        text_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+
+        self.text_area = scrolledtext.ScrolledText(text_frame, height=15)
+        self.text_area.pack(fill=tk.BOTH, expand=True)
+
+        for name in self.excluded_files:
+            self.text_area.insert(tk.END, f"{name}\n")
+
+        btn_frame = ttk.Frame(main_frame)
+        btn_frame.pack(fill=tk.X)
+
+        ttk.Button(
+            btn_frame, text="Guardar y Continuar", command=self.on_save_continue
+        ).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(btn_frame, text="Cancelar", command=self.on_cancel).pack(
+            side=tk.LEFT
+        )
+
+    def on_save_continue(self):
+        content = self.text_area.get("1.0", tk.END)
+        self.result = [line.strip() for line in content.split("\n") if line.strip()]
+        self.destroy()
+
+    def on_cancel(self):
+        self.result = None
+        self.destroy()
+
+    def show():
+        self.wait_window()
+        return self.result
 
 
 class FileSelector(tk.Tk):
@@ -127,6 +189,10 @@ class FileSelector(tk.Tk):
 
     def show_error(self, title: str, message: str):
         messagebox.showerror(title, message)
+
+    def show_exclusion_dialog(self, excluded_files: list[str]) -> Optional[list[str]]:
+        dialog = ExclusionDialog(self, excluded_files)
+        return dialog.show()
 
     def get_files_to_delete(self) -> list[str]:
         text = self.delete_entry.get().strip()

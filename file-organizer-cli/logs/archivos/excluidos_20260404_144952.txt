@@ -1,0 +1,8 @@
+LISTA DE EXCLUSION
+============================================================
+Fecha: 2026-04-04 14:49:52
+Carpeta: C:\Users\Naru\AppData\Local\Temp\tmpifhil09x
+Archivos excluidos: 1
+------------------------------------------------------------
+
+  - nonexistent.txt

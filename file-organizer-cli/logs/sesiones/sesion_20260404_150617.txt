@@ -1,0 +1,17 @@
+SESION: 2026-04-04 15:06:17
+============================================================
+
+[15:06:17] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmp1cab5dwa, Archivos: 4
+
+[15:06:17] Lista guardada: 4 archivos
+
+[15:06:17] Iniciando Eliminacion por nombre
+         Archivos a eliminar: 1
+
+[15:06:17] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0, Excluidos: 0
+
+[15:06:17] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmp1cab5dwa, Archivos: 3
+

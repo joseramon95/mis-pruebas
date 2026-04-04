@@ -1,0 +1,10 @@
+SESION: 2026-04-04 14:49:52
+============================================================
+
+[14:49:52] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpifhil09x, Archivos: 4
+
+[14:49:52] Lista guardada: 4 archivos
+
+[14:49:52] Lista de exclusion guardada: 1 archivos
+
