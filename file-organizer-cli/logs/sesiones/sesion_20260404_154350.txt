@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:43:50
+============================================================
+
+[15:43:50] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmphe95k1_f, Archivos: 2
+
+[15:43:50] Lista guardada: 2 archivos
+

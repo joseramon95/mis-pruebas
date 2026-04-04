@@ -50,13 +50,13 @@ class GUIController:
 
         if exceptions is not None:
             self.gui.set_exceptions(exceptions)
-            self.gui.log_message(
-                f"Excepciones configuradas: {len(exceptions)} archivos conservados"
-            )
-            self.gui.log_message("Se eliminaran todos los demas archivos")
-        else:
-            self.gui.clear_exceptions()
-            self.gui.log_message("Excepciones canceladas")
+            if exceptions:
+                self.gui.log_message(
+                    f"Excepciones configuradas: {len(exceptions)} archivos conservados"
+                )
+                self.gui.log_message("Se eliminaran todos los demas archivos")
+            else:
+                self.gui.log_message("No hay archivos a conservar")
 
     def on_delete_selection(self):
         if not self.model or not self.current_files:
@@ -64,11 +64,12 @@ class GUIController:
             return
 
         exceptions = self.gui.get_exceptions()
+        files_to_delete = []
+        excluded = []
+        use_exceptions = bool(exceptions)
 
-        if exceptions:
+        if use_exceptions:
             exception_names = set(name.strip().lower() for name in exceptions)
-            files_to_delete = []
-            excluded = []
 
             for file_info in self.current_files:
                 if file_info.name.lower() not in exception_names:
@@ -91,7 +92,6 @@ class GUIController:
                 f"Seleccionados: {len(selected_names)} archivos"
             )
 
-            files_to_delete = []
             for name in selected_names:
                 file_info = self.model.get_file_by_name(name)
                 if file_info:
@@ -110,8 +110,9 @@ class GUIController:
         ):
             results = self.model.delete_files(
                 files_to_delete,
-                "Eliminacion por seleccion",
-                excluded if exceptions else [],
+                "Eliminacion por seleccion"
+                + (" con excepciones" if use_exceptions else ""),
+                excluded,
             )
 
             self.gui.log_message(f"Eliminados: {len(results['deleted'])}")

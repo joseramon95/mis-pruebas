@@ -6,12 +6,13 @@ from app.model import FileInfo
 
 
 class ExclusionDialog(tk.Toplevel):
-    def __init__(self, parent):
+    def __init__(self, parent, current_exceptions: List[str] = None):
         super().__init__(parent)
-        self.title("Excepciones - Archivos a Excluir")
+        self.title("Excepciones - Archivos a Conservar")
         self.geometry("500x400")
         self.resizable(True, True)
         self.result: Optional[List[str]] = None
+        self.current_exceptions = current_exceptions or []
 
         self.transient(parent)
         self.grab_set()
@@ -26,7 +27,7 @@ class ExclusionDialog(tk.Toplevel):
 
         ttk.Label(
             main_frame,
-            text="Archivos a excluir de la eliminacion:",
+            text="Archivos a CONSERVAR (no se eliminaran):",
             font=("Arial", 10, "bold"),
         ).pack(anchor=tk.W)
         ttk.Label(
@@ -41,19 +42,28 @@ class ExclusionDialog(tk.Toplevel):
         self.text_area = scrolledtext.ScrolledText(text_frame, height=15)
         self.text_area.pack(fill=tk.BOTH, expand=True)
 
+        for name in self.current_exceptions:
+            self.text_area.insert(tk.END, f"{name}\n")
+
         btn_frame = ttk.Frame(main_frame)
         btn_frame.pack(fill=tk.X)
 
-        ttk.Button(btn_frame, text="Aceptar", command=self.on_accept).pack(
+        ttk.Button(btn_frame, text="Guardar", command=self.on_accept).pack(
             side=tk.LEFT, padx=(0, 5)
         )
-        ttk.Button(btn_frame, text="Cancelar", command=self.on_cancel).pack(
-            side=tk.LEFT
+        ttk.Button(btn_frame, text="Limpiar Todo", command=self.on_clear).pack(
+            side=tk.LEFT, padx=(0, 5)
         )
+        ttk.Button(btn_frame, text="Cerrar", command=self.on_cancel).pack(side=tk.LEFT)
 
     def on_accept(self):
         content = self.text_area.get("1.0", tk.END)
         self.result = [line.strip() for line in content.split("\n") if line.strip()]
+        self.destroy()
+
+    def on_clear(self):
+        self.text_area.delete("1.0", tk.END)
+        self.result = []
         self.destroy()
 
     def on_cancel(self):
@@ -182,7 +192,7 @@ class FileSelector(tk.Tk):
         messagebox.showerror(title, message)
 
     def show_exclusion_dialog(self) -> Optional[List[str]]:
-        dialog = ExclusionDialog(self)
+        dialog = ExclusionDialog(self, self.exceptions)
         self.wait_window()
         return dialog.result
 
