@@ -1,0 +1,17 @@
+SESION: 2026-04-04 14:29:07
+============================================================
+
+[14:29:07] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpo4cph64d, Archivos: 2
+
+[14:29:07] Lista guardada: 2 archivos
+
+[14:29:07] Iniciando Eliminacion por nombre
+         Archivos a eliminar: 1
+
+[14:29:07] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0
+
+[14:29:07] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpo4cph64d, Archivos: 1
+

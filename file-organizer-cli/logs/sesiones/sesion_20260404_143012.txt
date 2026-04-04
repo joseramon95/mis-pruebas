@@ -1,0 +1,22 @@
+SESION: 2026-04-04 14:30:12
+============================================================
+
+[14:30:12] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpebv9j_42, Archivos: 4
+
+[14:30:12] Lista guardada: 4 archivos
+
+[14:30:12] Calculando hashes para detectar duplicados...
+
+[14:30:12] Duplicados encontrados: 1 grupos
+         Archivos duplicados: 1
+
+[14:30:12] Iniciando Eliminacion de duplicados
+         Archivos a eliminar: 1
+
+[14:30:12] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0
+
+[14:30:12] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpebv9j_42, Archivos: 3
+

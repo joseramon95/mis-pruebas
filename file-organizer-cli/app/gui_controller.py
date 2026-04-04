@@ -101,12 +101,49 @@ class GUIController:
             return
 
         files_to_delete, not_found = self.model.get_files_by_names(names)
+        excluded = []
 
         if not_found:
-            self.gui.log_message(f"No encontrados: {', '.join(not_found)}")
+            self.gui.log_message(f"No encontrados {len(not_found)} archivos:")
+            for name in not_found:
+                self.gui.log_message(f"  - {name}")
+
+            partial_matches = self._find_partial_matches(not_found)
+
+            if partial_matches:
+                match_msg = "Coincidencias parciales:\n"
+                for orig, matches in partial_matches.items():
+                    if matches:
+                        match_msg += f"  '{orig}' -> {matches}\n"
+
+                if self.gui.show_confirm(
+                    "Archivos no encontrados",
+                    f"No se encontraron {len(not_found)} archivos.\n\n{match_msg}\n¿Guardar en lista de exclusion y continuar?",
+                ):
+                    excluded = not_found
+                    self.model.save_exclusion_list(excluded)
+                    self.gui.log_message(
+                        f"Guardados {len(excluded)} archivos en lista de exclusion"
+                    )
+                else:
+                    self.gui.log_message("Operacion cancelada")
+                    return
+            else:
+                if self.gui.show_confirm(
+                    "Archivos no encontrados",
+                    f"No se encontraron {len(not_found)} archivos.\n\n¿Guardar en lista de exclusion y continuar?",
+                ):
+                    excluded = not_found
+                    self.model.save_exclusion_list(excluded)
+                    self.gui.log_message(
+                        f"Guardados {len(excluded)} archivos en lista de exclusion"
+                    )
+                else:
+                    self.gui.log_message("Operacion cancelada")
+                    return
 
         if not files_to_delete:
-            self.gui.show_error("Error", "No se encontraron archivos coincidentes")
+            self.gui.show_error("Error", "No hay archivos para eliminar")
             return
 
         self.gui.log_message(f"Archivos a eliminar: {len(files_to_delete)}")
@@ -114,7 +151,9 @@ class GUIController:
         if self.gui.show_confirm(
             "Confirmar", f"¿Eliminar {len(files_to_delete)} archivos?"
         ):
-            results = self.model.delete_files(files_to_delete, "Eliminacion por nombre")
+            results = self.model.delete_files(
+                files_to_delete, "Eliminacion por nombre", excluded
+            )
 
             self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
 
@@ -125,6 +164,19 @@ class GUIController:
             self.current_files = self.model.scan_files()
             self.gui.display_files(self.current_files)
             self.gui.show_info("Resultado", f"Eliminados: {len(results['deleted'])}")
+
+    def _find_partial_matches(self, names: list[str]) -> dict[str, list[str]]:
+        matches = {}
+        for name in names:
+            name_lower = name.lower().replace(" ", "")
+            partial = []
+            for file in self.current_files:
+                file_lower = file.name.lower().replace(" ", "")
+                if name_lower in file_lower or file_lower in name_lower:
+                    if file.name.lower() != name.lower():
+                        partial.append(file.name)
+            matches[name] = partial[:3]
+        return matches
 
     def set_directory(self, path: str) -> bool:
         project_root = Path(__file__).parent.parent

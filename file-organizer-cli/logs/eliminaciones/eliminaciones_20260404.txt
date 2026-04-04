@@ -1,0 +1,180 @@
+============================================================
+FECHA: 2026-04-04 14:29:05
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpq4wds_8l
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:29:06
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpkg_v8u1q
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (2):
+  - dup2.txt
+  - file3.txt
+
+TOTAL: 2 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:29:06
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmps575wj3y
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file3.txt
+
+TOTAL: 1 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:29:07
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpo4cph64d
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:30:12
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpxhqbmbg9
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:30:12
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpzi06qtre
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (2):
+  - dup2.txt
+  - file3.txt
+
+TOTAL: 2 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:30:12
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpebv9j_42
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file3.txt
+
+TOTAL: 1 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:30:13
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpdiqvnaxy
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores
+
+============================================================
+FECHA: 2026-04-04 14:39:22
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmp34od189e
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:39:22
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpqk_i5973
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (2):
+  - dup2.txt
+  - file3.txt
+
+TOTAL: 2 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:39:22
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpq0dwy23t
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file3.txt
+
+TOTAL: 1 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:39:23
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmp3q_djuox
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:40:35
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpy_22e95u
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:40:35
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpy590gktp
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (2):
+  - dup2.txt
+  - file3.txt
+
+TOTAL: 2 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:40:35
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmp2jmja2cj
+OPERACION: Eliminacion de duplicados
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file3.txt
+
+TOTAL: 1 eliminados, 0 errores, 0 excluidos
+
+============================================================
+FECHA: 2026-04-04 14:40:36
+CARPETA: C:\Users\Naru\AppData\Local\Temp\tmpu047m8u2
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (1):
+  - file1.txt
+
+TOTAL: 1 eliminados, 0 errores, 0 excluidos
+

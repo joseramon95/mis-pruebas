@@ -1,0 +1,14 @@
+LISTA DE ARCHIVOS
+============================================================
+Carpeta: C:\Users\Naru\AppData\Local\Temp\tmpebv9j_42
+Fecha: 2026-04-04 14:30:12
+Total archivos: 4
+------------------------------------------------------------
+
+
+[.txt] (4 archivos)
+----------------------------------------
+  file1.txt (8.0 B)
+  file2.txt (8.0 B)
+  file3.txt (8.0 B)
+  file4.txt (8.0 B)

@@ -1,0 +1,7 @@
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpn9b3r4q9
+Fecha: 2026-04-04 13:57:58
+Total archivos: 2
+==================================================
+
+1. file1.txt
+2. file2.txt

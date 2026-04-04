@@ -1,0 +1,7 @@
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpkr2tgi_c
+Fecha: 2026-04-04 13:57:43
+Total archivos: 2
+==================================================
+
+1. file1.txt
+2. file2.txt

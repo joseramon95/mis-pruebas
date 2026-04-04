@@ -53,17 +53,30 @@ Desarrollar una aplicación que lea los archivos de una ruta especificada por el
 
 ### 2.5 Sistema de Logs
 
-- Crear carpeta `logs/` en el directorio del proyecto.
-- Generar archivo con la lista de archivos encontrados (referencia).
-- Generar archivo acumulable `eliminacion masiva de archivos.txt` con registro de eliminaciones.
+- Crear carpeta `logs/` con subcarpetas organizadas:
+  - `sesiones/` - Registro de acciones por sesión
+  - `archivos/` - Listas de archivos y exclusiones
+  - `eliminaciones/` - Registros de eliminaciones por día
 
 **Formato del log de eliminación:**
 ```
-Fecha: YYYY-MM-DD HH:MM:SS
-Archivos eliminados:
+============================================================
+FECHA: YYYY-MM-DD HH:MM:SS
+CARPETA: /ruta/carpeta
+OPERACION: Eliminacion por nombre
+------------------------------------------------------------
+
+ELIMINADOS (n):
   - archivo1.ext
   - archivo2.ext
----
+
+ERRORES (n):
+  - archivo3.ext: error
+
+EXCLUIDOS (n):
+  - archivo4.ext
+
+TOTAL: n eliminados, n errores, n excluidos
 ```
 
 ---
@@ -77,16 +90,27 @@ Archivos eliminados:
 3. Preguntar al usuario: "¿Eliminar duplicados o ingresar nombres?"
 4. Si elige "duplicados": detectar y eliminar automáticamente.
 5. Si elige "ingresar nombres":
-   - Mostrar ubicación del log de referencia.
    - Solicitar nombres de archivos a eliminar.
+   - Si hay archivos no encontrados:
+     - Mostrar lista de no encontrados.
+     - Ofrecer opciones:
+       1. Guardar en lista de exclusión y continuar
+       2. Buscar coincidencias parciales
+       3. Cancelar operación
    - Confirmar antes de eliminar.
 6. Registrar todo en el log acumulable.
+
+**Lista de exclusión:**
+- Se guarda en `logs/archivos/excluidos_[fecha].txt`
+- Incluye todos los archivos que no se pudieron encontrar
+- Se registra en el log de eliminaciones
 
 **Validaciones obligatorias:**
 
 - Verificar que el archivo exista antes de eliminar.
 - Verificar que no esté protegido/solo lectura.
 - Manejar nombres con espacios o caracteres especiales.
+- Detectar coincidencias parciales para sugerir correcciones.
 
 **SEGURIDAD:** Siempre hay confirmación antes de eliminar.
 
@@ -222,6 +246,12 @@ Se deben validar:
 ---
 
 ## HISTORIAL DE CAMBIOS
+
+### v0.3.0 (2026-04-04)
+- Añadido manejo de archivos no encontrados
+- Generación de lista de exclusión automática
+- Búsqueda de coincidencias parciales
+- Registro de excluidos en log de eliminaciones
 
 ### v0.2.0 (2026-04-04)
 - Actualizado flujo de eliminación según nuevos requisitos

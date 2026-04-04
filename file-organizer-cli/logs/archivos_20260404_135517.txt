@@ -1,0 +1,7 @@
+Directorio: test_files
+Fecha: 2026-04-04 13:55:17
+Total archivos: 2
+==================================================
+
+1. test1.txt
+2. test2.txt

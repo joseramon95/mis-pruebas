@@ -1,0 +1,11 @@
+SESION: 2026-04-04 14:39:21
+============================================================
+
+[14:39:21] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpi1xkot44, Archivos: 3
+
+[14:39:21] Calculando hashes para detectar duplicados...
+
+[14:39:21] Duplicados encontrados: 1 grupos
+         Archivos duplicados: 1
+

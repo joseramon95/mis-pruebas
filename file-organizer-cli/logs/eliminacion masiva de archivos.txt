@@ -1,0 +1,63 @@
+Fecha: 2026-04-04 14:17:17
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpvtq2n1hp
+Archivos eliminados:
+  - dup2.txt
+  - file3.txt
+---
+
+Fecha: 2026-04-04 14:17:18
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmp2u3vu6fi
+Archivos eliminados:
+  - file3.txt
+---
+
+Fecha: 2026-04-04 14:19:21
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpyie6d2gw
+Archivos eliminados:
+  - file1.txt
+---
+
+Fecha: 2026-04-04 14:19:21
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpggk9rtl0
+Archivos eliminados:
+  - dup2.txt
+  - file3.txt
+---
+
+Fecha: 2026-04-04 14:19:21
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmp7e_ytd8k
+Archivos eliminados:
+  - file3.txt
+---
+
+Fecha: 2026-04-04 14:19:22
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmp1zybt4mm
+Archivos eliminados:
+  - file1.txt
+---
+
+Fecha: 2026-04-04 14:19:53
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmppodzaexj
+Archivos eliminados:
+  - file1.txt
+---
+
+Fecha: 2026-04-04 14:19:53
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmp69q5k1y4
+Archivos eliminados:
+  - dup2.txt
+  - file3.txt
+---
+
+Fecha: 2026-04-04 14:19:53
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpxg6hiq7z
+Archivos eliminados:
+  - file3.txt
+---
+
+Fecha: 2026-04-04 14:19:54
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmpxbp923_c
+Archivos eliminados:
+  - file1.txt
+---
+

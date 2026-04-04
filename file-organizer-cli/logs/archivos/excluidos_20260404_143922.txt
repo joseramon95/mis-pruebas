@@ -1,0 +1,8 @@
+LISTA DE EXCLUSION
+============================================================
+Fecha: 2026-04-04 14:39:22
+Carpeta: C:\Users\Naru\AppData\Local\Temp\tmp4319isat
+Archivos excluidos: 1
+------------------------------------------------------------
+
+  - nonexistent.txt

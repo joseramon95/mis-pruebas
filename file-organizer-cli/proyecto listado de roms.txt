@@ -13,3 +13,28 @@ depues de abre una ventana para pedir el nombre de los archivos y se abre una ve
 se pocede a eliminar los archivos mencionados
 en logs se crea un txt que comienza con eliminacion masiva de archivos y debe ser acumulable para que pueda haber un control de que se borro y cuando
 
+
+The Simpsons Game.nds
+Solatorobo - Red the Hunter.nds
+New Super Mario Bros.nds
+Mario Kart DS.nds
+Mario & Luigi - Bowser's Inside Story.nds
+Mario & Luigi - Partners in Time.nds
+Super Mario 64 DS.nds
+Mario Party DS.nds
+Sonic Rush Adventure.nds
+Sonic Colors.nds
+Sonic Chronicles - The Dark Brotherhood.nds
+Sonic & Sega All-Stars Racing.nds
+Bomberman Land Touch! 2.nds
+Chrono Trigger.nds
+The World Ends With You.nds
+Grand Theft Auto Chinatown Wars.nds
+Castlevania - Dawn of Sorrow.nds
+Castlevania - Order of Ecclesia.nds
+Kirby Super Star Ultra.nds
+Metroid Prime - Hunters.nds
+Okamiden.nds
+Ghost Trick - Phantom Detective.nds
+
+

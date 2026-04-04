@@ -96,7 +96,12 @@ class LogManager:
         return filepath
 
     def save_elimination_log(
-        self, deleted: list[str], errors: list[dict], directory: str, operation: str
+        self,
+        deleted: list[str],
+        errors: list[dict],
+        excluded: list[str],
+        directory: str,
+        operation: str,
     ):
         date = datetime.now().strftime("%Y%m%d")
         filename = f"eliminaciones_{date}.txt"
@@ -119,12 +124,37 @@ class LogManager:
                 for err in errors:
                     f.write(f"  - {err['file']}: {err['error']}\n")
 
-            f.write(f"\nTOTAL: {len(deleted)} eliminados, {len(errors)} errores\n\n")
+            if excluded:
+                f.write(f"\nEXCLUIDOS ({len(excluded)}):\n")
+                for name in excluded:
+                    f.write(f"  - {name}\n")
+
+            f.write(
+                f"\nTOTAL: {len(deleted)} eliminados, {len(errors)} errores, {len(excluded)} excluidos\n\n"
+            )
 
         self.log_action(
             f"Registro de eliminacion guardado",
-            f"Eliminados: {len(deleted)}, Errores: {len(errors)}",
+            f"Eliminados: {len(deleted)}, Errores: {len(errors)}, Excluidos: {len(excluded)}",
         )
+        return filepath
+
+    def save_exclusion_list(self, excluded: list[str], directory: str):
+        date = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"excluidos_{date}.txt"
+        filepath = self.archives_dir / filename
+
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(f"LISTA DE EXCLUSION\n")
+            f.write(f"=" * 60 + "\n")
+            f.write(f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Carpeta: {directory}\n")
+            f.write(f"Archivos excluidos: {len(excluded)}\n")
+            f.write("-" * 60 + "\n\n")
+            for name in excluded:
+                f.write(f"  - {name}\n")
+
+        self.log_action(f"Lista de exclusion guardada: {len(excluded)} archivos")
         return filepath
 
     def get_recent_archives(self, limit: int = 10) -> list[Path]:
@@ -243,9 +273,12 @@ class FileModel:
             return False, f"Error: {str(e)}"
 
     def delete_files(
-        self, files: list[FileInfo], operation: str = "Eliminacion por nombre"
+        self,
+        files: list[FileInfo],
+        operation: str = "Eliminacion por nombre",
+        excluded: list[str] = None,
     ) -> dict:
-        results = {"deleted": [], "errors": []}
+        results = {"deleted": [], "errors": [], "excluded": excluded or []}
 
         self.log_manager.log_action(
             f"Iniciando {operation}", f"Archivos a eliminar: {len(files)}"
@@ -259,10 +292,17 @@ class FileModel:
                 results["errors"].append({"file": file.name, "error": message})
 
         self.log_manager.save_elimination_log(
-            results["deleted"], results["errors"], str(self.directory), operation
+            results["deleted"],
+            results["errors"],
+            results["excluded"],
+            str(self.directory),
+            operation,
         )
 
         return results
+
+    def save_exclusion_list(self, excluded: list[str]) -> Path:
+        return self.log_manager.save_exclusion_list(excluded, str(self.directory))
 
     def save_archive_list(self) -> Path:
         return self.log_manager.save_archive_list(self.files, str(self.directory))

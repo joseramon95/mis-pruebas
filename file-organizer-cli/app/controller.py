@@ -102,21 +102,86 @@ class Controller:
 
         files_to_delete, not_found = self.model.get_files_by_names(names)
 
+        excluded = []
+
         if not_found:
-            print(f"\nNo encontrados: {', '.join(not_found)}")
+            self.view.show_info(f"No se encontraron {len(not_found)} archivos:")
+            for name in not_found:
+                self.view.show_info(f"  - {name}")
+
+            self.view.show_info("Que deseas hacer?")
+            self.view.show_info("1. Guardar en lista de exclusion y continuar")
+            self.view.show_info("2. Corregir nombre (buscar coincidencias parciales)")
+            self.view.show_info("3. Cancelar operacion")
+
+            option = self.view.prompt("Elige una opcion (1/2/3)")
+
+            if option == "1":
+                excluded = not_found
+                self.model.save_exclusion_list(excluded)
+                self.view.show_success(
+                    f"Guardados {len(excluded)} archivos en lista de exclusion"
+                )
+
+            elif option == "2":
+                partial_matches = self._find_partial_matches(not_found)
+                if partial_matches:
+                    self.view.show_info("Coincidencias encontradas:")
+                    for orig, matches in partial_matches.items():
+                        self.view.show_info(f"  '{orig}' -> {matches}")
+
+                    if self.view.confirm("Usar coincidencias?"):
+                        for orig, matches in partial_matches.items():
+                            if matches:
+                                matched_file = self.model.get_file_by_name(matches[0])
+                                if matched_file and matched_file not in files_to_delete:
+                                    files_to_delete.append(matched_file)
+                        excluded = [
+                            orig
+                            for orig, matches in partial_matches.items()
+                            if not matches
+                        ]
+                    else:
+                        excluded = not_found
+                        self.model.save_exclusion_list(excluded)
+                        self.view.show_info("Operacion cancelada por el usuario")
+                        return
+                else:
+                    self.view.show_info("No se encontraron coincidencias")
+                    excluded = not_found
+                    self.model.save_exclusion_list(excluded)
+
+            else:
+                self.view.show_info("Operacion cancelada")
+                return
 
         if not files_to_delete:
-            self.view.show_error("No se encontraron archivos coincidentes")
+            self.view.show_error("No hay archivos para eliminar")
             return
 
         self.view.show_delete_preview(files_to_delete)
 
         if self.view.confirm("¿Confirmar eliminacion?"):
-            results = self.model.delete_files(files_to_delete, "Eliminacion por nombre")
+            results = self.model.delete_files(
+                files_to_delete, "Eliminacion por nombre", excluded
+            )
             self.view.show_delete_results(results)
             self.current_files = self.model.scan_files()
         else:
             self.view.show_info("Operacion cancelada")
+
+    def _find_partial_matches(self, names: list[str]) -> dict[str, list[str]]:
+        matches = {}
+        for name in names:
+            name_lower = name.lower().replace(" ", "")
+            partial = []
+            for file in self.current_files:
+                file_lower = file.name.lower().replace(" ", "")
+                if name_lower in file_lower or file_lower in name_lower:
+                    if file.name.lower() != name.lower():
+                        partial.append(file.name)
+            matches[name] = partial[:3]
+        return matches
 
     def main_flow(self):
         option = self.view.ask_delete_option()

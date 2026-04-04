@@ -1,0 +1,17 @@
+SESION: 2026-04-04 14:40:36
+============================================================
+
+[14:40:36] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpu047m8u2, Archivos: 2
+
+[14:40:36] Lista guardada: 2 archivos
+
+[14:40:36] Iniciando Eliminacion por nombre
+         Archivos a eliminar: 1
+
+[14:40:36] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0, Excluidos: 0
+
+[14:40:36] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpu047m8u2, Archivos: 1
+

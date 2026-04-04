@@ -171,8 +171,10 @@ class TestLogManager:
     def test_append_elimination_log(self, temp_logs):
         manager = LogManager(temp_logs)
 
-        manager.save_elimination_log(["file1.txt", "file2.txt"], [], "/test", "test")
-        manager.save_elimination_log(["file3.txt"], [], "/test", "test")
+        manager.save_elimination_log(
+            ["file1.txt", "file2.txt"], [], [], "/test", "test"
+        )
+        manager.save_elimination_log(["file3.txt"], [], [], "/test", "test")
 
         filepath = manager.get_elimination_log_path()
         content = filepath.read_text()

@@ -1,0 +1,22 @@
+SESION: 2026-04-04 14:29:05
+============================================================
+
+[14:29:06] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpkg_v8u1q, Archivos: 6
+
+[14:29:06] Lista guardada: 6 archivos
+
+[14:29:06] Calculando hashes para detectar duplicados...
+
+[14:29:06] Duplicados encontrados: 2 grupos
+         Archivos duplicados: 2
+
+[14:29:06] Iniciando Eliminacion de duplicados
+         Archivos a eliminar: 2
+
+[14:29:06] Registro de eliminacion guardado
+         Eliminados: 2, Errores: 0
+
+[14:29:06] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpkg_v8u1q, Archivos: 4
+

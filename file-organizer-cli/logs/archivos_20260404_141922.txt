@@ -1,0 +1,7 @@
+Directorio: C:\Users\Naru\AppData\Local\Temp\tmp1zybt4mm
+Fecha: 2026-04-04 14:19:22
+Total archivos: 2
+==================================================
+
+1. file1.txt
+2. file2.txt

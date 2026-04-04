@@ -1,0 +1,19 @@
+Directorio: C:\Users\Naru\Desktop
+Fecha: 2026-04-04 13:52:50
+Total archivos: 14
+==================================================
+
+1. artistas a descargar.txt
+2. citron.exe - Acceso directo.lnk
+3. datos socios.txt
+4. desktop.ini
+5. Dolphin - Acceso directo.lnk
+6. duckstation-qt-x64-ReleaseLTCG - Acceso directo.lnk
+7. licencias de postgres api pythoon.txt
+8. lista de componentes pc de adan.txt
+9. Nuevo documento de texto (2).txt
+10. Nuevo documento de texto.txt
+11. Odin3_v3.14.4.exe - Acceso directo.lnk
+12. pcsx2-qt - Acceso directo.lnk
+13. rita cetina.txt
+14. Visual Studio Code.lnk
