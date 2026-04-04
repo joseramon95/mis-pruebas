@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:20:06
+============================================================
+
+[15:20:06] Escaneo completado
+         Directorio: C:\Users\Naru\Downloads\Nintendo DS roms, Archivos: 279
+
+[15:20:06] Lista guardada: 279 archivos
+

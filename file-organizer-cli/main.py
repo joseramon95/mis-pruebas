@@ -26,8 +26,8 @@ def run_gui():
         on_select_folder=on_folder_selected,
         on_classify=gui_controller.on_classify,
         on_show_all=gui_controller.on_show_all,
-        on_delete_duplicates=gui_controller.on_delete_duplicates,
-        on_delete_by_name=gui_controller.on_delete_by_name,
+        on_delete_selection=gui_controller.on_delete_selection,
+        on_exceptions=gui_controller.on_exceptions,
     )
 
     gui.run()

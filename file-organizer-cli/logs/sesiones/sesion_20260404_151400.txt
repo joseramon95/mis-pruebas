@@ -1,0 +1,17 @@
+SESION: 2026-04-04 15:14:00
+============================================================
+
+[15:14:00] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpbmm26vgw, Archivos: 2
+
+[15:14:00] Lista guardada: 2 archivos
+
+[15:14:00] Iniciando Eliminacion por nombre
+         Archivos a eliminar: 1
+
+[15:14:00] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0, Excluidos: 0
+
+[15:14:00] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpbmm26vgw, Archivos: 1
+

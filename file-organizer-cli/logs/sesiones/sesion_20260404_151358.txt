@@ -1,0 +1,22 @@
+SESION: 2026-04-04 15:13:58
+============================================================
+
+[15:13:58] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpp2bgn34t, Archivos: 4
+
+[15:13:58] Lista guardada: 4 archivos
+
+[15:13:58] Calculando hashes para detectar duplicados...
+
+[15:13:58] Duplicados encontrados: 1 grupos
+         Archivos duplicados: 1
+
+[15:13:58] Iniciando Eliminacion de duplicados
+         Archivos a eliminar: 1
+
+[15:13:58] Registro de eliminacion guardado
+         Eliminados: 1, Errores: 0, Excluidos: 0
+
+[15:13:58] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpp2bgn34t, Archivos: 3
+

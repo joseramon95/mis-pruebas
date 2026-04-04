@@ -1,0 +1,11 @@
+SESION: 2026-04-04 15:32:06
+============================================================
+
+[15:32:06] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpcqzhddqh, Archivos: 3
+
+[15:32:06] Calculando hashes para detectar duplicados...
+
+[15:32:06] Duplicados encontrados: 1 grupos
+         Archivos duplicados: 1
+

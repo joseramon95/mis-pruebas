@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:30:21
+============================================================
+
+[15:30:21] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpsrrwu4a4, Archivos: 4
+
+[15:30:21] Lista guardada: 4 archivos
+

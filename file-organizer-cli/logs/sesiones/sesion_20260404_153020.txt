@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:30:20
+============================================================
+
+[15:30:20] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpqgqcmegn, Archivos: 4
+
+[15:30:20] Lista guardada: 4 archivos
+

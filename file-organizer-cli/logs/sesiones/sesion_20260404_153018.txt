@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:30:18
+============================================================
+
+[15:30:18] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpktqeims5, Archivos: 1
+
+[15:30:18] Lista guardada: 1 archivos
+

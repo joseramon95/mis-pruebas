@@ -1,0 +1,8 @@
+SESION: 2026-04-04 15:34:57
+============================================================
+
+[15:34:57] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpa608yp8b, Archivos: 2
+
+[15:34:57] Lista guardada: 2 archivos
+

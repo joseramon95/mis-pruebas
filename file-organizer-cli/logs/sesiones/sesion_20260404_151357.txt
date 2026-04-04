@@ -1,0 +1,22 @@
+SESION: 2026-04-04 15:13:57
+============================================================
+
+[15:13:57] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpxtad62vw, Archivos: 6
+
+[15:13:57] Lista guardada: 6 archivos
+
+[15:13:58] Calculando hashes para detectar duplicados...
+
+[15:13:58] Duplicados encontrados: 2 grupos
+         Archivos duplicados: 2
+
+[15:13:58] Iniciando Eliminacion de duplicados
+         Archivos a eliminar: 2
+
+[15:13:58] Registro de eliminacion guardado
+         Eliminados: 2, Errores: 0, Excluidos: 0
+
+[15:13:58] Escaneo completado
+         Directorio: C:\Users\Naru\AppData\Local\Temp\tmpxtad62vw, Archivos: 4
+

@@ -37,6 +37,10 @@ class TestGUIControllerLogic:
             mock_gui.display_files = Mock()
             mock_gui.display_by_extension = Mock()
             mock_gui.log_message = Mock()
+            mock_gui.set_selection_label = Mock()
+            mock_gui.clear_selection_label = Mock()
+            mock_gui.clear_exceptions = Mock()
+            mock_gui.get_exceptions = Mock(return_value=[])
 
             MockGui.return_value = mock_gui
 
@@ -79,64 +83,41 @@ class TestGUIControllerLogic:
 
         controller_mock.gui.show_error.assert_called()
 
-    def test_on_delete_duplicates_no_model(self, controller_mock):
+    def test_on_exceptions_no_model(self, controller_mock):
+        controller_mock.gui.show_exclusion_dialog = Mock(return_value=["file1.txt"])
+
+        controller_mock.on_exceptions()
+
+        controller_mock.gui.set_exceptions.assert_called()
+
+    def test_on_exceptions_with_dialog(self, controller_mock):
+        controller_mock.gui.show_exclusion_dialog = Mock(
+            return_value=["file1.txt", "file2.txt"]
+        )
+
+        controller_mock.on_exceptions()
+
+        controller_mock.gui.set_exceptions.assert_called_with(
+            ["file1.txt", "file2.txt"]
+        )
+        controller_mock.gui.log_message.assert_called()
+
+    def test_on_delete_selection_no_files(self, controller_mock):
         controller_mock.model = None
         controller_mock.gui.show_error = Mock()
 
-        controller_mock.on_delete_duplicates()
+        controller_mock.on_delete_selection()
 
         controller_mock.gui.show_error.assert_called()
 
-    def test_on_delete_by_name_empty_input(self, controller_mock, temp_dir):
+    def test_on_delete_selection_no_selection(self, controller_mock, temp_dir):
         controller_mock.set_directory(str(temp_dir))
         controller_mock.on_select_folder()
-        controller_mock.gui.get_files_to_delete = Mock(return_value=[])
+        controller_mock.gui.open_file_selection = Mock(return_value=[])
 
-        controller_mock.on_delete_by_name()
+        controller_mock.on_delete_selection()
 
-        controller_mock.gui.show_error.assert_called()
-
-    def test_on_delete_by_name_not_found(self, controller_mock, temp_dir):
-        controller_mock.set_directory(str(temp_dir))
-        controller_mock.on_select_folder()
-        controller_mock.gui.get_files_to_delete = Mock(return_value=["nonexistent.txt"])
-        controller_mock.gui.show_exclusion_dialog = Mock(
-            return_value=["nonexistent.txt"]
-        )
-
-        controller_mock.on_delete_by_name()
-
-        assert controller_mock.gui.log_message.called
-
-    def test_on_delete_by_name_success(self, controller_mock, temp_dir):
-        controller_mock.set_directory(str(temp_dir))
-        controller_mock.on_select_folder()
-        controller_mock.gui.get_files_to_delete = Mock(return_value=["file1.txt"])
-        controller_mock.gui.show_confirm = Mock(return_value=True)
-
-        controller_mock.on_delete_by_name()
-
-        assert controller_mock.gui.log_message.called
-
-    def test_on_delete_duplicates_found(self, controller_mock, temp_dir):
-        (temp_dir / "dup1.txt").write_text("duplicate")
-        (temp_dir / "dup2.txt").write_text("duplicate")
-
-        controller_mock.set_directory(str(temp_dir))
-        controller_mock.on_select_folder()
-        controller_mock.gui.show_confirm = Mock(return_value=True)
-
-        controller_mock.on_delete_duplicates()
-
-        assert controller_mock.gui.log_message.called
-
-    def test_on_delete_duplicates_not_found(self, controller_mock, temp_dir):
-        controller_mock.set_directory(str(temp_dir))
-        controller_mock.on_select_folder()
-
-        controller_mock.on_delete_duplicates()
-
-        controller_mock.gui.show_info.assert_called()
+        controller_mock.gui.log_message.assert_called()
 
 
 class TestFileSelectorViewLogic:
@@ -169,29 +150,11 @@ class TestGUIInteractions:
         yield Path(temp)
         shutil.rmtree(temp)
 
-    def test_full_delete_flow(self, temp_dir):
-        (temp_dir / "file1.txt").write_text("content1")
-        (temp_dir / "file2.txt").write_text("content2")
+    def test_exclusion_dialog_mock(self, temp_dir):
+        mock_parent = Mock()
+        mock_parent.transient = Mock()
+        mock_parent.grab_set = Mock()
 
-        with patch("app.gui.FileSelector") as MockGui:
-            mock_gui = Mock()
-            mock_gui.show_error = Mock()
-            mock_gui.show_info = Mock()
-            mock_gui.show_confirm = Mock(return_value=True)
-            mock_gui.display_files = Mock()
-            mock_gui.log_message = Mock()
-            mock_gui.get_files_to_delete = Mock(return_value=["file1.txt"])
-            MockGui.return_value = mock_gui
+        from app.gui import ExclusionDialog
 
-            from app.gui_controller import GUIController
-
-            controller = GUIController()
-
-            controller.set_directory(str(temp_dir))
-            controller.on_select_folder()
-
-            assert len(controller.current_files) == 2
-
-            controller.on_delete_by_name()
-
-            assert len(controller.current_files) == 1
+        assert ExclusionDialog is not None

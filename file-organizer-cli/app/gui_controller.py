@@ -7,14 +7,14 @@ class GUIController:
     def __init__(self):
         self.gui = FileSelector()
         self.model: FileModel | None = None
-        self.current_files: list[FileInfo] = []
+        self.current_files: list = []
 
         self.gui.set_callbacks(
             on_select_folder=self.on_select_folder,
             on_classify=self.on_classify,
             on_show_all=self.on_show_all,
-            on_delete_duplicates=self.on_delete_duplicates,
-            on_delete_by_name=self.on_delete_by_name,
+            on_delete_selection=self.on_delete_selection,
+            on_exceptions=self.on_exceptions,
         )
 
     def on_select_folder(self):
@@ -45,91 +45,71 @@ class GUIController:
 
         self.gui.display_files(self.current_files)
 
-    def on_delete_duplicates(self):
-        if not self.model or not self.current_files:
-            self.gui.show_error("Error", "Primero selecciona una carpeta")
-            return
+    def on_exceptions(self):
+        exceptions = self.gui.show_exclusion_dialog()
 
-        self.gui.log_message("Calculando hashes... (puede tardar)")
-
-        duplicates = self.model.find_duplicates()
-
-        if not duplicates:
-            self.gui.show_info("Duplicados", "No se encontraron duplicados")
-            self.gui.log_message("No se encontraron duplicados")
-            return
-
-        total_dups = sum(len(group) - 1 for group in duplicates)
-        self.gui.log_message(
-            f"Encontrados {len(duplicates)} grupos de duplicados ({total_dups} archivos)"
-        )
-
-        for i, group in enumerate(duplicates, 1):
-            self.gui.log_message(f"  Grupo {i}: {len(group)} archivos")
-
-        if self.gui.show_confirm(
-            "Confirmar",
-            f"¿Eliminar {total_dups} duplicados (mantener uno de cada grupo)?",
-        ):
-            files_to_delete = []
-            for group in duplicates:
-                files_to_delete.extend(group[1:])
-
-            results = self.model.delete_files(
-                files_to_delete, "Eliminacion de duplicados"
+        if exceptions is not None:
+            self.gui.set_exceptions(exceptions)
+            self.gui.log_message(
+                f"Excepciones configuradas: {len(exceptions)} archivos"
             )
+        else:
+            self.gui.clear_exceptions()
+            self.gui.log_message("Excepciones canceladas")
 
-            self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
-
-            if results["errors"]:
-                for err in results["errors"]:
-                    self.gui.log_message(f"Error: {err['file']} - {err['error']}")
-
-            self.current_files = self.model.scan_files()
-            self.gui.display_files(self.current_files)
-            self.gui.show_info("Resultado", f"Eliminados: {len(results['deleted'])}")
-
-    def on_delete_by_name(self):
+    def on_delete_selection(self):
         if not self.model or not self.current_files:
             self.gui.show_error("Error", "Primero selecciona una carpeta")
             return
 
-        names = self.gui.get_files_to_delete()
+        selected_paths = self.gui.open_file_selection()
 
-        if not names:
-            self.gui.show_error("Error", "Ingresa los nombres de archivos a eliminar")
+        if not selected_paths:
+            self.gui.log_message("No se seleccionaron archivos")
             return
 
-        files_to_delete, not_found = self.model.get_files_by_names(names)
+        selected_names = [Path(p).name for p in selected_paths]
+        self.gui.set_selection_label(f"Seleccionados: {len(selected_names)} archivos")
+
+        files_to_delete = []
+        for name in selected_names:
+            file_info = self.model.get_file_by_name(name)
+            if file_info:
+                files_to_delete.append(file_info)
+
+        if not files_to_delete:
+            self.gui.show_error("Error", "No se encontraron archivos validos")
+            return
+
+        exceptions = self.gui.get_exceptions()
         excluded = []
 
-        if not_found:
-            self.gui.log_message(f"No encontrados {len(not_found)} archivos:")
-            for name in not_found:
-                self.gui.log_message(f"  - {name}")
+        if exceptions:
+            excluded_names = []
+            for name in exceptions:
+                file_info = self.model.get_file_by_name(name)
+                if file_info:
+                    excluded.append(file_info)
+                    excluded_names.append(name)
+                    if file_info in files_to_delete:
+                        files_to_delete.remove(file_info)
 
-            excluded = self.gui.show_exclusion_dialog(not_found)
-
-            if excluded is None:
-                self.gui.log_message("Operacion cancelada por el usuario")
-                return
-
-            if excluded:
+            if excluded_names:
                 self.gui.log_message(
-                    f"Guardados {len(excluded)} archivos en lista de exclusion"
+                    f"Excluidos por excepciones: {len(excluded_names)}"
                 )
+
+        self.gui.log_message(f"Archivos a eliminar: {len(files_to_delete)}")
 
         if not files_to_delete:
             self.gui.show_error("Error", "No hay archivos para eliminar")
             return
 
-        self.gui.log_message(f"Archivos a eliminar: {len(files_to_delete)}")
-
         if self.gui.show_confirm(
             "Confirmar", f"¿Eliminar {len(files_to_delete)} archivos?"
         ):
             results = self.model.delete_files(
-                files_to_delete, "Eliminacion por nombre", excluded
+                files_to_delete, "Eliminacion por seleccion", excluded
             )
 
             self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
@@ -141,19 +121,10 @@ class GUIController:
             self.current_files = self.model.scan_files()
             self.gui.display_files(self.current_files)
             self.gui.show_info("Resultado", f"Eliminados: {len(results['deleted'])}")
-
-    def _find_partial_matches(self, names: list[str]) -> dict[str, list[str]]:
-        matches = {}
-        for name in names:
-            name_lower = name.lower().replace(" ", "")
-            partial = []
-            for file in self.current_files:
-                file_lower = file.name.lower().replace(" ", "")
-                if name_lower in file_lower or file_lower in name_lower:
-                    if file.name.lower() != name.lower():
-                        partial.append(file.name)
-            matches[name] = partial[:3]
-        return matches
+            self.gui.clear_selection_label()
+            self.gui.clear_exceptions()
+        else:
+            self.gui.log_message("Operacion cancelada")
 
     def set_directory(self, path: str) -> bool:
         project_root = Path(__file__).parent.parent
