@@ -181,6 +181,9 @@ class FileSelector(tk.Tk):
     def show_error(self, title: str, message: str):
         messagebox.showerror(title, message)
 
+    def show_warning(self, title: str, message: str):
+        messagebox.showwarning(title, message)
+
     def show_exclusion_dialog(self) -> Optional[List[str]]:
         dialog = ExclusionDialog(self, self.exceptions.copy())
         self.wait_window()

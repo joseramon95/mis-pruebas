@@ -104,11 +104,11 @@ class TestGUIControllerLogic:
 
     def test_on_delete_selection_no_files(self, controller_mock):
         controller_mock.model = None
-        controller_mock.gui.show_error = Mock()
+        controller_mock.gui.show_warning = Mock()
 
         controller_mock.on_delete_selection()
 
-        controller_mock.gui.show_error.assert_called()
+        controller_mock.gui.show_warning.assert_called()
 
     def test_on_delete_selection_no_selection(self, controller_mock, temp_dir):
         controller_mock.set_directory(str(temp_dir))

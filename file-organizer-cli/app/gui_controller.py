@@ -69,7 +69,7 @@ class GUIController:
 
     def on_delete_selection(self):
         if not self.model or not self.current_files:
-            self.gui.show_error("Error", "Primero selecciona una carpeta")
+            self.gui.show_warning("Aviso", "Primero selecciona una carpeta")
             return
 
         exceptions = self.gui.get_exceptions()
