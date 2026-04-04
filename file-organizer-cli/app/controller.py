@@ -29,7 +29,7 @@ class Controller:
         self.view.show_info(f"Se encontraron {len(self.current_files)} archivos")
 
         if self.current_files:
-            self.log_path = self.model.save_file_list()
+            self.log_path = self.model.save_archive_list()
             self.view.show_log_saved(self.log_path)
 
         return True
@@ -69,25 +69,22 @@ class Controller:
 
             self.view.show_delete_preview(files_to_delete)
 
-            if self.view.confirm("¿Confirmar eliminación?"):
-                results = self.model.delete_files(files_to_delete)
+            if self.view.confirm("¿Confirmar eliminacion?"):
+                results = self.model.delete_files(
+                    files_to_delete, "Eliminacion de duplicados"
+                )
                 self.view.show_delete_results(results)
-
-                self.model.log_elimination(results["deleted"])
-
                 self.current_files = self.model.scan_files()
         else:
-            self.view.show_info("Operación cancelada")
+            self.view.show_info("Operacion cancelada")
 
     def delete_by_name_flow(self):
         if not self.model or not self.current_files:
             self.view.show_error("Primero escanea la carpeta")
             return
 
-        self.view.show_log_location(self.model.get_elimination_log_path())
-
         self.view.show_info(
-            "Ingresa los nombres de los archivos a eliminar (uno por línea)"
+            "Ingresa los nombres de los archivos a eliminar (uno por linea)"
         )
         self.view.show_info("Escribe 'fin' cuando termines")
 
@@ -106,7 +103,7 @@ class Controller:
         files_to_delete, not_found = self.model.get_files_by_names(names)
 
         if not_found:
-            print(f"\n⚠️  No encontrados: {', '.join(not_found)}")
+            print(f"\nNo encontrados: {', '.join(not_found)}")
 
         if not files_to_delete:
             self.view.show_error("No se encontraron archivos coincidentes")
@@ -114,15 +111,12 @@ class Controller:
 
         self.view.show_delete_preview(files_to_delete)
 
-        if self.view.confirm("¿Confirmar eliminación?"):
-            results = self.model.delete_files(files_to_delete)
+        if self.view.confirm("¿Confirmar eliminacion?"):
+            results = self.model.delete_files(files_to_delete, "Eliminacion por nombre")
             self.view.show_delete_results(results)
-
-            self.model.log_elimination(results["deleted"])
-
             self.current_files = self.model.scan_files()
         else:
-            self.view.show_info("Operación cancelada")
+            self.view.show_info("Operacion cancelada")
 
     def main_flow(self):
         option = self.view.ask_delete_option()
@@ -132,4 +126,4 @@ class Controller:
         elif option == "2":
             self.delete_by_name_flow()
         else:
-            self.view.show_error("Opción no válida")
+            self.view.show_error("Opcion no valida")

@@ -26,7 +26,7 @@ class GUIController:
         self.gui.display_files(self.current_files)
         self.gui.log_message(f"Se encontraron {len(self.current_files)} archivos")
 
-        log_path = self.model.save_file_list()
+        log_path = self.model.save_archive_list()
         self.gui.log_message(f"Log guardado en: {log_path}")
 
     def on_classify(self):
@@ -75,11 +75,11 @@ class GUIController:
             for group in duplicates:
                 files_to_delete.extend(group[1:])
 
-            results = self.model.delete_files(files_to_delete)
+            results = self.model.delete_files(
+                files_to_delete, "Eliminacion de duplicados"
+            )
 
-            if results["deleted"]:
-                self.model.log_elimination(results["deleted"])
-                self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
+            self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
 
             if results["errors"]:
                 for err in results["errors"]:
@@ -114,11 +114,9 @@ class GUIController:
         if self.gui.show_confirm(
             "Confirmar", f"¿Eliminar {len(files_to_delete)} archivos?"
         ):
-            results = self.model.delete_files(files_to_delete)
+            results = self.model.delete_files(files_to_delete, "Eliminacion por nombre")
 
-            if results["deleted"]:
-                self.model.log_elimination(results["deleted"])
-                self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
+            self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
 
             if results["errors"]:
                 for err in results["errors"]:

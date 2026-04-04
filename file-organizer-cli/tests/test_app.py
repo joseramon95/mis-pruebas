@@ -162,7 +162,7 @@ class TestLogManager:
         ]
 
         manager = LogManager(temp_logs)
-        filepath = manager.save_file_list(files, "/test/path")
+        filepath = manager.save_archive_list(files, "/test/path")
 
         assert filepath.exists()
         assert "file1.txt" in filepath.read_text()
@@ -171,16 +171,15 @@ class TestLogManager:
     def test_append_elimination_log(self, temp_logs):
         manager = LogManager(temp_logs)
 
-        manager.append_elimination_log(["file1.txt", "file2.txt"], "/test")
-        manager.append_elimination_log(["file3.txt"], "/test")
+        manager.save_elimination_log(["file1.txt", "file2.txt"], [], "/test", "test")
+        manager.save_elimination_log(["file3.txt"], [], "/test", "test")
 
-        filepath = manager.get_log_path()
+        filepath = manager.get_elimination_log_path()
         content = filepath.read_text()
 
         assert "file1.txt" in content
         assert "file2.txt" in content
         assert "file3.txt" in content
-        assert content.count("---") == 2
 
 
 class TestView:
