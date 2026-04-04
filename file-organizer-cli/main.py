@@ -14,9 +14,8 @@ def run_gui():
     gui_controller = GUIController()
     gui = gui_controller.gui
 
-    def on_folder_selected():
-        folder = gui.folder_label.cget("text").replace("Carpeta: ", "")
-        if folder and folder != "No se ha seleccionado carpeta":
+    def on_folder_selected(folder: str):
+        if folder:
             if gui_controller.set_directory(folder):
                 gui.log_message(f"Directorio configurado: {folder}")
                 gui_controller.on_select_folder()
