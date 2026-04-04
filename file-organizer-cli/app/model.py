@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Optional
 import hashlib
 import os
+import subprocess
 from datetime import datetime
 
 
@@ -93,7 +94,17 @@ class LogManager:
                     f.write(f"  {file.name} ({size})\n")
 
         self.log_action(f"Lista guardada: {len(files)} archivos")
+        self._open_in_text_editor(filepath)
         return filepath
+
+    def _open_in_text_editor(self, filepath: Path):
+        try:
+            if os.name == "nt":
+                os.startfile(filepath)
+            elif os.name == "posix":
+                subprocess.run(["xdg-open", filepath])
+        except Exception:
+            pass
 
     def save_elimination_log(
         self,
@@ -155,6 +166,7 @@ class LogManager:
                 f.write(f"  - {name}\n")
 
         self.log_action(f"Lista de exclusion guardada: {len(excluded)} archivos")
+        self._open_in_text_editor(filepath)
         return filepath
 
     def get_recent_archives(self, limit: int = 10) -> list[Path]:
