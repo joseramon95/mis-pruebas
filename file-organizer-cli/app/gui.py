@@ -62,15 +62,6 @@ class ExclusionDialog(tk.Toplevel):
         self.result = None
         self.destroy()
 
-    def on_clear(self):
-        self.text_area.delete("1.0", tk.END)
-        self.result = []
-        self.destroy()
-
-    def on_cancel(self):
-        self.result = None
-        self.destroy()
-
 
 class FileSelector(tk.Tk):
     def __init__(self):
@@ -79,10 +70,8 @@ class FileSelector(tk.Tk):
         self.geometry("700x500")
         self.resizable(True, True)
 
-        self.selected_files: List[FileInfo] = []
         self.files: List[FileInfo] = []
         self.directory: str = ""
-        self.selected_for_deletion: List[str] = []
         self.exceptions: List[str] = []
 
         self._setup_ui()
@@ -137,7 +126,7 @@ class FileSelector(tk.Tk):
         action_frame.grid(row=3, column=0, sticky="w", pady=(10, 0))
 
         ttk.Button(
-            action_frame, text="Eliminar Seleccion", command=self._on_delete_selection
+            action_frame, text="Eliminar", command=self._on_delete_selection
         ).grid(row=0, column=0, padx=(0, 5))
         ttk.Button(action_frame, text="Excepciones", command=self._on_exceptions).grid(
             row=0, column=1
@@ -193,7 +182,7 @@ class FileSelector(tk.Tk):
         messagebox.showerror(title, message)
 
     def show_exclusion_dialog(self) -> Optional[List[str]]:
-        dialog = ExclusionDialog(self, self.exceptions)
+        dialog = ExclusionDialog(self, self.exceptions.copy())
         self.wait_window()
         return dialog.result
 
@@ -218,9 +207,6 @@ class FileSelector(tk.Tk):
 
     def clear_selection_label(self):
         self.selection_label.config(text="")
-
-    def get_files_to_delete(self) -> List[str]:
-        return self.selected_for_deletion
 
     def get_exceptions(self) -> List[str]:
         return self.exceptions
