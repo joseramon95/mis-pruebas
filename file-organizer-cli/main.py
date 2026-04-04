@@ -5,11 +5,39 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from app.controller import Controller
-from app.view import View
+
+def run_gui():
+    from app.gui_controller import GUIController
+    from app.gui import FileSelector
+    import tkinter as tk
+
+    gui_controller = GUIController()
+    gui = gui_controller.gui
+
+    def on_folder_selected():
+        folder = gui.folder_label.cget("text").replace("Carpeta: ", "")
+        if folder and folder != "No se ha seleccionado carpeta":
+            if gui_controller.set_directory(folder):
+                gui.log_message(f"Directorio configurado: {folder}")
+                gui_controller.on_select_folder()
+            else:
+                gui.show_error("Error", "La ruta no existe o no es un directorio")
+
+    gui.set_callbacks(
+        on_select_folder=on_folder_selected,
+        on_classify=gui_controller.on_classify,
+        on_show_all=gui_controller.on_show_all,
+        on_delete_duplicates=gui_controller.on_delete_duplicates,
+        on_delete_by_name=gui_controller.on_delete_by_name,
+    )
+
+    gui.run()
 
 
-def main():
+def run_cli():
+    from app.controller import Controller
+    from app.view import View
+
     view = View()
     controller = Controller(view)
 
@@ -21,7 +49,7 @@ def main():
         directory = view.prompt("Introduce la ruta de la carpeta")
 
         if not directory:
-            view.show_error("No se proporcionó directorio")
+            view.show_error("No se proporciono directorio")
             return
 
     if not controller.set_directory(directory):
@@ -32,7 +60,7 @@ def main():
 
     while True:
         view.show_main_menu()
-        option = view.prompt("Selecciona una opción")
+        option = view.prompt("Selecciona una opcion")
 
         match option:
             case "1":
@@ -46,10 +74,17 @@ def main():
             case "5":
                 controller.delete_by_name_flow()
             case "0" | "q":
-                view.show_info("¡Hasta luego!")
+                view.show_info("Hasta luego!")
                 break
             case _:
-                view.show_error("Opción no válida")
+                view.show_error("Opcion no valida")
+
+
+def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "--cli":
+        run_cli()
+    else:
+        run_gui()
 
 
 if __name__ == "__main__":
