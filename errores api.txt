@@ -1,0 +1,72 @@
+Request URL
+https://e3-admin-api.onrender.com/socios/nuevo
+Request Method
+GET
+Status Code
+503 Service Unavailable
+Remote Address
+216.24.57.251:443
+Referrer Policy
+strict-origin-when-cross-origin
+
+alt-svc
+h3=":443"; ma=86400
+
+cf-cache-status
+DYNAMIC
+cf-ray
+9e54742d3b37cd59-DFW
+content-type
+text/html; charset=utf-8
+date
+Wed, 01 Apr 2026 03:19:43 GMT
+priority
+u=0,i
+retry-after
+5
+server
+cloudflare
+server-timing
+cfExtPri
+x-render-routing
+hibernate-pending-wake
+:authority
+e3-admin-api.onrender.com
+:method
+GET
+:path
+/socios/nuevo
+:scheme
+https
+accept
+text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
+accept-encoding
+gzip, deflate, br, zstd
+accept-language
+es-ES,es;q=0.8
+cache-control
+max-age=0
+cookie
+session=eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6Impvc2UgcmFtb24ifQ.acyJDQ.vRVbUn8TJqanxd-3ziPWiLPuOwo
+priority
+u=0, i
+referer
+https://e3-admin-api.onrender.com/socios/nuevo
+sec-ch-ua
+"Chromium";v="146", "Not-A.Brand";v="24", "Brave";v="146"
+sec-ch-ua-mobile
+?0
+sec-ch-ua-platform
+"Windows"
+sec-fetch-dest
+document
+sec-fetch-mode
+navigate
+sec-fetch-site
+same-origin
+sec-gpc
+1
+upgrade-insecure-requests
+1
+user-agent
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
