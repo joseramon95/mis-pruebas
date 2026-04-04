@@ -93,17 +93,44 @@ class LogManager:
                     f.write(f"  {file.name} ({size})\n")
 
         self.log_action(f"Lista guardada: {len(files)} archivos")
-        self._open_in_text_editor(filepath)
         return filepath
 
-    def _open_in_text_editor(self, filepath: Path):
-        try:
-            if os.name == "nt":
-                os.startfile(filepath)
-            elif os.name == "posix":
-                subprocess.run(["xdg-open", filepath])
-        except Exception:
-            pass
+    def save_exclusion_list(self, excluded: list[str], directory: str):
+        filepath = self.archives_dir / "excepciones.txt"
+
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(f"LISTA DE EXCLUSION\n")
+            f.write(f"=" * 60 + "\n")
+            f.write(f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Carpeta: {directory}\n")
+            f.write(f"Archivos excluidos: {len(excluded)}\n")
+            f.write("-" * 60 + "\n\n")
+            for name in excluded:
+                f.write(f"{name}\n")
+
+        self.log_action(f"Excepciones guardadas: {len(excluded)} archivos")
+        return filepath
+
+    def load_exclusion_list(self) -> list[str]:
+        filepath = self.archives_dir / "excepciones.txt"
+        if filepath.exists():
+            with open(filepath, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            names = []
+            for line in lines:
+                line = line.strip()
+                if (
+                    line
+                    and not line.startswith("=")
+                    and not line.startswith("-")
+                    and not line.startswith("Fecha")
+                    and not line.startswith("Carpeta")
+                    and not line.startswith("Archivos")
+                    and not line.startswith("LISTA")
+                ):
+                    names.append(line)
+            return names
+        return []
 
     def save_elimination_log(
         self,
@@ -147,24 +174,6 @@ class LogManager:
             f"Registro de eliminacion guardado",
             f"Eliminados: {len(deleted)}, Errores: {len(errors)}, Excluidos: {len(excluded)}",
         )
-        return filepath
-
-    def save_exclusion_list(self, excluded: list[str], directory: str):
-        date = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"excluidos_{date}.txt"
-        filepath = self.archives_dir / filename
-
-        with open(filepath, "w", encoding="utf-8") as f:
-            f.write(f"LISTA DE EXCLUSION\n")
-            f.write(f"=" * 60 + "\n")
-            f.write(f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(f"Carpeta: {directory}\n")
-            f.write(f"Archivos excluidos: {len(excluded)}\n")
-            f.write("-" * 60 + "\n\n")
-            for name in excluded:
-                f.write(f"  - {name}\n")
-
-        self.log_action(f"Lista de exclusion guardada: {len(excluded)} archivos")
         return filepath
 
     def get_recent_archives(self, limit: int = 10) -> list[Path]:
@@ -313,6 +322,9 @@ class FileModel:
 
     def save_exclusion_list(self, excluded: list[str]) -> Path:
         return self.log_manager.save_exclusion_list(excluded, str(self.directory))
+
+    def load_exclusion_list(self) -> list[str]:
+        return self.log_manager.load_exclusion_list()
 
     def save_archive_list(self) -> Path:
         return self.log_manager.save_archive_list(self.files, str(self.directory))

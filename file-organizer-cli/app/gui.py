@@ -51,14 +51,15 @@ class ExclusionDialog(tk.Toplevel):
         ttk.Button(btn_frame, text="Guardar", command=self.on_accept).pack(
             side=tk.LEFT, padx=(0, 5)
         )
-        ttk.Button(btn_frame, text="Limpiar Todo", command=self.on_clear).pack(
-            side=tk.LEFT, padx=(0, 5)
-        )
         ttk.Button(btn_frame, text="Cerrar", command=self.on_cancel).pack(side=tk.LEFT)
 
     def on_accept(self):
         content = self.text_area.get("1.0", tk.END)
         self.result = [line.strip() for line in content.split("\n") if line.strip()]
+        self.destroy()
+
+    def on_cancel(self):
+        self.result = None
         self.destroy()
 
     def on_clear(self):

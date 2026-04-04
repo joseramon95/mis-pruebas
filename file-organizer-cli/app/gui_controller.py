@@ -29,6 +29,11 @@ class GUIController:
         log_path = self.model.save_archive_list()
         self.gui.log_message(f"Log guardado en: {log_path}")
 
+        exceptions = self.model.load_exclusion_list()
+        if exceptions:
+            self.gui.set_exceptions(exceptions)
+            self.gui.log_message(f"Excepciones cargadas: {len(exceptions)} archivos")
+
     def on_classify(self):
         if not self.model or not self.current_files:
             self.gui.show_error("Error", "Primero selecciona una carpeta")
@@ -50,11 +55,15 @@ class GUIController:
 
         if exceptions is not None:
             self.gui.set_exceptions(exceptions)
+            if self.model:
+                self.model.save_exclusion_list(exceptions)
             if exceptions:
                 self.gui.log_message(
-                    f"Excepciones configuradas: {len(exceptions)} archivos conservados"
+                    f"Excepciones guardadas: {len(exceptions)} archivos conservados"
                 )
-                self.gui.log_message("Se eliminaran todos los demas archivos")
+                self.gui.log_message(
+                    "Presiona 'Eliminar' para eliminar todos los demas"
+                )
             else:
                 self.gui.log_message("No hay archivos a conservar")
 
@@ -125,7 +134,6 @@ class GUIController:
             self.gui.display_files(self.current_files)
             self.gui.show_info("Resultado", f"Eliminados: {len(results['deleted'])}")
             self.gui.clear_selection_label()
-            self.gui.clear_exceptions()
         else:
             self.gui.log_message("Operacion cancelada")
 
