@@ -92,7 +92,7 @@ Archivos eliminados:
 
 ---
 
-### 2.6 Eliminación de duplicados
+### 2.7 Eliminación de duplicados
 
 El sistema debe detectar y eliminar archivos duplicados.
 
@@ -108,7 +108,7 @@ El sistema debe detectar y eliminar archivos duplicados.
 
 ---
 
-### 2.7 Visualización
+### 2.8 Visualización
 
 Mostrar:
 - Archivos encontrados
@@ -119,7 +119,7 @@ Mostrar:
 
 ---
 
-### 2.8 Opciones de ejecución
+### 2.9 Opciones de ejecución
 
 - Modo solo lectura (escanear/clasificar)
 - Modo eliminación
