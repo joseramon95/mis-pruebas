@@ -51,8 +51,9 @@ class GUIController:
         if exceptions is not None:
             self.gui.set_exceptions(exceptions)
             self.gui.log_message(
-                f"Excepciones configuradas: {len(exceptions)} archivos"
+                f"Excepciones configuradas: {len(exceptions)} archivos conservados"
             )
+            self.gui.log_message("Se eliminaran todos los demas archivos")
         else:
             self.gui.clear_exceptions()
             self.gui.log_message("Excepciones canceladas")
@@ -62,44 +63,43 @@ class GUIController:
             self.gui.show_error("Error", "Primero selecciona una carpeta")
             return
 
-        selected_paths = self.gui.open_file_selection()
-
-        if not selected_paths:
-            self.gui.log_message("No se seleccionaron archivos")
-            return
-
-        selected_names = [Path(p).name for p in selected_paths]
-        self.gui.set_selection_label(f"Seleccionados: {len(selected_names)} archivos")
-
-        files_to_delete = []
-        for name in selected_names:
-            file_info = self.model.get_file_by_name(name)
-            if file_info:
-                files_to_delete.append(file_info)
-
-        if not files_to_delete:
-            self.gui.show_error("Error", "No se encontraron archivos validos")
-            return
-
         exceptions = self.gui.get_exceptions()
-        excluded = []
 
         if exceptions:
-            excluded_names = []
-            for name in exceptions:
+            exception_names = set(name.strip().lower() for name in exceptions)
+            files_to_delete = []
+            excluded = []
+
+            for file_info in self.current_files:
+                if file_info.name.lower() not in exception_names:
+                    files_to_delete.append(file_info)
+                else:
+                    excluded.append(file_info)
+
+            self.gui.log_message(f"Archivos a eliminar: {len(files_to_delete)}")
+            self.gui.log_message(f"Archivos conservados (excepciones): {len(excluded)}")
+
+        else:
+            selected_paths = self.gui.open_file_selection()
+
+            if not selected_paths:
+                self.gui.log_message("No se seleccionaron archivos")
+                return
+
+            selected_names = [Path(p).name for p in selected_paths]
+            self.gui.set_selection_label(
+                f"Seleccionados: {len(selected_names)} archivos"
+            )
+
+            files_to_delete = []
+            for name in selected_names:
                 file_info = self.model.get_file_by_name(name)
                 if file_info:
-                    excluded.append(file_info)
-                    excluded_names.append(name)
-                    if file_info in files_to_delete:
-                        files_to_delete.remove(file_info)
+                    files_to_delete.append(file_info)
 
-            if excluded_names:
-                self.gui.log_message(
-                    f"Excluidos por excepciones: {len(excluded_names)}"
-                )
-
-        self.gui.log_message(f"Archivos a eliminar: {len(files_to_delete)}")
+            if not files_to_delete:
+                self.gui.show_error("Error", "No se encontraron archivos validos")
+                return
 
         if not files_to_delete:
             self.gui.show_error("Error", "No hay archivos para eliminar")
@@ -109,7 +109,9 @@ class GUIController:
             "Confirmar", f"¿Eliminar {len(files_to_delete)} archivos?"
         ):
             results = self.model.delete_files(
-                files_to_delete, "Eliminacion por seleccion", excluded
+                files_to_delete,
+                "Eliminacion por seleccion",
+                excluded if exceptions else [],
             )
 
             self.gui.log_message(f"Eliminados: {len(results['deleted'])}")
