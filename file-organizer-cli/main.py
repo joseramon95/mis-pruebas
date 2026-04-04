@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import os
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -16,9 +17,6 @@ def main():
 
     if len(sys.argv) > 1:
         directory = sys.argv[1]
-        if not controller.set_directory(directory):
-            return
-        controller.scan_directory()
     else:
         directory = view.prompt("Introduce la ruta de la carpeta")
 
@@ -26,25 +24,27 @@ def main():
             view.show_error("No se proporcionó directorio")
             return
 
-        if not controller.set_directory(directory):
-            return
+    if not controller.set_directory(directory):
+        return
+
+    if not controller.scan_directory():
+        return
 
     while True:
-        view.show_menu()
+        view.show_main_menu()
         option = view.prompt("Selecciona una opción")
 
         match option:
             case "1":
-                recursive = view.confirm("¿Escaneo recursivo?")
-                controller.scan_directory(recursive)
+                controller.scan_directory()
             case "2":
-                controller.classify_files()
+                controller.show_files()
             case "3":
-                controller.delete_files_flow()
+                controller.classify_files()
             case "4":
-                controller.find_duplicates_flow()
+                controller.delete_duplicates_flow()
             case "5":
-                controller.show_all_files()
+                controller.delete_by_name_flow()
             case "0" | "q":
                 view.show_info("¡Hasta luego!")
                 break
