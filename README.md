@@ -461,13 +461,150 @@ Los datos se pasan al componente `Carousel.astro` como prop `items`.
 
 ---
 
-## 🌐 Hosting Recomendado
+## 🚀 Despliegue en Vercel
 
-| Servicio | Ventajas |
-|----------|----------|
-| Vercel | Despliegue automático desde Git |
-| Netlify | CDN global, SSL automático |
-| GitHub Pages | Gratuito, simple |
+### Flujo de Trabajo
+
+Este proyecto usa **2 ramas**:
+- `main` → Rama de desarrollo (ignorar builds)
+- `astro` → Rama de producción (despliegue real)
+
+### Configuración Inicial
+
+#### 1. Configurar Vercel (primera vez)
+
+1. Ir a [vercel.com/dashboard](https://vercel.com/dashboard)
+2. Importar el repositorio desde GitHub
+3. Framework: **Astro**
+4. Root Directory: `./E_3` (o la carpeta del proyecto)
+5. Build Command: `npm run build`
+6. Deploy
+
+#### 2. Ignorar Builds de `main`
+
+Para que push a `main` no dispare builds:
+
+1. Ir al proyecto en Vercel
+2. **Settings** → **Build & Development Settings**
+3. Buscar **Ignore Build Step**
+4. Seleccionar **"Run my bash script"**
+5. Pegar:
+   ```bash
+   echo "Ignoring build" && exit 0
+   ```
+6. **Save**
+
+#### 3. Crear Deploy Hook para `astro`
+
+1. Ir al proyecto en Vercel
+2. **Settings** → **Git**
+3. **Deploy Hooks**
+4. Nombre: `Deploy Astro`
+5. Branch: `astro`
+6. **Create Hook**
+7. Copiar la URL del hook
+
+#### 4. Configurar GitHub Actions (opcional)
+
+Crear `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - astro
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+```
+
+### Comandos de Deploy
+
+#### Desde Terminal (CLI de Vercel)
+
+```bash
+# Deploy preview
+vercel
+
+# Deploy a producción
+vercel --prod
+
+# Ver proyectos
+vercel projects
+
+# Ver deployments
+vercel ls
+```
+
+#### Con Deploy Hook (desde cualquier servicio)
+
+```bash
+# Trigger deploy de astro
+curl -X POST "URL_DEL_DEPLOY_HOOK"
+```
+
+### Deploy Manual Paso a Paso
+
+#### Opción 1: Terminal
+
+```bash
+# 1. Asegurarse de estar en la rama correcta
+git checkout astro
+
+# 2. Hacer cambios y commit
+git add .
+git commit -m "tu mensaje"
+
+# 3. Push a GitHub
+git push origin astro
+
+# 4. Opcional: deploy inmediato con CLI
+vercel --prod
+```
+
+#### Opción 2: Solo GitHub
+
+```bash
+# 1. Hacer cambios y commit
+git add .
+git commit -m "tu mensaje"
+
+# 2. Push a astro
+git push origin astro
+
+# 3. GitHub Actions triggered automáticamente → deploy a producción
+```
+
+#### Opción 3: Deploy Hook (desde CMS o externo)
+
+```bash
+# Cuando el CMS actualiza contenido
+curl -X POST "https://api.vercel.com/v1/integrations/deploy/HOOK_ID"
+```
+
+### Resumen de Ramas
+
+| Rama | Acción | Resultado |
+|------|--------|-----------|
+| `main` | Push | Solo preview (ignora build) |
+| `astro` | Push | Deploy a producción |
+| `astro` | Deploy hook | Deploy a producción |
+
+### Enlaces
+
+- **Dashboard:** [vercel.com/dashboard](https://vercel.com/dashboard)
+- **Proyecto:** [vercel.com/e-e-e1/mis-pruebas](https://vercel.com/e-e-e1/mis-pruebas)
+- **Producción:** https://mis-pruebas.vercel.app
 
 ---
 
