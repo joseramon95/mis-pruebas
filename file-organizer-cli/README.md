@@ -1,81 +1,113 @@
-# Organizador de Archivos CLI
+# Eliminador Masivo de Archivos
 
-Herramienta CLI para gestionar y eliminar archivos con detección de duplicados y sistema de logs.
+Aplicación CLI/GUI para eliminación masiva de archivos con soporte para excepciones.
 
 ## Características
 
-- **Escaneo de directorios**: Lee archivos de forma recursiva o superficial
-- **Clasificación por extensión**: Agrupa archivos por su tipo (solo visualización)
-- **Sistema de logs**: Registra archivos encontrados y eliminaciones
-- **Eliminación por nombres**: Elimina archivos especificando sus nombres
-- **Detección de duplicados**: Encuentra archivos con contenido idéntico mediante hash MD5
-- **Confirmación de seguridad**: Siempre pide confirmación antes de eliminar
+- **Selección de carpeta**: Escanea recursively todos los archivos en una carpeta
+- **Clasificación por extensión**: Agrupa archivos por tipo de extensión
+- **Eliminación masiva con excepciones**: Conserva archivos específicos y elimina el resto
+- **Excepciones persistentes**: Las excepciones se guardan y cargan automáticamente
+- **Interfaz GUI moderna**: Tema violeta con botones dorados e iconos
+- **Logging completo**: Registra todas las operaciones en archivos de log
+
+## Requisitos
+
+- Python 3.10+
+- tkinter (incluido en Python)
+
+## Uso
+
+### GUI (por defecto)
+
+```bash
+python main.py
+```
+
+### CLI
+
+```bash
+python main.py --cli
+python main.py --cli /ruta/a/carpeta
+```
 
 ## Estructura del Proyecto
 
 ```
 file-organizer-cli/
 ├── app/
-│   ├── __init__.py
-│   ├── model.py      # Lógica de archivos, hashes, eliminación
-│   ├── view.py       # Interfaz de usuario en consola
-│   └── controller.py # Coordinación y flujo
-├── logs/             # Carpeta de logs (se crea automáticamente)
-├── main.py           # Punto de entrada
-├── README.md         # Este archivo
-└── SPEC.md           # Especificaciones completas
+│   ├── gui.py              # Interfaz gráfica (Tkinter)
+│   ├── gui_controller.py   # Controlador de la GUI
+│   ├── model.py            # Modelo de datos y lógica de archivos
+│   ├── controller.py       # Controlador CLI
+│   └── view.py             # Vista CLI
+├── tests/
+│   ├── test_app.py         # Tests de modelo/controlador
+│   └── test_gui.py         # Tests de GUI
+├── logs/
+│   ├── archivos/           # Listas de archivos escaneados
+│   ├── eliminaciones/      # Registros de eliminaciones
+│   └── sesiones/           # Registros de sesiones
+└── main.py                 # Punto de entrada
 ```
 
-## Requisitos
+## Guía de Uso (GUI)
 
-- Python 3.10+
+1. **Seleccionar Carpeta**: Carga todos los archivos de la carpeta seleccionada
+2. **Clasificar**: Muestra los archivos agrupados por tipo de extensión
+3. **Mostrar Todos**: Vuelve a mostrar la lista completa de archivos
+4. **Eliminar**: 
+   - Si hay excepciones configuradas: elimina todos los archivos EXCEPTO los exceptuados
+   - Si no hay excepciones: abre diálogo para seleccionar archivos a eliminar
+5. **Excepciones**: Define qué archivos NO se deben eliminar (se pueden editar posteriormente)
+6. **Limpiar**: Borra todas las excepciones configuradas
 
-## Instalación
+## Excepciones
+
+Las excepciones son nombres de archivos que se preservarán durante la eliminación masiva. Se guardan en `logs/archivos/excepciones.txt` y se cargan automáticamente al seleccionar una carpeta.
+
+### Formato de excepciones
+Un nombre de archivo por línea:
+```
+archivo_importante.txt
+foto_navidad.jpg
+documento.pdf
+```
+
+## Logging
+
+- **Sesiones**: `logs/sesiones/sesion_YYYYMMDD_HHMMSS.txt`
+- **Listas de archivos**: `logs/archivos/lista_YYYYMMDD_HHMMSS_CARPETA.txt`
+- **Excepciones**: `logs/archivos/excepciones.txt`
+- **Eliminaciones**: `logs/eliminaciones/eliminaciones_YYYYMMDD.txt`
+
+## Tests
 
 ```bash
-pip install -r requirements.txt
+pytest file-organizer-cli/tests/ -v
 ```
 
-## Uso
+## API Pública (Modelo)
 
-```bash
-python main.py
+### FileModel
+
+```python
+model = FileModel(ruta_carpeta, logs_dir)
+model.validate_path()        # Valida que la ruta existe
+model.scan_files(recursive)  # Escanea archivos
+model.classify_by_extension() # Clasifica por extensión
+model.delete_files(files, operacion, excluded)  # Elimina archivos
+model.load_exclusion_list()   # Carga excepciones
+model.save_exclusion_list(exceptions)  # Guarda excepciones
 ```
 
-## Flujo de eliminación
+### GUIController
 
-1. Elegir ruta de la carpeta a procesar
-2. Escanear archivos → se genera log de referencia en `logs/`
-3. Elegir opción:
-   - **Eliminar duplicados**: Detecta y elimina automáticamente
-   - **Ingresar nombres**: Escribir nombres de archivos a eliminar
-4. Confirmar eliminación
-5. Ver registro en log acumulable
-
-## Sistema de Logs
-
-La carpeta `logs/` contiene:
-
-- **Archivos encontrados**: Lista de todos los archivos en la carpeta escaneada
-- **eliminacion masiva de archivos.txt**: Registro acumulativo de eliminaciones
-
-**Formato del log:**
+```python
+controller = GUIController()
+controller.set_directory(ruta)  # Configura la carpeta
+controller.on_select_folder()    # Escanea carpeta
+controller.on_delete_selection() # Elimina archivos (usa excepciones si existen)
+controller.on_exceptions()       # Abre diálogo de excepciones
+controller.on_clear()            # Limpia excepciones
 ```
-Fecha: 2026-04-04 13:30:00
-Archivos eliminados:
-  - archivo1.ext
-  - archivo2.ext
----
-```
-
-## Arquitectura MVC
-
-- **Model**: Gestiona lectura de archivos, clasificación, hashing y eliminación
-- **View**: Maneja toda la salida por consola y prompts al usuario
-- **Controller**: Coordina modelo y vista, controla el flujo principal
-
-## Seguridad
-
-- Siempre pide confirmación antes de eliminar
-- Genera logs de todas las operaciones
-- Manejo de archivos protegidos/solo lectura
