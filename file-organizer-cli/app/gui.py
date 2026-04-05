@@ -5,53 +5,99 @@ from typing import Callable, Optional, List
 from app.model import FileInfo
 
 
+COLORS = {
+    "bg_dark": "#2D1B4E",
+    "bg_medium": "#4A2C7A",
+    "bg_light": "#6B3FA0",
+    "gold": "#FFD700",
+    "gold_dark": "#B8860B",
+    "gold_light": "#FFEC8B",
+    "text": "#FFFFFF",
+    "text_dark": "#1A1A2E",
+    "list_bg": "#3D2666",
+}
+
+
 class ExclusionDialog(tk.Toplevel):
     def __init__(self, parent, current_exceptions: List[str] = None):
         super().__init__(parent)
         self.title("Excepciones - Archivos a Conservar")
         self.geometry("500x400")
-        self.resizable(True, True)
+        self.configure(bg=COLORS["bg_dark"])
         self.result: Optional[List[str]] = None
         self.current_exceptions = current_exceptions or []
 
         self.transient(parent)
         self.grab_set()
 
+        self._setup_styles()
         self._setup_ui()
-
         self.protocol("WM_DELETE_WINDOW", self.on_cancel)
 
+    def _setup_styles(self):
+        style = ttk.Style(self)
+        style.configure("Violet.TFrame", background=COLORS["bg_medium"])
+        style.configure(
+            "Gold.TLabel",
+            background=COLORS["bg_medium"],
+            foreground=COLORS["gold"],
+            font=("Segoe UI", 10, "bold"),
+        )
+        style.configure(
+            "Violet.TButton",
+            background=COLORS["gold"],
+            foreground=COLORS["text_dark"],
+            font=("Segoe UI", 9, "bold"),
+            padding=(10, 5),
+        )
+        style.map("Violet.TButton", background=[("active", COLORS["gold_dark"])])
+
     def _setup_ui(self):
-        main_frame = ttk.Frame(self, padding="10")
+        main_frame = ttk.Frame(self, style="Violet.TFrame", padding="15")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
         ttk.Label(
             main_frame,
-            text="Archivos a CONSERVAR (no se eliminaran):",
-            font=("Arial", 10, "bold"),
-        ).pack(anchor=tk.W)
+            text="Archivos a CONSERVAR (no se eliminarán):",
+            style="Gold.TLabel",
+        ).pack(anchor=tk.W, pady=(0, 5))
         ttk.Label(
             main_frame,
-            text="Ingresa un nombre de archivo por linea:",
-            font=("Arial", 9),
-        ).pack(anchor=tk.W, pady=(0, 5))
+            text="Ingresa un nombre de archivo por línea:",
+            background=COLORS["bg_medium"],
+            foreground=COLORS["text"],
+            font=("Segoe UI", 9),
+        ).pack(anchor=tk.W, pady=(0, 10))
 
-        text_frame = ttk.Frame(main_frame)
-        text_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+        text_frame = ttk.Frame(main_frame, style="Violet.TFrame")
+        text_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 15))
 
-        self.text_area = scrolledtext.ScrolledText(text_frame, height=15)
+        self.text_area = scrolledtext.ScrolledText(
+            text_frame,
+            height=15,
+            bg=COLORS["list_bg"],
+            fg=COLORS["text"],
+            insertbackground=COLORS["gold"],
+            font=("Consolas", 10),
+            relief=tk.SUNKEN,
+            bd=2,
+            highlightcolor=COLORS["gold_dark"],
+            highlightthickness=1,
+        )
         self.text_area.pack(fill=tk.BOTH, expand=True)
 
         for name in self.current_exceptions:
             self.text_area.insert(tk.END, f"{name}\n")
 
-        btn_frame = ttk.Frame(main_frame)
+        btn_frame = ttk.Frame(main_frame, style="Violet.TFrame")
         btn_frame.pack(fill=tk.X)
 
-        ttk.Button(btn_frame, text="Guardar", command=self.on_accept).pack(
-            side=tk.LEFT, padx=(0, 5)
-        )
-        ttk.Button(btn_frame, text="Cerrar", command=self.on_cancel).pack(side=tk.LEFT)
+        ttk.Button(
+            btn_frame, text="💾 Guardar", style="Violet.TButton", command=self.on_accept
+        ).pack(side=tk.LEFT, padx=(0, 10))
+        ttk.Button(
+            btn_frame, text="✖ Cerrar", style="Violet.TButton", command=self.on_cancel
+        ).pack(side=tk.LEFT)
 
     def on_accept(self):
         content = self.text_area.get("1.0", tk.END)
@@ -66,81 +112,221 @@ class ExclusionDialog(tk.Toplevel):
 class FileSelector(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Eliminador Masivo de Archivos")
-        self.geometry("700x500")
+        self.title("✦ Eliminador Masivo de Archivos ✦")
+        self.geometry("750x550")
+        self.configure(bg=COLORS["bg_dark"])
         self.resizable(True, True)
 
         self.files: List[FileInfo] = []
         self.directory: str = ""
         self.exceptions: List[str] = []
 
+        self._setup_styles()
         self._setup_ui()
 
+    def _setup_styles(self):
+        self.style = ttk.Style(self)
+
+        self.style.configure("Violet.TFrame", background=COLORS["bg_medium"])
+        self.style.configure(
+            "Violet.TLabelframe",
+            background=COLORS["bg_dark"],
+            foreground=COLORS["gold"],
+            font=("Segoe UI", 10, "bold"),
+        )
+        self.style.configure(
+            "Violet.TLabelframe.Label",
+            background=COLORS["bg_dark"],
+            foreground=COLORS["gold"],
+            font=("Segoe UI", 10, "bold"),
+        )
+        self.style.configure(
+            "Title.TLabel",
+            background=COLORS["bg_dark"],
+            foreground=COLORS["gold"],
+            font=("Segoe UI", 14, "bold"),
+        )
+        self.style.configure(
+            "Folder.TLabel",
+            background=COLORS["bg_dark"],
+            foreground=COLORS["gold_light"],
+            font=("Segoe UI", 10),
+        )
+        self.style.configure(
+            "Action.TLabel",
+            background=COLORS["bg_medium"],
+            foreground=COLORS["gold"],
+            font=("Segoe UI", 9),
+        )
+
+        self.style.configure(
+            "Gold.TButton",
+            background=COLORS["gold"],
+            foreground=COLORS["text_dark"],
+            font=("Segoe UI", 9, "bold"),
+            padding=(12, 6),
+            relief=tk.RAISED,
+            borderwidth=2,
+        )
+        self.style.map(
+            "Gold.TButton",
+            background=[("active", COLORS["gold_dark"])],
+            relief=[("pressed", tk.SUNKEN)],
+        )
+
+        self.style.configure(
+            "Danger.TButton",
+            background="#DC3545",
+            foreground=COLORS["text"],
+            font=("Segoe UI", 9, "bold"),
+            padding=(12, 6),
+            relief=tk.RAISED,
+            borderwidth=2,
+        )
+        self.style.map(
+            "Danger.TButton",
+            background=[("active", "#B02A37")],
+            relief=[("pressed", tk.SUNKEN)],
+        )
+
     def _setup_ui(self):
-        main_frame = ttk.Frame(self, padding="10")
+        main_frame = ttk.Frame(self, style="Violet.TFrame", padding="15")
         main_frame.grid(row=0, column=0, sticky="nsew")
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
         main_frame.columnconfigure(0, weight=1)
         main_frame.rowconfigure(2, weight=1)
 
-        folder_frame = ttk.Frame(main_frame)
-        folder_frame.grid(row=0, column=0, sticky="w", pady=(0, 10))
+        title_label = ttk.Label(
+            main_frame, text="✦ ELIMINADOR MASIVO DE ARCHIVOS ✦", style="Title.TLabel"
+        )
+        title_label.grid(row=0, column=0, pady=(0, 10))
+
+        folder_frame = ttk.LabelFrame(
+            main_frame,
+            text=" 📁 Carpeta de Trabajo ",
+            style="Violet.TLabelframe",
+            padding="10",
+        )
+        folder_frame.grid(row=1, column=0, sticky="ew", pady=(0, 10))
         folder_frame.columnconfigure(0, weight=1)
 
         self.folder_label = ttk.Label(
-            folder_frame, text="No se ha seleccionado carpeta"
+            folder_frame, text="No se ha seleccionado carpeta", style="Folder.TLabel"
         )
         self.folder_label.grid(row=0, column=0, sticky="w")
 
-        btn_frame = ttk.Frame(main_frame)
-        btn_frame.grid(row=1, column=0, sticky="w", pady=(0, 10))
+        btn_frame = ttk.Frame(main_frame, style="Violet.TFrame")
+        btn_frame.grid(row=2, column=0, sticky="ew", pady=(0, 10))
 
         ttk.Button(
-            btn_frame, text="Seleccionar Carpeta", command=self.select_folder
+            btn_frame,
+            text="📂 Seleccionar Carpeta",
+            style="Gold.TButton",
+            command=self.select_folder,
         ).grid(row=0, column=0, padx=(0, 5))
         ttk.Button(
-            btn_frame, text="Clasificar por Extension", command=self._on_classify
+            btn_frame,
+            text="📋 Clasificar",
+            style="Gold.TButton",
+            command=self._on_classify,
         ).grid(row=0, column=1, padx=(0, 5))
-        ttk.Button(btn_frame, text="Mostrar Todos", command=self._on_show_all).grid(
-            row=0, column=2, padx=(0, 5)
-        )
+        ttk.Button(
+            btn_frame,
+            text="📄 Mostrar Todos",
+            style="Gold.TButton",
+            command=self._on_show_all,
+        ).grid(row=0, column=2, padx=(0, 5))
 
-        list_frame = ttk.Frame(main_frame)
-        list_frame.grid(row=2, column=0, sticky="nsew")
-        list_frame.columnconfigure(0, weight=1)
-        list_frame.rowconfigure(0, weight=1)
+        list_labelframe = ttk.LabelFrame(
+            main_frame,
+            text=" 📋 Archivos Encontrados ",
+            style="Violet.TLabelframe",
+            padding="10",
+        )
+        list_labelframe.grid(row=3, column=0, sticky="nsew", pady=(0, 10))
+        list_labelframe.columnconfigure(0, weight=1)
+        list_labelframe.rowconfigure(0, weight=1)
+
+        list_inner = ttk.Frame(list_labelframe)
+        list_inner.grid(row=0, column=0, sticky="nsew")
+        list_inner.columnconfigure(0, weight=1)
+        list_inner.rowconfigure(0, weight=1)
 
         self.file_listbox = tk.Listbox(
-            list_frame, selectmode=tk.EXTENDED, width=80, height=15
+            list_inner,
+            selectmode=tk.EXTENDED,
+            width=80,
+            height=12,
+            bg=COLORS["list_bg"],
+            fg=COLORS["text"],
+            font=("Consolas", 10),
+            selectbackground=COLORS["bg_light"],
+            selectforeground=COLORS["gold"],
+            relief=tk.SUNKEN,
+            bd=2,
+            highlightcolor=COLORS["gold_dark"],
+            highlightthickness=1,
+            activestyle="none",
         )
         self.file_listbox.grid(row=0, column=0, sticky="nsew")
 
         scrollbar = ttk.Scrollbar(
-            list_frame, orient=tk.VERTICAL, command=self.file_listbox.yview
+            list_inner, orient=tk.VERTICAL, command=self.file_listbox.yview
         )
         scrollbar.grid(row=0, column=1, sticky="ns")
         self.file_listbox.config(yscrollcommand=scrollbar.set)
 
-        action_frame = ttk.Frame(main_frame)
-        action_frame.grid(row=3, column=0, sticky="w", pady=(10, 0))
+        action_frame = ttk.Frame(main_frame, style="Violet.TFrame")
+        action_frame.grid(row=4, column=0, sticky="ew", pady=(0, 10))
 
         ttk.Button(
-            action_frame, text="Eliminar", command=self._on_delete_selection
+            action_frame,
+            text="🗑️ Eliminar",
+            style="Danger.TButton",
+            command=self._on_delete_selection,
         ).grid(row=0, column=0, padx=(0, 5))
-        ttk.Button(action_frame, text="Excepciones", command=self._on_exceptions).grid(
-            row=0, column=1
+        ttk.Button(
+            action_frame,
+            text="⭐ Excepciones",
+            style="Gold.TButton",
+            command=self._on_exceptions,
+        ).grid(row=0, column=1, padx=(0, 5))
+        ttk.Button(
+            action_frame,
+            text="✨ Limpiar",
+            style="Gold.TButton",
+            command=self._on_clear,
+        ).grid(row=0, column=2)
+
+        self.selection_label = ttk.Label(action_frame, text="", style="Action.TLabel")
+        self.selection_label.grid(
+            row=1, column=0, columnspan=3, sticky="w", pady=(8, 0)
         )
 
-        self.selection_label = ttk.Label(action_frame, text="")
-        self.selection_label.grid(
-            row=1, column=0, columnspan=2, sticky="w", pady=(5, 0)
+        log_labelframe = ttk.LabelFrame(
+            main_frame,
+            text=" 📜 Registro de Actividad ",
+            style="Violet.TLabelframe",
+            padding="10",
         )
+        log_labelframe.grid(row=5, column=0, sticky="ew")
+        log_labelframe.columnconfigure(0, weight=1)
 
         self.log_text = scrolledtext.ScrolledText(
-            main_frame, height=8, state=tk.DISABLED
+            log_labelframe,
+            height=6,
+            state=tk.DISABLED,
+            bg=COLORS["bg_dark"],
+            fg=COLORS["gold_light"],
+            font=("Consolas", 9),
+            insertbackground=COLORS["gold"],
+            relief=tk.SUNKEN,
+            bd=2,
+            highlightcolor=COLORS["gold_dark"],
+            highlightthickness=1,
         )
-        self.log_text.grid(row=4, column=0, sticky="nsew", pady=(10, 0))
+        self.log_text.grid(row=0, column=0, sticky="ew")
 
     def select_folder(self):
         folder = filedialog.askdirectory(title="Seleccionar carpeta")
@@ -243,6 +429,10 @@ class FileSelector(tk.Tk):
         if self._callback_exceptions:
             self._callback_exceptions()
 
+    def _on_clear(self):
+        if self._callback_clear:
+            self._callback_clear()
+
     def set_callbacks(
         self,
         on_select_folder: Callable,
@@ -250,12 +440,14 @@ class FileSelector(tk.Tk):
         on_show_all: Callable,
         on_delete_selection: Callable,
         on_exceptions: Callable,
+        on_clear: Callable,
     ):
         self._callback_select_folder = on_select_folder
         self._callback_classify = on_classify
         self._callback_show_all = on_show_all
         self._callback_delete_selection = on_delete_selection
         self._callback_exceptions = on_exceptions
+        self._callback_clear = on_clear
 
     def run(self):
         self.mainloop()

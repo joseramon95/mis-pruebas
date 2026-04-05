@@ -18,17 +18,8 @@ def run_gui():
         if folder:
             if gui_controller.set_directory(folder):
                 gui.log_message(f"Directorio configurado: {folder}")
-                gui_controller.on_select_folder()
             else:
                 gui.show_error("Error", "La ruta no existe o no es un directorio")
-
-    gui.set_callbacks(
-        on_select_folder=on_folder_selected,
-        on_classify=gui_controller.on_classify,
-        on_show_all=gui_controller.on_show_all,
-        on_delete_selection=gui_controller.on_delete_selection,
-        on_exceptions=gui_controller.on_exceptions,
-    )
 
     gui.run()
 

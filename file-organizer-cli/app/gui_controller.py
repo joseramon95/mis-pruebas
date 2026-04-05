@@ -15,9 +15,10 @@ class GUIController:
             on_show_all=self.on_show_all,
             on_delete_selection=self.on_delete_selection,
             on_exceptions=self.on_exceptions,
+            on_clear=self.on_clear,
         )
 
-    def on_select_folder(self):
+    def on_select_folder(self, folder: str = None):
         if not self.model:
             self.gui.log_message("Error: No se ha seleccionado carpeta")
             return
@@ -136,6 +137,11 @@ class GUIController:
             self.gui.clear_selection_label()
         else:
             self.gui.log_message("Operacion cancelada")
+
+    def on_clear(self):
+        self.gui.clear_exceptions()
+        self.gui.set_selection_label("")
+        self.gui.log_message("Excepciones limpiadas")
 
     def set_directory(self, path: str) -> bool:
         project_root = Path(__file__).parent.parent

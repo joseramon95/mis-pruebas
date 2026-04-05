@@ -1,0 +1,16 @@
+# Logs
+logs/
+file-organizer-cli/logs/
+
+# Test folders
+test_folder/
+"archivos de prueba/"
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
