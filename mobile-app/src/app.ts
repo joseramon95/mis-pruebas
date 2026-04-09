@@ -1,7 +1,7 @@
 import { api } from './api';
 import { config } from './config';
 
-const MAX_WAIT_TIME = 120000;
+const MAX_WAIT_TIME = 60000;
 const RETRY_INTERVAL = 5000;
 
 export class App {

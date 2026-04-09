@@ -69,8 +69,7 @@ class ApiService {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      const response = await fetch(`${this.baseUrl}/login`, {
-        method: 'GET',
+      const response = await fetch(`${this.baseUrl}/health`, {
         signal: controller.signal
       });
 

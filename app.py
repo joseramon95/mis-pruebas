@@ -9,6 +9,7 @@ from flask import (
     flash,
 )
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
@@ -23,6 +24,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+CORS(app, origins=["*"], supports_credentials=True)
 
 
 # Modelos
@@ -133,6 +135,11 @@ def logout():
         log_accion("LOGOUT", detalle=f"Usuario {session.get('username')} cerró sesión")
     session.clear()
     return redirect(url_for("login"))
+
+
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"})
 
 
 # Dashboard
