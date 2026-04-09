@@ -24,7 +24,28 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-CORS(app, origins=["*"], supports_credentials=True)
+
+is_production = (
+    os.environ.get("FLASK_ENV") == "production"
+    or "render" in os.environ.get("HOSTNAME", "").lower()
+)
+
+
+@app.before_request
+def before_request():
+    if is_production:
+        app.config["SESSION_COOKIE_SAMESITE"] = "None"
+        app.config["SESSION_COOKIE_SECURE"] = True
+    else:
+        app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+        app.config["SESSION_COOKIE_SECURE"] = False
+
+
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, resources={r"/health": {"origins": "*"}})
+CORS(app, resources={r"/login": {"origins": "*"}}, supports_credentials=True)
+CORS(app, resources={r"/dashboard": {"origins": "*"}}, supports_credentials=True)
+CORS(app, resources={r"/logout": {"origins": "*"}}, supports_credentials=True)
 
 
 # Modelos
