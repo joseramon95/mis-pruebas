@@ -1,0 +1,241 @@
+# Guia - E3 Admin Mobile App
+
+## Requisitos Previos
+- Node.js >= 18
+- Java JDK 17
+- Android SDK instalado
+- Git
+
+---
+
+## 1. COMANDOS PARA COMPILAR LA APK
+
+### Paso 1: Entrar a la carpeta del proyecto
+```bash
+cd C:\Users\Naru\Desktop\mis-pruebas\mobile-app
+```
+
+### Paso 2: Establecer variables de entorno de Android
+```powershell
+$env:ANDROID_HOME="C:\Users\Naru\AppData\Local\Android\Sdk"
+$env:ANDROID_SDK_ROOT="C:\Users\Naru\AppData\Local\Android\Sdk"
+```
+
+### Paso 3: Compilar web app y sincronizar
+```bash
+npm run build
+npx cap sync android
+```
+
+### Paso 4: Compilar APK
+```bash
+cd android
+.\gradlew assembleDebug
+```
+
+### Paso 5: Ubicacion del APK
+```
+mobile-app\android\app\build\outputs\apk\debug\app-debug.apk
+```
+
+---
+
+## 2. CAMBIAR LA URL DE LA API
+
+### Archivo: `mobile-app\src\config.ts`
+
+```typescript
+export const config = {
+  apiUrl: 'https://e3-admin-api.onrender.com',  // <-- Cambiar aqui
+  appName: 'E3 Admin'
+};
+```
+
+Despues de cambiar, recompilar con:
+```bash
+npm run build
+npx cap sync android
+cd android
+.\gradlew assembleDebug
+```
+
+---
+
+## 3. CAMBIAR ICONOS DE LA APP
+
+### Icono principal (PNG 1024x1024)
+
+1. Colocar la imagen PNG en la carpeta del proyecto:
+   ```
+   C:\Users\Naru\Desktop\mis-pruebas\E3.png
+   ```
+
+2. Ejecutar el generador de iconos:
+   ```bash
+   cd mobile-app
+   node generate-icons.mjs
+   ```
+
+3. Recompilar APK:
+   ```bash
+   npm run build
+   npx cap sync android
+   cd android
+   .\gradlew assembleDebug
+   ```
+
+### Cambiar color de fondo del icono (Android 8+)
+
+Archivo: `mobile-app\android\app\src\main\res\values\ic_launcher_background.xml`
+
+```xml
+<color name="ic_launcher_background">#0F172A</color>
+```
+Cambiar el codigo de color hex segun preferencia.
+
+---
+
+## 4. MODIFICAR LA PANTALLA DE CARGA (SPLASH)
+
+### Espera de conexion a API
+
+Archivo: `mobile-app\src\app.ts`
+
+Configuracion al inicio del archivo:
+```typescript
+const MAX_WAIT_TIME = 120000;  // 2 minutos en ms
+const RETRY_INTERVAL = 5000;   // 5 segundos entre intentos
+```
+
+Para cambiar el tiempo maximo de espera:
+- 60000 = 1 minuto
+- 120000 = 2 minutos
+- 180000 = 3 minutos
+
+### Endpoint de verificacion de API
+
+Archivo: `mobile-app\src\api.ts` - funcion `ping()`
+
+Por defecto verifica `/login`. Si tu API tiene un endpoint diferente, cambiar aqui:
+```typescript
+async ping(): Promise<boolean> {
+  try {
+    const response = await fetch(`${this.baseUrl}/login`, {  // <-- Cambiar aqui
+      method: 'GET',
+      signal: AbortSignal.timeout(5000)
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+```
+
+---
+
+## 5. AGREGAR NUEVAS RUTAS/ENDPOINTS DE API
+
+### Archivo: `mobile-app\src\api.ts`
+
+Agregar metodos nuevos siguiendo este patron:
+```typescript
+async getNombreEntidad(): Promise<any[]> {
+  const response = await fetch(`${this.baseUrl}/api/nombre-entidad`, {
+    credentials: 'include'
+  });
+  return response.json();
+}
+```
+
+### Llamar desde `app.ts`:
+```typescript
+const datos = await api.getNombreEntidad();
+```
+
+---
+
+## 6. ESTRUCTURA DEL PROYECTO
+
+```
+mobile-app/
+├── src/
+│   ├── api.ts          # Conexion a la API
+│   ├── app.ts          # Logica principal de la app
+│   ├── config.ts       # Configuracion (URL, nombre)
+│   ├── main.ts         # Punto de entrada
+│   └── styles.css      # Estilos CSS
+├── android/            # Proyecto Android (no editar manualmente)
+├── dist/               # Build de produccion
+├── capacitor.config.ts # Configuracion de Capacitor
+├── package.json        # Dependencias npm
+└── generate-icons.mjs  # Script para generar iconos
+```
+
+---
+
+## 7. SOLUCION DE PROBLEMAS
+
+### Error: Java compilation initialization error - invalid source release: 21
+Solucion: Cambiar VERSION_21 a VERSION_17 en:
+- `node_modules/@capacitor/cli/dist/android/update.js` (lineas 148-149)
+- `node_modules/@capacitor/android/capacitor/build.gradle` (lineas 66-67)
+
+### Error: ANDROID_HOME not set
+```powershell
+$env:ANDROID_HOME="C:\Users\Naru\AppData\Local\Android\Sdk"
+$env:ANDROID_SDK_ROOT="C:\Users\Naru\AppData\Local\Android\Sdk"
+```
+
+### La app no se conecta a la API
+1. Verificar que la URL en `config.ts` sea correcta
+2. Verificar que la API este activa en Render
+3. Probar la URL en el navegador primero
+
+### Iconos no se actualizan
+1. Limpiar cache de Android:
+   ```bash
+   cd android
+   .\gradlew clean
+   ```
+2. Reinstalar la app en el dispositivo
+
+---
+
+## 8. ACTUALIZAR LA APP EN PLAY STORE (Release)
+
+### Generar APK de Release (firmado)
+```bash
+cd android
+.\gradlew assembleRelease
+```
+
+El APK de release estara en:
+```
+android\app\build\outputs\apk\release\app-release.apk
+```
+
+### Nota Importante
+Para subir a Google Play Store necesitas:
+1. Crear un keystore (certificado de firma)
+2. Firmar el APK con tu keystore
+3. Generar AAB (Android App Bundle) para Play Store
+
+---
+
+## 9. COMANDOS RAPIDOS (Copy-Paste)
+
+### Compilar todo desde cero:
+```powershell
+cd C:\Users\Naru\Desktop\mis-pruebas\mobile-app
+$env:ANDROID_HOME="C:\Users\Naru\AppData\Local\Android\Sdk"
+$env:ANDROID_SDK_ROOT="C:\Users\Naru\AppData\Local\Android\Sdk"
+npm run build
+npx cap sync android
+cd android
+.\gradlew assembleDebug
+```
+
+### Verificar estado de la APK:
+```powershell
+Get-ChildItem "C:\Users\Naru\Desktop\mis-pruebas\mobile-app\android\app\build\outputs\apk\debug"
+```
