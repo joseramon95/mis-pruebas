@@ -4,3 +4,8 @@ dist/
 node_modules
 nul
 .vercel
+file-organizer-cli/
+logs/
+test-files/
+prueba.html
+*.log
