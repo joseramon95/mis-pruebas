@@ -17,6 +17,13 @@ buildscript {
 
 apply from: "variables.gradle"
 
+ext {
+    storeFile = project.hasProperty("STORE_FILE") ? project.STORE_FILE : null
+    storePassword = project.hasProperty("STORE_PASSWORD") ? project.STORE_PASSWORD : null
+    keyAlias = project.hasProperty("KEY_ALIAS") ? project.KEY_ALIAS : null
+    keyPassword = project.hasProperty("KEY_PASSWORD") ? project.KEY_PASSWORD : null
+}
+
 allprojects {
     repositories {
         google()

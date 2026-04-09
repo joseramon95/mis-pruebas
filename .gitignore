@@ -9,3 +9,5 @@ logs/
 test-files/
 prueba.html
 *.log
+*.keystore
+android/gradle.properties
