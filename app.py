@@ -142,6 +142,17 @@ def login_required(f):
     return decorated_function
 
 
+def check_basic_auth():
+    auth = request.authorization
+    if auth and auth.username and auth.password:
+        usuario = Usuario.query.filter_by(username=auth.username).first()
+        if usuario and usuario.check_password(auth.password) and usuario.activo:
+            session["user_id"] = usuario.id
+            session["username"] = usuario.username
+            return True
+    return False
+
+
 def log_accion(accion, componente=None, detalle=None):
     usuario_id = session.get("user_id")
     ip = request.remote_addr
@@ -164,6 +175,11 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "GET" and request.authorization:
+        if check_basic_auth():
+            return jsonify({"authenticated": True, "username": session.get("username")})
+        return jsonify({"authenticated": False}), 401
+
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -409,7 +425,7 @@ def api_socios():
 
 @app.route("/api/socios/all")
 def api_socios_all():
-    if "user_id" not in session:
+    if "user_id" not in session and not check_basic_auth():
         return jsonify({"error": "No autenticado"}), 401
     socios = Socio.query.order_by(Socio.orden).all()
     return jsonify(
@@ -430,7 +446,7 @@ def api_socios_all():
 
 @app.route("/api/socios", methods=["POST"])
 def api_socios_create():
-    if "user_id" not in session:
+    if "user_id" not in session and not check_basic_auth():
         return jsonify({"error": "No autenticado"}), 401
     data = request.get_json()
     try:
@@ -452,7 +468,7 @@ def api_socios_create():
 
 @app.route("/api/socios/<int:id>", methods=["PUT"])
 def api_socios_update(id):
-    if "user_id" not in session:
+    if "user_id" not in session and not check_basic_auth():
         return jsonify({"error": "No autenticado"}), 401
     socio = Socio.query.get_or_404(id)
     data = request.get_json()
@@ -471,7 +487,7 @@ def api_socios_update(id):
 
 @app.route("/api/socios/<int:id>", methods=["DELETE"])
 def api_socios_delete(id):
-    if "user_id" not in session:
+    if "user_id" not in session and not check_basic_auth():
         return jsonify({"error": "No autenticado"}), 401
     socio = Socio.query.get_or_404(id)
     nombre = socio.nombre
@@ -483,7 +499,7 @@ def api_socios_delete(id):
 
 @app.route("/api/socios/<int:id>/toggle", methods=["POST"])
 def api_socios_toggle(id):
-    if "user_id" not in session:
+    if "user_id" not in session and not check_basic_auth():
         return jsonify({"error": "No autenticado"}), 401
     socio = Socio.query.get_or_404(id)
     socio.activo = not socio.activo

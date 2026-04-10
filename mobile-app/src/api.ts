@@ -19,11 +19,26 @@ export interface ApiError {
   message: string;
 }
 
+const AUTH_KEY = 'e3_admin_auth';
+
 class ApiService {
   private baseUrl: string;
 
   constructor() {
     this.baseUrl = config.apiUrl;
+  }
+
+  private getAuth(): { username: string; password: string } | null {
+    const auth = localStorage.getItem(AUTH_KEY);
+    return auth ? JSON.parse(auth) : null;
+  }
+
+  private setAuth(username: string, password: string): void {
+    localStorage.setItem(AUTH_KEY, JSON.stringify({ username, password }));
+  }
+
+  private clearAuth(): void {
+    localStorage.removeItem(AUTH_KEY);
   }
 
   async login(username: string, password: string): Promise<LoginResponse> {
@@ -38,19 +53,16 @@ class ApiService {
         credentials: 'include'
       });
 
-      if (response.status === 302) {
-        const redirectedUrl = response.url;
+      if (response.status === 302 || response.redirected) {
+        const redirectedUrl = response.url || response.redirected?.toString();
         if (redirectedUrl.includes('dashboard')) {
+          this.setAuth(username, password);
           return { success: true };
         }
       }
 
-      if (response.url.includes('login') && !response.url.includes('dashboard')) {
+      if (response.url.includes('login')) {
         return { success: false, error: 'Usuario o contraseña incorrectos' };
-      }
-
-      if (response.redirected) {
-        return { success: true };
       }
 
       return { success: true };
@@ -61,22 +73,49 @@ class ApiService {
   }
 
   async logout(): Promise<void> {
-    await fetch(`${this.baseUrl}/logout`, {
-      method: 'GET',
-      credentials: 'include'
-    });
+    try {
+      await fetch(`${this.baseUrl}/logout`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+    } catch (e) {
+      console.error('Logout error:', e);
+    }
+    this.clearAuth();
   }
 
   async checkAuth(): Promise<boolean> {
+    const auth = this.getAuth();
+    if (!auth) return false;
+
     try {
-      const response = await fetch(`${this.baseUrl}/dashboard`, {
-        credentials: 'include',
-        redirect: 'follow'
+      const formData = new FormData();
+      formData.append('username', auth.username);
+      formData.append('password', auth.password);
+
+      const response = await fetch(`${this.baseUrl}/login`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
       });
-      return response.url.includes('dashboard') || response.status === 200;
+
+      if (response.status === 302 || response.redirected) {
+        const redirectedUrl = response.url || response.redirected?.toString();
+        return redirectedUrl.includes('dashboard');
+      }
+      return false;
     } catch {
       return false;
     }
+  }
+
+  private getAuthHeaders(): HeadersInit {
+    const auth = this.getAuth();
+    if (auth) {
+      const encoded = btoa(`${auth.username}:${auth.password}`);
+      return { 'Authorization': `Basic ${encoded}` };
+    }
+    return {};
   }
 
   async ping(): Promise<boolean> {
@@ -97,14 +136,16 @@ class ApiService {
 
   async getSocios(): Promise<any[]> {
     const response = await fetch(`${this.baseUrl}/api/socios`, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: this.getAuthHeaders()
     });
     return response.json();
   }
 
   async getAllSocios(): Promise<any[]> {
     const response = await fetch(`${this.baseUrl}/api/socios/all`, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: this.getAuthHeaders()
     });
     if (!response.ok) throw new Error('Error al obtener socios');
     return response.json();
@@ -114,7 +155,10 @@ class ApiService {
     try {
       const response = await fetch(`${this.baseUrl}/api/socios`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...this.getAuthHeaders()
+        },
         credentials: 'include',
         body: JSON.stringify(socio)
       });
@@ -128,7 +172,10 @@ class ApiService {
     try {
       const response = await fetch(`${this.baseUrl}/api/socios/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...this.getAuthHeaders()
+        },
         credentials: 'include',
         body: JSON.stringify(socio)
       });
@@ -142,7 +189,8 @@ class ApiService {
     try {
       const response = await fetch(`${this.baseUrl}/api/socios/${id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: this.getAuthHeaders()
       });
       return response.json();
     } catch (error) {
@@ -154,7 +202,8 @@ class ApiService {
     try {
       const response = await fetch(`${this.baseUrl}/api/socios/${id}/toggle`, {
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        headers: this.getAuthHeaders()
       });
       return response.json();
     } catch (error) {
@@ -164,7 +213,8 @@ class ApiService {
 
   async getComponentes(): Promise<any[]> {
     const response = await fetch(`${this.baseUrl}/api/componentes`, {
-      credentials: 'include'
+      credentials: 'include',
+      headers: this.getAuthHeaders()
     });
     return response.json();
   }
