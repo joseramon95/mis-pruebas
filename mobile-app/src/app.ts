@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, Socio } from './api';
 import { config } from './config';
 
 const MAX_WAIT_TIME = 60000;
@@ -179,7 +179,7 @@ export class App {
       <div class="stats">
         <div class="stat-card">
           <span class="stat-number">${socios.length}</span>
-          <span class="stat-label">Socios</span>
+          <span class="stat-label">Socios Activos</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">${componentes.length}</span>
@@ -188,15 +188,20 @@ export class App {
       </div>
       
       <section class="section">
-        <h2>Socios</h2>
-        <div class="list">
+        <div class="section-header">
+          <h2>Socios</h2>
+          <button id="addSocioBtn" class="btn-primary">+ Agregar Socio</button>
+        </div>
+        <div class="list" id="sociosList">
           ${socios.length ? socios.map(s => `
-            <div class="item">
+            <div class="item ${!s.activo ? 'inactive' : ''}">
               <div class="item-info">
-                <strong>${s.title}</strong>
-                <span>${s.description || 'Sin descripción'}</span>
+                <strong>${s.nombre}</strong>
+                <span>${s.descripcion || 'Sin descripción'}</span>
               </div>
-              ${s.contact?.link ? `<a href="${s.contact.link}" target="_blank" class="btn-whatsapp">WhatsApp</a>` : ''}
+              <div class="item-actions">
+                ${s.whatsapp ? `<a href="${s.whatsapp}" target="_blank" class="btn-whatsapp">WhatsApp</a>` : ''}
+              </div>
             </div>
           `).join('') : '<p>No hay socios registrados</p>'}
         </div>
@@ -216,6 +221,99 @@ export class App {
         </div>
       </section>
     `;
+
+    document.getElementById('addSocioBtn')?.addEventListener('click', () => {
+      this.showSocioForm();
+    });
+  }
+
+  showSocioForm(socio?: Socio) {
+    const isEdit = !!socio;
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>${isEdit ? 'Editar Socio' : 'Nuevo Socio'}</h2>
+        <form id="socioForm">
+          <div class="form-group">
+            <label for="socioNombre">Nombre</label>
+            <input type="text" id="socioNombre" name="nombre" required value="${socio?.nombre || ''}">
+          </div>
+          <div class="form-group">
+            <label for="socioDescripcion">Descripción</label>
+            <textarea id="socioDescripcion" name="descripcion">${socio?.descripcion || ''}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="socioImagen">URL de Imagen</label>
+            <input type="text" id="socioImagen" name="imagen" value="${socio?.imagen || ''}">
+          </div>
+          <div class="form-group">
+            <label for="socioWhatsapp">WhatsApp (URL)</label>
+            <input type="text" id="socioWhatsapp" name="whatsapp" value="${socio?.whatsapp || ''}">
+          </div>
+          <div class="form-group">
+            <label for="socioOrden">Orden</label>
+            <input type="number" id="socioOrden" name="orden" value="${socio?.orden || 0}">
+          </div>
+          <div class="form-actions">
+            <button type="button" id="cancelBtn" class="btn-secondary">Cancelar</button>
+            <button type="submit" class="btn-primary">${isEdit ? 'Guardar' : 'Crear'}</button>
+          </div>
+        </form>
+        ${isEdit ? '<button id="deleteBtn" class="btn-danger">Eliminar Socio</button>' : ''}
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('cancelBtn')?.addEventListener('click', () => {
+      modal.remove();
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.remove();
+    });
+
+    document.getElementById('socioForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target as HTMLFormElement);
+      const socioData: Socio = {
+        nombre: formData.get('nombre') as string,
+        descripcion: formData.get('descripcion') as string,
+        imagen: formData.get('imagen') as string,
+        whatsapp: formData.get('whatsapp') as string,
+        orden: parseInt(formData.get('orden') as string) || 0,
+        activo: true
+      };
+
+      let result;
+      if (isEdit && socio?.id) {
+        result = await api.updateSocio(socio.id, socioData);
+      } else {
+        result = await api.createSocio(socioData);
+      }
+
+      if (result.success) {
+        modal.remove();
+        this.showDashboard();
+      } else {
+        alert(result.error || 'Error al guardar');
+      }
+    });
+
+    if (isEdit && socio?.id) {
+      document.getElementById('deleteBtn')?.addEventListener('click', async () => {
+        if (confirm('¿Estás seguro de eliminar este socio?')) {
+          const result = await api.deleteSocio(socio.id!);
+          if (result.success) {
+            modal.remove();
+            this.showDashboard();
+          } else {
+            alert(result.error || 'Error al eliminar');
+          }
+        }
+      });
+    }
   }
 }
 

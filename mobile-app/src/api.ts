@@ -1,5 +1,15 @@
 import { config } from './config';
 
+export interface Socio {
+  id?: number;
+  nombre: string;
+  descripcion: string;
+  imagen: string;
+  whatsapp: string;
+  activo: boolean;
+  orden: number;
+}
+
 export interface LoginResponse {
   success: boolean;
   error?: string;
@@ -25,18 +35,22 @@ class ApiService {
       const response = await fetch(`${this.baseUrl}/login`, {
         method: 'POST',
         body: formData,
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json'
-        }
+        credentials: 'include'
       });
 
-      if (response.redirected && response.url.includes('dashboard')) {
-        return { success: true };
+      if (response.status === 302) {
+        const redirectedUrl = response.url;
+        if (redirectedUrl.includes('dashboard')) {
+          return { success: true };
+        }
       }
 
       if (response.url.includes('login') && !response.url.includes('dashboard')) {
         return { success: false, error: 'Usuario o contraseña incorrectos' };
+      }
+
+      if (response.redirected) {
+        return { success: true };
       }
 
       return { success: true };
@@ -56,9 +70,10 @@ class ApiService {
   async checkAuth(): Promise<boolean> {
     try {
       const response = await fetch(`${this.baseUrl}/dashboard`, {
-        credentials: 'include'
+        credentials: 'include',
+        redirect: 'follow'
       });
-      return response.url.includes('dashboard');
+      return response.url.includes('dashboard') || response.status === 200;
     } catch {
       return false;
     }
@@ -85,6 +100,66 @@ class ApiService {
       credentials: 'include'
     });
     return response.json();
+  }
+
+  async getAllSocios(): Promise<any[]> {
+    const response = await fetch(`${this.baseUrl}/api/socios/all`, {
+      credentials: 'include'
+    });
+    if (!response.ok) throw new Error('Error al obtener socios');
+    return response.json();
+  }
+
+  async createSocio(socio: Socio): Promise<{ success: boolean; id?: number; error?: string }> {
+    try {
+      const response = await fetch(`${this.baseUrl}/api/socios`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(socio)
+      });
+      return response.json();
+    } catch (error) {
+      return { success: false, error: 'Error de conexión' };
+    }
+  }
+
+  async updateSocio(id: number, socio: Socio): Promise<{ success: boolean; error?: string }> {
+    try {
+      const response = await fetch(`${this.baseUrl}/api/socios/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(socio)
+      });
+      return response.json();
+    } catch (error) {
+      return { success: false, error: 'Error de conexión' };
+    }
+  }
+
+  async deleteSocio(id: number): Promise<{ success: boolean; error?: string }> {
+    try {
+      const response = await fetch(`${this.baseUrl}/api/socios/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      return response.json();
+    } catch (error) {
+      return { success: false, error: 'Error de conexión' };
+    }
+  }
+
+  async toggleSocio(id: number): Promise<{ success: boolean; activo?: boolean; error?: string }> {
+    try {
+      const response = await fetch(`${this.baseUrl}/api/socios/${id}/toggle`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+      return response.json();
+    } catch (error) {
+      return { success: false, error: 'Error de conexión' };
+    }
   }
 
   async getComponentes(): Promise<any[]> {

@@ -71,6 +71,12 @@ CORS(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+CORS(
+    app,
+    resources={r"/api/socios*": {"origins": ["*"], "supports_credentials": True}},
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 
 # Modelos
@@ -389,14 +395,102 @@ def api_socios():
         [
             {
                 "id": s.id,
-                "title": s.nombre,
-                "description": s.descripcion,
-                "image": s.imagen,
-                "contact": {"text": "Contactar por WhatsApp", "link": s.whatsapp},
+                "nombre": s.nombre,
+                "descripcion": s.descripcion,
+                "imagen": s.imagen,
+                "whatsapp": s.whatsapp,
+                "activo": s.activo,
+                "orden": s.orden,
             }
             for s in socios
         ]
     )
+
+
+@app.route("/api/socios/all")
+def api_socios_all():
+    if "user_id" not in session:
+        return jsonify({"error": "No autenticado"}), 401
+    socios = Socio.query.order_by(Socio.orden).all()
+    return jsonify(
+        [
+            {
+                "id": s.id,
+                "nombre": s.nombre,
+                "descripcion": s.descripcion,
+                "imagen": s.imagen,
+                "whatsapp": s.whatsapp,
+                "activo": s.activo,
+                "orden": s.orden,
+            }
+            for s in socios
+        ]
+    )
+
+
+@app.route("/api/socios", methods=["POST"])
+def api_socios_create():
+    if "user_id" not in session:
+        return jsonify({"error": "No autenticado"}), 401
+    data = request.get_json()
+    try:
+        orden_value = data.get("orden", 0)
+        socio = Socio(
+            nombre=data.get("nombre"),
+            descripcion=data.get("descripcion", ""),
+            imagen=data.get("imagen", ""),
+            whatsapp=data.get("whatsapp", ""),
+            orden=int(orden_value) if orden_value else 0,
+        )
+        db.session.add(socio)
+        db.session.commit()
+        log_accion("CREAR", "Socios", f"Nuevo socio: {socio.nombre}")
+        return jsonify({"success": True, "id": socio.id}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app.route("/api/socios/<int:id>", methods=["PUT"])
+def api_socios_update(id):
+    if "user_id" not in session:
+        return jsonify({"error": "No autenticado"}), 401
+    socio = Socio.query.get_or_404(id)
+    data = request.get_json()
+    try:
+        socio.nombre = data.get("nombre", socio.nombre)
+        socio.descripcion = data.get("descripcion", socio.descripcion)
+        socio.imagen = data.get("imagen", socio.imagen)
+        socio.whatsapp = data.get("whatsapp", socio.whatsapp)
+        socio.orden = data.get("orden", socio.orden)
+        db.session.commit()
+        log_accion("EDITAR", "Socios", f"Socio modificado: {socio.nombre}")
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app.route("/api/socios/<int:id>", methods=["DELETE"])
+def api_socios_delete(id):
+    if "user_id" not in session:
+        return jsonify({"error": "No autenticado"}), 401
+    socio = Socio.query.get_or_404(id)
+    nombre = socio.nombre
+    db.session.delete(socio)
+    db.session.commit()
+    log_accion("ELIMINAR", "Socios", f"Socio eliminado: {nombre}")
+    return jsonify({"success": True})
+
+
+@app.route("/api/socios/<int:id>/toggle", methods=["POST"])
+def api_socios_toggle(id):
+    if "user_id" not in session:
+        return jsonify({"error": "No autenticado"}), 401
+    socio = Socio.query.get_or_404(id)
+    socio.activo = not socio.activo
+    db.session.commit()
+    estado = "activó" if socio.activo else "desactivó"
+    log_accion("TOGGLE", "Socios", f"{estado} socio: {socio.nombre}")
+    return jsonify({"success": True, "activo": socio.activo})
 
 
 @app.route("/api/componentes")
