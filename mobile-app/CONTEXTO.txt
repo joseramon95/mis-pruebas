@@ -1,0 +1,32 @@
+CONTEXTO - BUILD APK ANDROID
+=============================
+
+PROYECTO: mobile-app (E3 Admin Mobile)
+FRAMEWORK: Capacitor + Vite + TypeScript
+UBICACIÓN: C:\Users\Desktop\mis-pruebas\mobile-app
+
+ESTADO ACTUAL:
+- ✅ Código de la app listo
+- ✅ Java JDK 17 instalado en C:\Users\Naru\jdk-17.0.2
+- ✅ Variables JAVA_HOME configuradas
+- ❌ Android SDK NO instalado
+- ❌ google-services.json eliminado del build
+
+API: Render (no Firebase)
+
+QUE FALTA MAÑANA:
+=================
+
+1. DESCARGAR ANDROID SDK
+   - Descargar: https://dl.google.com/android/repository/commandlinetools-win-11076708_latest.zip
+   - Extraer en: C:\Users\Naru\AppData\Local\Android\sdk\cmdline-tools\latest
+   - Ejecutar sdkmanager para instalar plataformas
+
+2. COMPILAR APK
+   - Ejecutar: npx cap sync android
+   - Ejecutar: cd android && gradlew assembleDebug
+   - El APK se genera en: android/app/build/outputs/apk/debug/
+
+NOTAS:
+- La build debe generar un APKdebug para testing
+- Si hay problemas, el archivo BUILD_ERRORS.txt tiene soluciones
