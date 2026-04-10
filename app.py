@@ -41,11 +41,36 @@ def before_request():
         app.config["SESSION_COOKIE_SECURE"] = False
 
 
-CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
-CORS(app, resources={r"/health": {"origins": "*"}})
-CORS(app, resources={r"/login": {"origins": "*"}}, supports_credentials=True)
-CORS(app, resources={r"/dashboard": {"origins": "*"}}, supports_credentials=True)
-CORS(app, resources={r"/logout": {"origins": "*"}}, supports_credentials=True)
+CORS(
+    app,
+    resources={r"/api/*": {"origins": ["*"], "supports_credentials": True}},
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+CORS(
+    app,
+    resources={r"/health": {"origins": ["*"]}},
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+CORS(
+    app,
+    resources={r"/login": {"origins": ["*"], "supports_credentials": True}},
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+CORS(
+    app,
+    resources={r"/dashboard": {"origins": ["*"], "supports_credentials": True}},
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+CORS(
+    app,
+    resources={r"/logout": {"origins": ["*"], "supports_credentials": True}},
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 
 # Modelos
