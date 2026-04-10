@@ -204,55 +204,50 @@
         <div class="proyectos-contenido">
             <div class="proyectos-placeholder">
                 <span class="emoji"><i class="fas fa-rocket" style="font-size: 3rem;"></i></span>
-                <p class="mensaje"><strong>Proyectos de Testing & Automatización</strong></p>
+                <p class="mensaje"><strong>Proyectos de Desarrollo Web</strong></p>
             </div>
 
             <div class="proyecto">
-                <a class="proyecto-test" href="proyectos/tests_creados.html">
+                <a class="proyecto-test" href="#">
                     <div class="proyecto-card">
-                        <i class="fas fa-vials"></i>
-                        <h4>Suite de Pruebas Automatizadas</h4>
-                        <p>Framework completo con Selenium, PyTest y unittest para testing de sistemas de inventario</p>
+                        <i class="fas fa-server"></i>
+                        <h4>E3 Admin – API REST y Panel de Administración</h4>
+                        <p>Desarrollo de backend REST con panel administrativo para gestión de contenido de una consultora. Implementación de API REST con endpoints para gestión de socios, componentes y usuarios. Desarrollo de CRUD completo con persistencia en PostgreSQL. Sistema de autenticación de usuarios. Creación de panel web (dashboard) para administración interna. Despliegue en la nube utilizando Render + Gunicorn.</p>
+                        <span class="tech-tag">Python (Flask)</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">SQLAlchemy</span>
+                        <span class="tech-tag">Gunicorn</span>
+                        <span class="tech-tag">Render</span>
+                        <button class="btn-neon" onclick="window.open('https://e3-admin-api.onrender.com/dashboard', '_blank')">VER PROYECTO</button>
                     </div>
                 </a>
             </div>
 
             <div class="proyecto">
-                <a class="proyecto-railways" href="proyectos/proyecto_railways.html">
+                <a class="proyecto-railways" href="#">
                     <div class="proyecto-card">
-                        <i class="fas fa-tasks"></i>
-                        <h4>Gestor de Tareas - Flask</h4>
-                        <p>Sistema de autenticación y gestión de tareas con Flask, SQLite y Flask-Login desplegado en Railway</p>
+                        <i class="fas fa-globe"></i>
+                        <h4>E³ – Sitio Web Corporativo (Frontend con Astro)</h4>
+                        <p>Desarrollo de sitio web corporativo moderno con renderizado SSR e integración con API backend. Construcción de landing page responsiva (Hero, About, servicios, CTA). Implementación de componentes dinámicos (carousel, formularios, secciones modulares). Integración con API REST para consumo de datos en tiempo real. Optimización de rendimiento mediante SSR con Astro. Despliegue en Vercel.</p>
+                        <span class="tech-tag">Astro v6</span>
+                        <span class="tech-tag">Tailwind CSS</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Vercel</span>
+                        <button class="btn-neon" onclick="window.open('https://mis-pruebas.vercel.app', '_blank')">VER PROYECTO</button>
                     </div>
                 </a>
             </div>
 
             <div class="proyecto">
-                <a class="proyecto-YouTube" href="proyectos/descargador_yt.html">
+                <a class="proyecto-YouTube" href="#">
                     <div class="proyecto-card">
-                        <i class="fas fa-video"></i>
-                        <h4>API Testing - Postman</h4>
-                        <p>Colección completa de pruebas API REST para validación de endpoints y respuestas</p>
-                    </div>
-                </a>
-            </div>
-
-            <div class="proyecto">
-                <a class="proyecto-test" href="proyectos/api_postman.html">
-                    <div class="proyecto-card">
-                        <i class="fas fa-network-wired"></i>
-                        <h4>Automatización API</h4>
-                        <p>Scripts en Python para testing automatizado de APIs REST con validación de respuestas</p>
-                    </div>
-                </a>
-            </div>
-
-            <div class="proyecto">
-                <a class="proyecto-test" href="proyectos/selenium_framework.html">
-                    <div class="proyecto-card">
-                        <i class="fab fa-chrome"></i>
-                        <h4>Selenium Framework</h4>
-                        <p>Framework de automatización web con Page Object Model y reportes HTML automáticos</p>
+                        <i class="fas fa-briefcase"></i>
+                        <h4>E³ – Portafolio Web (Versión Alternativa)</h4>
+                        <p>Desarrollo de versión alternativa del sitio corporativo enfocada en presentación de servicios y portafolio. Diseño de interfaz moderna y adaptable. Consumo de API externa para contenido dinámico. Implementación de formularios de contacto. Estructura optimizada para despliegue en la nube.</p>
+                        <span class="tech-tag">Astro v6</span>
+                        <span class="tech-tag">Tailwind CSS</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <button class="btn-neon">VER PROYECTO</button>
                     </div>
                 </a>
             </div>
@@ -345,5 +340,13 @@
     <script src="src/script_navbar.js"></script>
     <script src="src/script_tooltips.js"></script>
     <script src="src/validación_formulario.js"></script>
+    <script>
+        document.querySelectorAll('.btn-neon').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+    </script>
 </body>
 </html>
