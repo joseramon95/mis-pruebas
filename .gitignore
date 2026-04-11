@@ -11,3 +11,9 @@ prueba.html
 *.log
 *.keystore
 android/gradle.properties
+SESION-TRABAJO.md
+package-lock.json
+proyectos-descripcion.txt
+.ruff_cache/
+.astro/
+AGENTS.md
