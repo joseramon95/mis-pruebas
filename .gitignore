@@ -21,3 +21,4 @@ PENDIENTES_RENDER.txt
 __pycache__/
 instance/
 *.db
+GUIAS/
