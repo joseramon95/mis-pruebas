@@ -21,8 +21,6 @@ tmp/
 temp/
 *.tmp
 errores-e3.txt
-FLUJO_DEPENDENCIAS.md
-API_ENDPOINTS_REQUERIDOS.txt
 
 # Builds
 build/
@@ -33,3 +31,51 @@ out/
 .env.local
 .env.*.local
 *.local
+
+# Django/Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+*.db
+instance/
+venv/
+.venv/
+*.pot
+*.log
+
+# Astro
+.astro/
+
+# Capacitor/Android
+android/
+*.keystore
+*.jks
+
+# Flask
+.flaskenv
+.ruff_cache/
+logs/
+
+# Documentación local
+FLUJO_DEPENDENCIAS.md
+API_ENDPOINTS_REQUERIDOS.txt
+SESION-TRABAJO.md
+proyectos-descripcion.txt
+PENDIENTES_RENDER.txt
+AGENTS.md
+
+# Misceláneos
+.vercel
+file-organizer-cli/
+test-files/
+prueba.html
+package-lock.json
+
+# Proyectos específicos (ignorar carpetas de otras ramas)
+GUIAS/
+IDEAS/

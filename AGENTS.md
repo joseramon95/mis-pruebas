@@ -118,3 +118,48 @@ Solo hacer commit de archivos que:
 - Sean assets necesarios para el proyecto
 
 TODO: Revisar y actualizar esta lista según las necesidades específicas de cada proyecto.
+
+## 5. Gitignore - Regla de Unificación
+
+**IMPORTANTE:** El `.gitignore` DEBE ser igual en TODAS las ramas del repositorio para evitar mezcla de archivos entre proyectos.
+
+### Carpetas/Archivos que DEBEN estar ignorados en todas las ramas:
+
+```
+# Proyectos específicos (evitar mezcla entre ramas)
+GUIAS/
+IDEAS/
+
+# Python/Flask
+__pycache__/
+*.db
+instance/
+venv/
+.venv/
+.flaskenv
+.ruff_cache/
+logs/
+
+# Astro
+.astro/
+
+# Android/Capacitor
+android/
+*.keystore
+*.jks
+
+# Documentación local que no debe compartirse
+FLUJO_DEPENDENCIAS.md
+API_ENDPOINTS_REQUERIDOS.txt
+SESION-TRABAJO.md
+proyectos-descripcion.txt
+PENDIENTES_RENDER.txt
+AGENTS.md
+errores-e3.txt
+```
+
+### Al crear una nueva rama:
+
+1. Copiar el `.gitignore` de la rama principal
+2. Agregar solo lo específico de la nueva rama si es necesario
+3. NUNCA eliminar los patrones de otras ramas (mantener unificado)
