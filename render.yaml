@@ -10,7 +10,7 @@ services:
     plan: free
     autoDeploy: true
     branch: api
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && (flask db current 2>/dev/null || flask db stamp head) && flask db upgrade
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
     healthCheckPath: /api/health
     envVars:

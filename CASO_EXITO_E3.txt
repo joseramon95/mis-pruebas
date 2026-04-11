@@ -1,0 +1,72 @@
+CASO DE ÉXITO: E³ Consultora
+=============================
+
+EMPRESA
+-------
+E³ Consultora - Empresa de asesoría empresarial
+
+DESAFÍO
+-------
+E³ necesitaba una presencia web profesional que combinara:
+- Página web moderna y responsive
+- Panel administrativo para gestionar contenido
+- API para comunicación con aplicaciones móviles
+- Despliegue automático de cambios
+
+SOLUCIÓN
+--------
+Stack tecnológico moderno y escalable:
+
+FRONTEND
+- Framework: Astro (generación estática + islands)
+- Despliegue: Vercel
+- Estilos: Tailwind CSS
+- Rama: astro
+
+BACKEND / API
+- Framework: Flask (Python)
+- Base de datos: PostgreSQL
+- Despliegue: Render
+- Rama: api
+
+DASHBOARD ADMINISTRATIVO
+- CRUD completo para:
+  * Socios comerciales
+  * Componentes dinámicos
+  * Casos de éxito
+  * Usuarios del sistema
+- Logging de acciones
+- Panel de control con estadísticas
+
+ARQUITECTURA
+------------
+- Repositorio monorepo con ramas separadas por proyecto
+- API REST con endpoints documentados
+- CI/CD automático en cada push
+- Base de datos relacional PostgreSQL
+
+TECNOLOGÍAS
+-----------
+- Frontend: Astro, Tailwind CSS, TypeScript
+- Backend: Flask, Flask-SQLAlchemy, Flask-CORS
+- Base de datos: PostgreSQL
+- DevOps: Vercel (frontend), Render (backend), GitHub
+- Herramientas: Gunicorn, python-dotenv
+
+RESULTADOS
+----------
+- Despliegue automático en cada commit
+- Separation of concerns clara entre frontend y API
+- Panel administrativo funcional para gestión de contenido
+- Escalabilidad gracias a servicios cloud (Vercel + Render)
+- Mantenimiento sencillo con ramas dedicadas
+
+ENLACES
+-------
+- Frontend: https://e3-consultora.vercel.app
+- API: https://e3-api.onrender.com
+- Dashboard: /admin
+
+CONTACTO
+--------
+Para más información sobre este proyecto o similares, contactar al equipo de desarrollo.

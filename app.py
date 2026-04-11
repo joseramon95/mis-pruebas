@@ -9,6 +9,7 @@ from flask import (
     flash,
 )
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -28,6 +29,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 is_production = (
     os.environ.get("FLASK_ENV") == "production"
@@ -828,7 +830,7 @@ def init_db():
         db.session.commit()
 
 
-init_db()
+# init_db()  # Deshabilitado - ahora usa migraciones
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
