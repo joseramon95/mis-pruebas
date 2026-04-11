@@ -17,3 +17,5 @@ proyectos-descripcion.txt
 .ruff_cache/
 .astro/
 AGENTS.md
+PENDIENTES_RENDER.txt
+__pycache__/
