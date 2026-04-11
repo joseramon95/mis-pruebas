@@ -14,6 +14,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "e3-admin-secret-key-2026"
@@ -129,6 +132,22 @@ class Log(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     usuario = db.relationship("Usuario", backref="logs")
+
+
+class CasoExito(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String(100), unique=True, nullable=False)
+    titulo = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.Text)
+    imagen = db.Column(db.Text)
+    contenido = db.Column(db.Text)
+    resultados = db.Column(db.Text)
+    autor_testimonio = db.Column(db.String(100))
+    cargo_testimonio = db.Column(db.String(100))
+    texto_testimonio = db.Column(db.Text)
+    activo = db.Column(db.Boolean, default=True)
+    orden = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 # Decorador para proteger rutas
@@ -411,12 +430,10 @@ def api_socios():
         [
             {
                 "id": s.id,
-                "nombre": s.nombre,
-                "descripcion": s.descripcion,
-                "imagen": s.imagen,
-                "whatsapp": s.whatsapp,
-                "activo": s.activo,
-                "orden": s.orden,
+                "title": s.nombre,
+                "description": s.descripcion,
+                "image": s.imagen,
+                "contact": {"text": "Contactar", "link": s.whatsapp},
             }
             for s in socios
         ]
@@ -527,6 +544,95 @@ def api_componentes():
     )
 
 
+@app.route("/api/componentes/<nombre>")
+def api_componente_nombre(nombre):
+    componente = Componente.query.filter_by(nombre=nombre).first()
+    if not componente:
+        return jsonify({"error": "Componente no encontrado"}), 404
+    return jsonify(
+        {
+            "nombre": componente.nombre,
+            "titulo": componente.titulo,
+            "subtitulo": componente.subtitulo,
+            "contenido": componente.contenido,
+            "link": componente.link,
+            "extra_data": componente.extra_data,
+        }
+    )
+
+
+@app.route("/api/contenido/soluciones")
+def api_soluciones():
+    casos = CasoExito.query.filter_by(activo=True).order_by(CasoExito.orden).all()
+    testimonios = []
+    for c in casos:
+        if c.texto_testimonio:
+            testimonios.append(
+                {
+                    "autor": c.autor_testimonio,
+                    "cargo": c.cargo_testimonio,
+                    "texto": c.texto_testimonio,
+                }
+            )
+        else:
+            testimonios.append(None)
+
+    return jsonify(
+        {
+            "titulo": "Casos de Éxito",
+            "subtitulo": "Descubre cómo hemos ayudado a organizaciones a transformar su incertidumbre en crecimiento.",
+            "casos": [
+                {
+                    "id": c.id,
+                    "slug": c.slug,
+                    "titulo": c.titulo,
+                    "descripcion": c.descripcion,
+                    "imagen": c.imagen,
+                    "testimonio": testimonios[i],
+                }
+                for i, c in enumerate(casos)
+            ],
+        }
+    )
+
+
+@app.route("/api/contenido/soluciones/<slug>")
+def api_solucion_detalle(slug):
+    caso = CasoExito.query.filter_by(slug=slug, activo=True).first()
+    if not caso:
+        return jsonify({"error": "Caso no encontrado"}), 404
+
+    import json
+
+    resultados = []
+    if caso.resultados:
+        try:
+            resultados = json.loads(caso.resultados)
+        except:
+            resultados = []
+
+    testimonio = None
+    if caso.texto_testimonio:
+        testimonio = {
+            "autor": caso.autor_testimonio,
+            "cargo": caso.cargo_testimonio,
+            "texto": caso.texto_testimonio,
+        }
+
+    return jsonify(
+        {
+            "id": caso.id,
+            "slug": caso.slug,
+            "titulo": caso.titulo,
+            "descripcion": caso.descripcion,
+            "imagen": caso.imagen,
+            "contenido": caso.contenido,
+            "resultados": resultados,
+            "testimonio": testimonio,
+        }
+    )
+
+
 # Inicializar base de datos
 def init_db():
     with app.app_context():
@@ -581,6 +687,38 @@ def init_db():
         for c in componentes_default:
             if not Componente.query.filter_by(nombre=c["nombre"]).first():
                 db.session.add(Componente(**c))
+
+        # Crear casos de ejemplo si no existen
+        casos_default = [
+            {
+                "slug": "transformacion-empresarial",
+                "titulo": "Transformación Empresarial",
+                "descripcion": "Implementación de estrategia integral de resiliencia organizacional.",
+                "imagen": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600",
+                "contenido": "Trabajamos con una empresa del sector manufacturero para transformar su estructura organizacional.",
+                "resultados": '["Incremento del 40% en eficiencia operativa", "Reducción del 25% en costos de operación"]',
+            },
+            {
+                "slug": "analisis-de-mercado",
+                "titulo": "Análisis de Mercado",
+                "descripcion": "Estudio profundo del sector que permitió decisiones estratégicas fundamentadas.",
+                "imagen": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600",
+                "contenido": "Realizamos un análisis exhaustivo del mercado.",
+                "resultados": '["Identificación de 3 nuevos segmentos de mercado", "Incremento del 60% en clientes"]',
+            },
+            {
+                "slug": "planificacion-estrategica",
+                "titulo": "Planificación Estratégica",
+                "descripcion": "Desarrollo de hoja de ruta para expansión con análisis de riesgo.",
+                "imagen": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600",
+                "contenido": "Desarrollamos un plan estratégico completo.",
+                "resultados": '["Plan de expansión a 3 nuevos mercados", "Estructura organizacional para escalar 10x"]',
+            },
+        ]
+
+        for c in casos_default:
+            if not CasoExito.query.filter_by(slug=c["slug"]).first():
+                db.session.add(CasoExito(**c))
 
         db.session.commit()
 
