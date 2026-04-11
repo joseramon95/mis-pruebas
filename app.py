@@ -14,6 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -240,6 +241,7 @@ def dashboard():
         "logs_hoy": Log.query.filter(
             db.func.date(Log.timestamp) == datetime.now().date()
         ).count(),
+        "casos_exito": CasoExito.query.count(),
     }
     logs_recientes = Log.query.order_by(Log.timestamp.desc()).limit(10).all()
     return render_template("dashboard.html", stats=stats, logs=logs_recientes)
@@ -349,6 +351,109 @@ def editar_componente(id):
         return redirect(url_for("listar_componentes"))
 
     return render_template("componentes/form.html", componente=componente)
+
+
+# CRUD Casos de Éxito
+@app.route("/casos")
+@login_required
+def listar_casos():
+    casos = CasoExito.query.order_by(CasoExito.orden).all()
+    return render_template("casos/lista.html", casos=casos)
+
+
+@app.route("/casos/nuevo", methods=["GET", "POST"])
+@login_required
+def nuevo_caso():
+    if request.method == "POST":
+        resultados_text = request.form.get("resultados", "")
+        resultados_json = (
+            json.dumps([r.strip() for r in resultados_text.split("\n") if r.strip()])
+            if resultados_text.strip()
+            else None
+        )
+
+        caso = CasoExito(
+            slug=request.form.get("slug"),
+            titulo=request.form.get("titulo"),
+            descripcion=request.form.get("descripcion", ""),
+            imagen=request.form.get("imagen", ""),
+            contenido=request.form.get("contenido", ""),
+            resultados=resultados_json,
+            autor_testimonio=request.form.get("autor_testimonio", ""),
+            cargo_testimonio=request.form.get("cargo_testimonio", ""),
+            texto_testimonio=request.form.get("texto_testimonio", ""),
+            orden=int(request.form.get("orden", 0)) if request.form.get("orden") else 0,
+        )
+        db.session.add(caso)
+        db.session.commit()
+        log_accion("CREAR", "Casos", f"Nuevo caso: {caso.titulo}")
+        flash("Caso de éxito creado", "success")
+        return redirect(url_for("listar_casos"))
+
+    return render_template("casos/form.html", caso=None)
+
+
+@app.route("/casos/editar/<int:id>", methods=["GET", "POST"])
+@login_required
+def editar_caso(id):
+    caso = CasoExito.query.get_or_404(id)
+
+    if request.method == "POST":
+        resultados_text = request.form.get("resultados", "")
+        caso.resultados = (
+            json.dumps([r.strip() for r in resultados_text.split("\n") if r.strip()])
+            if resultados_text.strip()
+            else None
+        )
+
+        caso.slug = request.form.get("slug")
+        caso.titulo = request.form.get("titulo")
+        caso.descripcion = request.form.get("descripcion", "")
+        caso.imagen = request.form.get("imagen", "")
+        caso.contenido = request.form.get("contenido", "")
+        caso.autor_testimonio = request.form.get("autor_testimonio", "")
+        caso.cargo_testimonio = request.form.get("cargo_testimonio", "")
+        caso.texto_testimonio = request.form.get("texto_testimonio", "")
+        caso.orden = (
+            int(request.form.get("orden", 0)) if request.form.get("orden") else 0
+        )
+
+        db.session.commit()
+        log_accion("EDITAR", "Casos", f"Caso modificado: {caso.titulo}")
+        flash("Caso de éxito actualizado", "success")
+        return redirect(url_for("listar_casos"))
+
+    resultados_list = []
+    if caso.resultados:
+        try:
+            resultados_list = json.loads(caso.resultados)
+        except:
+            pass
+
+    return render_template("casos/form.html", caso=caso, resultados=resultados_list)
+
+
+@app.route("/casos/eliminar/<int:id>", methods=["POST"])
+@login_required
+def eliminar_caso(id):
+    caso = CasoExito.query.get_or_404(id)
+    titulo = caso.titulo
+    db.session.delete(caso)
+    db.session.commit()
+    log_accion("ELIMINAR", "Casos", f"Caso eliminado: {titulo}")
+    flash("Caso de éxito eliminado", "success")
+    return redirect(url_for("listar_casos"))
+
+
+@app.route("/casos/toggle/<int:id>", methods=["POST"])
+@login_required
+def toggle_caso(id):
+    caso = CasoExito.query.get_or_404(id)
+    caso.activo = not caso.activo
+    db.session.commit()
+    estado = "activó" if caso.activo else "desactivó"
+    log_accion("TOGGLE", "Casos", f"{estado} caso: {caso.titulo}")
+    return jsonify({"success": True, "activo": caso.activo})
 
 
 # CRUD Usuarios
