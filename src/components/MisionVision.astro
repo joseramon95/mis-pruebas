@@ -3,7 +3,6 @@ import { getComponente } from '../data/componentes';
 
 const componente = await getComponente('MisionVision');
 const titulo = componente?.titulo || 'Misión y Visión';
-const contenido = componente?.contenido || '';
 const extraData = componente?.extra_data ? JSON.parse(componente.extra_data) : {};
 
 const mision = extraData.mision || 'Brindar soluciones estratégicas de alta complejidad mediante el rigor del análisis económico y la precisión política, transformando la incertidumbre en estructuras sólidas de crecimiento para nuestros clientes.';
@@ -20,50 +19,56 @@ const lemaFinal = extraData.lemaFinal || 'Estructura sobre la roca, resultados e
 		</h2>
 
 		<div class="grid md:grid-cols-2 gap-8 mb-12">
-			<div class="bg-white rounded-lg p-8 border-l-4 border-navy-800 shadow-lg hover:shadow-2xl transition-all border-r-2 border-gold-400">
-				<div class="flex items-center gap-3 mb-4">
-					<div class="w-10 h-10 text-gold-500">
-						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-						</svg>
+			<div class="neon-box relative p-1">
+				<div class="neon-inner bg-white rounded-xl p-8 relative h-full">
+					<div class="flex items-center gap-3 mb-4">
+						<div class="w-10 h-10 text-gold-500">
+							<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+							</svg>
+						</div>
+						<h3 class="text-2xl font-bold text-navy-800">Nuestra Misión</h3>
 					</div>
-					<h3 class="text-2xl font-bold text-navy-800">Nuestra Misión</h3>
+					<p class="text-slate-600 leading-relaxed">
+						{mision}
+					</p>
 				</div>
-				<p class="text-slate-600 leading-relaxed">
-					{mision}
-				</p>
 			</div>
 
-			<div class="bg-white rounded-lg p-8 border-l-4 border-gold-500 shadow-lg hover:shadow-2xl transition-all border-r-2 border-navy-800">
-				<div class="flex items-center gap-3 mb-4">
-					<div class="w-10 h-10 text-gold-500">
-						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-						</svg>
+			<div class="neon-box relative p-1">
+				<div class="neon-inner bg-white rounded-xl p-8 relative h-full">
+					<div class="flex items-center gap-3 mb-4">
+						<div class="w-10 h-10 text-gold-500">
+							<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+							</svg>
+						</div>
+						<h3 class="text-2xl font-bold text-navy-800">Nuestra Visión</h3>
 					</div>
-					<h3 class="text-2xl font-bold text-navy-800">Nuestra Visión</h3>
+					<p class="text-slate-600 leading-relaxed">
+						{vision}
+					</p>
 				</div>
-				<p class="text-slate-600 leading-relaxed">
-					{vision}
+			</div>
+		</div>
+
+		<div class="neon-box relative p-1 mb-12">
+			<div class="neon-inner bg-white rounded-xl p-12 text-center relative">
+				<p class="text-2xl font-bold text-navy-800 italic mb-6">
+					{lema}
+				</p>
+				<p class="text-slate-600 leading-relaxed mb-6">
+					{lemaAdicional}
+				</p>
+				<p class="text-lg font-bold text-navy-700 pt-4 border-t-2 border-gold-500">
+					{lemaFinal}
 				</p>
 			</div>
 		</div>
 
-		<div class="bg-white rounded-lg p-12 border-2 border-gold-500 text-center mb-12 shadow-xl shadow-gold-200/50">
-			<p class="text-2xl font-bold text-navy-800 italic mb-6">
-				{lema}
-			</p>
-			<p class="text-slate-600 leading-relaxed mb-6">
-				{lemaAdicional}
-			</p>
-			<p class="text-lg font-bold text-navy-700 pt-4 border-t-2 border-gold-500">
-				{lemaFinal}
-			</p>
-		</div>
-
-		<div class="bg-gradient-to-r from-navy-800 to-navy-900 rounded-lg p-8 text-white border-2 border-gold-500 shadow-xl">
+		<div class="bg-gradient-to-br from-navy-800 to-gold-500 rounded-xl p-8 text-white shadow-xl">
 			<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
 				<div class="w-8 h-8 text-gold-400">
 					<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,7 +78,7 @@ const lemaFinal = extraData.lemaFinal || 'Estructura sobre la roca, resultados e
 				Nuestros Pilares
 			</h3>
 			<div class="grid md:grid-cols-3 gap-6">
-				<div class="text-center">
+				<div class="text-center p-4 rounded-lg bg-white/10 backdrop-blur-sm">
 					<div class="w-14 h-14 mx-auto mb-3 text-gold-400">
 						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
@@ -82,7 +87,7 @@ const lemaFinal = extraData.lemaFinal || 'Estructura sobre la roca, resultados e
 					<p class="font-semibold">Precisión Analítica</p>
 					<p class="text-sm text-white/70 mt-2">Rigor económico y estratégico</p>
 				</div>
-				<div class="text-center">
+				<div class="text-center p-4 rounded-lg bg-white/10 backdrop-blur-sm">
 					<div class="w-14 h-14 mx-auto mb-3 text-gold-400">
 						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -91,7 +96,7 @@ const lemaFinal = extraData.lemaFinal || 'Estructura sobre la roca, resultados e
 					<p class="font-semibold">Integridad Institucional</p>
 					<p class="text-sm text-white/70 mt-2">Ética y solidez garantizada</p>
 				</div>
-				<div class="text-center">
+				<div class="text-center p-4 rounded-lg bg-white/10 backdrop-blur-sm">
 					<div class="w-14 h-14 mx-auto mb-3 text-gold-400">
 						<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
@@ -104,3 +109,30 @@ const lemaFinal = extraData.lemaFinal || 'Estructura sobre la roca, resultados e
 		</div>
 	</div>
 </section>
+
+<style>
+	.neon-box {
+		background: linear-gradient(135deg, #fde68a 0%, #fcd34d 50%, #fbbf24 100%);
+	}
+
+	.neon-inner {
+		box-shadow: 
+			inset 0 0 20px rgba(251, 191, 36, 0.4),
+			inset 3px 0 15px rgba(251, 191, 36, 0.5),
+			inset -3px 0 15px rgba(251, 191, 36, 0.5),
+			0 0 50px rgba(251, 191, 36, 0.3),
+			0 0 100px rgba(251, 191, 36, 0.15),
+			0 10px 30px rgba(0, 0, 0, 0.08);
+		transition: all 0.4s ease;
+	}
+
+	.neon-box:hover .neon-inner {
+		box-shadow: 
+			inset 0 0 30px rgba(251, 191, 36, 0.5),
+			inset 4px 0 20px rgba(251, 191, 36, 0.6),
+			inset -4px 0 20px rgba(251, 191, 36, 0.6),
+			0 0 80px rgba(251, 191, 36, 0.4),
+			0 0 150px rgba(251, 191, 36, 0.2),
+			0 15px 40px rgba(0, 0, 0, 0.1);
+	}
+</style>

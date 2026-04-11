@@ -7,7 +7,7 @@ export interface Componente {
     extra_data: string;
 }
 
-const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.PUBLIC_API_URL || 'https://e3-admin-api.onrender.com';
 
 export async function fetchComponentes(): Promise<Componente[]> {
     try {

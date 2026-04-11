@@ -1,4 +1,14 @@
 ---
+const currentPath = Astro.url.pathname;
+const isSubPage = currentPath.startsWith('/soluciones') || currentPath === '/cotizaciones';
+
+const getLink = (section: string) => {
+    return isSubPage ? `/${section}` : section;
+};
+
+const getAnchorLink = (section: string) => {
+    return isSubPage ? `/${section}` : section;
+};
 ---
 
 <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
@@ -10,21 +20,21 @@
 			</a>
 
 			<div class="hidden md:flex items-center gap-1">
-				<a href="#quienes-somos" class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href={getAnchorLink('#quienes-somos')} class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
 					Quiénes Somos
 				</a>
-				<a href="#mision-vision" class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href={getAnchorLink('#mision-vision')} class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
 					Misión y Visión
 				</a>
-				<a href="#soluciones" class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href="/soluciones" class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
 					Soluciones
 				</a>
-				<a href="#contacto" class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href={getAnchorLink('#contacto')} class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
 					Contacto
 				</a>
 			</div>
 
-			<a href="/cotizaciones" target="_blank" class="hidden md:inline-flex items-center gap-2 bg-navy-800 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-navy-900 transition-all hover:shadow-lg border-2 border-gold-500 hover:-translate-y-0.5">
+			<a href="/cotizaciones" class="hidden md:inline-flex items-center gap-2 bg-navy-800 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-navy-900 transition-all hover:shadow-lg border-2 border-gold-500 hover:-translate-y-0.5">
 				Cotiza con Nosotros
 			</a>
 
@@ -37,10 +47,10 @@
 
 		<div id="mobile-menu" class="hidden md:hidden pb-4">
 			<div class="flex flex-col gap-1 pt-2 border-t border-gray-100">
-				<a href="#quienes-somos" class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Quiénes Somos</a>
-				<a href="#mision-vision" class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Misión y Visión</a>
-				<a href="#soluciones" class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Soluciones</a>
-				<a href="#contacto" class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Contacto</a>
+				<a href={getAnchorLink('#quienes-somos')} class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Quiénes Somos</a>
+				<a href={getAnchorLink('#mision-vision')} class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Misión y Visión</a>
+				<a href="/soluciones" class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Soluciones</a>
+				<a href={getAnchorLink('#contacto')} class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Contacto</a>
 			</div>
 		</div>
 	</nav>

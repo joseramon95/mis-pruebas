@@ -1,0 +1,16 @@
+Quiénes Somos
+
+En E³, nuestra misión es fortalecer el núcleo vital de las organizaciones mediante la inteligencia económica y la estrategia política de alto nivel. Bajo el lema “Estructura sobre la roca, resultados en la abundancia”, nuestra fortaleza radica en la fusión de un análisis económico riguroso con la precisión política; una combinación única que permite a nuestros clientes edificar organizaciones verdaderamente resilientes, éticas e inquebrantables.
+
+Descripción del Componente
+Este componente se basa en un cuadro de contenido blanco. La clave del efecto "neon-backlight" y "biselado" se logra mediante el uso de múltiples sombras de caja (box-shadow), tanto internas (inset) como externas.
+
+Cuadro de Contenido: Un rectángulo blanco sólido, con un ligero redondeo en las esquinas para suavizarlo.
+
+Efecto de Neón Biselado: Se utilizan sombras internas (inset) muy nítidas y brillantes en los lados izquierdo y derecho. Esto crea la ilusión de un "bisel" de neón que está dentro del cuadro blanco, pero que lo ilumina.
+
+Iluminación Trasera (Backlight): Se utilizan sombras externas difusas que "salen" de los lados del cuadro, proyectando una luz suave hacia atrás, como si el panel de neón estuviera montado detrás del cuadro principal.
+
+
+
+en soluciones implementar una pagina que muestre casos cumplidos has un caso de la api del proyecto con imajenes ilustrativas y un testimonio con un texto explicando que se hizo ( el texto se deja pendidnte)

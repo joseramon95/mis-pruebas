@@ -3,3 +3,33 @@ dist/
 .env
 node_modules
 nul
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos temporales
+tmp/
+temp/
+*.tmp
+errores-e3.txt
+FLUJO_DEPENDENCIAS.md
+API_ENDPOINTS_REQUERIDOS.txt
+
+# Builds
+build/
+out/
+*.egg-info/
+
+# Configuración local
+.env.local
+.env.*.local
+*.local

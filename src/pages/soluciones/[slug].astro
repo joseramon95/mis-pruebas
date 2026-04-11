@@ -1,0 +1,140 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CTA from '../../components/CTA.astro';
+import type { CasoDetalle } from '../../data/soluciones';
+
+export const prerender = false;
+
+const API_URL = import.meta.env.PUBLIC_API_URL || 'https://e3-admin-api.onrender.com';
+
+const { slug } = Astro.params;
+
+const defaultCaso: CasoDetalle = {
+    id: 0,
+    slug: slug || '',
+    titulo: 'Caso de Éxito',
+    descripcion: 'Descripción del caso.',
+    imagen: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=60',
+    contenido: 'Contenido detallado del caso de éxito. Aquí se describe ampliamente el trabajo realizado, los desafíos enfrentados y las soluciones implementadas.',
+    resultados: [
+        'Resultado 1 achieved',
+        'Resultado 2 achieved',
+        'Resultado 3 achieved'
+    ],
+    testimonio: null
+};
+
+let caso: CasoDetalle = defaultCaso;
+
+try {
+    const response = await fetch(`${API_URL}/api/contenido/soluciones/${slug}`, { 
+        signal: AbortSignal.timeout(5000) 
+    });
+    
+    if (response.ok) {
+        const apiData = await response.json();
+        if (apiData && typeof apiData === 'object') {
+            caso = {
+                ...defaultCaso,
+                ...apiData,
+                testimonio: apiData.testimonio || null
+            };
+        }
+    }
+} catch (error) {
+    console.error('API no disponible, usando datos locales:', error);
+}
+---
+
+<Layout title={`${caso.titulo} - E3`} description={caso.descripcion}>
+    <Header />
+    
+    <main class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <a href="/soluciones" class="inline-flex items-center gap-2 text-navy-800 hover:text-gold-500 transition mb-8">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span>Volver a Soluciones</span>
+            </a>
+
+            <article class="neon-box relative p-1 mb-12">
+                <div class="neon-inner bg-white rounded-xl p-8 relative">
+                    <div class="relative z-10">
+                        <div class="aspect-video rounded-lg overflow-hidden mb-8 bg-gray-100">
+                            <img 
+                                src={caso.imagen} 
+                                alt={caso.titulo}
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+
+                        <h1 class="text-4xl font-bold text-navy-800 mb-4">{caso.titulo}</h1>
+                        <p class="text-xl text-navy-600 mb-8">{caso.descripcion}</p>
+
+                        <div class="prose prose-lg max-w-none mb-12">
+                            <p class="text-slate-600 leading-relaxed">{caso.contenido}</p>
+                        </div>
+
+                        {caso.resultados && caso.resultados.length > 0 && (
+                            <div class="mb-12">
+                                <h2 class="text-2xl font-bold text-navy-800 mb-6">Resultados Obtenidos</h2>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    {caso.resultados.map((resultado, index) => (
+                                        <div class="bg-gold-50 rounded-lg p-4 border-l-4 border-gold-500">
+                                            <p class="text-navy-800 font-medium">{resultado}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {caso.testimonio && (
+                            <div class="bg-gradient-to-r from-navy-800 to-navy-900 rounded-xl p-8 text-white">
+                                <svg class="w-10 h-10 text-gold-400 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                                </svg>
+                                <p class="text-xl italic mb-4 text-white/90">"{caso.testimonio.texto}"</p>
+                                <p class="font-bold">{caso.testimonio.autor}</p>
+                                <p class="text-gold-400">{caso.testimonio.cargo}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </article>
+
+            <div class="text-center">
+                <a 
+                    href="/cotizaciones"
+                    class="inline-flex items-center gap-2 bg-gold-500 text-navy-900 px-8 py-4 rounded-lg font-bold hover:bg-gold-400 transition shadow-lg border-2 border-gold-500"
+                >
+                    <span>¿Quieres resultados similares?</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <CTA />
+    <Footer />
+</Layout>
+
+<style>
+    .neon-box {
+        background: linear-gradient(135deg, #fde68a 0%, #fcd34d 50%, #fbbf24 100%);
+    }
+
+    .neon-inner {
+        box-shadow: 
+            inset 0 0 20px rgba(251, 191, 36, 0.4),
+            inset 3px 0 15px rgba(251, 191, 36, 0.5),
+            inset -3px 0 15px rgba(251, 191, 36, 0.5),
+            0 0 50px rgba(251, 191, 36, 0.3),
+            0 0 100px rgba(251, 191, 36, 0.15),
+            0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+</style>

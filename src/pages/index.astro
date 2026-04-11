@@ -5,11 +5,10 @@ import Hero from '../components/Hero.astro';
 import Features from '../components/Features.astro';
 import AboutUs from '../components/AboutUs.astro';
 import MisionVision from '../components/MisionVision.astro';
+import SolucionesBanner from '../components/SolucionesBanner.astro';
 import CTA from '../components/CTA.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
-import { getComponente } from '../data/componentes';
-import type { CarouselItem } from '../data/carouselItems';
 
 export const prerender = false;
 
@@ -17,41 +16,79 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'https://e3-admin-api.onrender
 
 const CACHE_MAX_AGE = 60 * 60 * 24 * 7;
 
-Astro.response.headers.set('Cache-Control', `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${CACHE_MAX_AGE}`);
+try {
+  Astro.response.headers.set('Cache-Control', `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${CACHE_MAX_AGE}`);
+} catch (error) {
+  console.warn('No se pudo establecer Cache-Control:', error);
+}
+
+interface CarouselItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  contact: { text: string; link: string };
+}
 
 let items: CarouselItem[] = [];
 let title = 'La Arquitectura de la Certeza en Entornos de Alta Complejidad';
 let description = 'En un mercado definido por la volatilidad, E³ construye la infraestructura del éxito. No solo ofrecemos asesoría: transformamos la incertidumbre en activos de crecimiento mediante tres pilares innegociables.';
 
+const defaultItems: CarouselItem[] = [
+    {
+        id: 1,
+        title: 'Una Disposición Absoluta',
+        description: 'El Compromiso del "Heme Aquí". Mientras otros analizan desde la distancia, nosotros nos involucramos en el epicentro del desafío.',
+        image: '/persona-no-bg.png',
+        contact: { text: 'Contactar por WhatsApp', link: 'https://wa.me/521234567890' }
+    },
+    {
+        id: 2,
+        title: 'Ingeniería de Resiliencia',
+        description: 'Estructuras Inquebrantables. Diseñamos sistemas que no solo resisten el cambio, sino que se fortalecen.',
+        image: '/persona-no-bg.png',
+        contact: { text: 'Solicitar información', link: 'https://wa.me/521234567890' }
+    },
+    {
+        id: 3,
+        title: 'Rigor Científico y Ética',
+        description: 'Fusionamos ciencia económica con visión estratégica responsable.',
+        image: '/persona-no-bg.png',
+        contact: { text: 'Hablar con asesor', link: 'https://wa.me/521234567890' }
+    }
+];
+
 try {
     const [sociosRes, componenteRes] = await Promise.all([
-        fetch(`${API_URL}/api/socios`),
-        fetch(`${API_URL}/api/componentes/Features`)
+        fetch(`${API_URL}/api/socios`, { signal: AbortSignal.timeout(5000) }),
+        fetch(`${API_URL}/api/componentes/Features`, { signal: AbortSignal.timeout(5000) })
     ]);
     
     if (sociosRes.ok) {
-        items = await sociosRes.json();
+        const data = await sociosRes.json();
+        if (Array.isArray(data) && data.length > 0) {
+            const validItems = data.filter((item: any) => 
+                item.id && item.title && item.contact && item.contact.link
+            );
+            if (validItems.length > 0) {
+                items = validItems;
+            }
+        }
     }
     
     if (componenteRes.ok) {
         const componente = await componenteRes.json();
-        if (componente) {
-            title = componente.titulo || title;
-            description = componente.contenido || description;
+        if (componente && typeof componente === 'object') {
+            if (componente.titulo) title = componente.titulo;
+            if (componente.contenido) description = componente.contenido;
         }
     }
 } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('API no disponible, usando datos locales:', error);
 }
 
 if (items.length === 0) {
-    items = [{
-        id: 1,
-        title: 'Cargando...',
-        description: 'Obteniendo datos del servidor',
-        image: '/persona-no-bg.png',
-        contact: { text: 'Contactar', link: '#' }
-    }];
+    items = defaultItems;
 }
 ---
 
@@ -61,6 +98,7 @@ if (items.length === 0) {
 	<Features items={items} title={title} description={description} />
 	<AboutUs />
 	<MisionVision />
+	<SolucionesBanner />
 	<CTA />
 	<Contact />
 	<Footer />

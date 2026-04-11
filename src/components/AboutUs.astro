@@ -3,63 +3,88 @@ import { getComponente } from '../data/componentes';
 
 const componente = await getComponente('AboutUs');
 const titulo = componente?.titulo || 'Quiénes Somos';
-const subtitulo = componente?.contenido || 'E³: Consultora especializada en soluciones de alta complejidad';
 const extraData = componente?.extra_data ? JSON.parse(componente.extra_data) : {};
 ---
 
 <section id="quienes-somos" class="py-20 px-4 bg-white">
 	<div class="max-w-6xl mx-auto">
-		<h2 class="text-4xl font-bold text-center mb-4 text-navy-800">
+		<h2 class="text-4xl font-bold text-center mb-12 text-navy-800">
 			{titulo}
 		</h2>
-		<p class="text-center text-navy-600 mb-12 max-w-2xl mx-auto font-medium">
-			{subtitulo}
-		</p>
 
-		<div class="grid md:grid-cols-2 gap-12 items-center">
-			<div>
-				<div class="text-6xl mb-6">🏛️</div>
-				<h3 class="text-2xl font-bold text-navy-800 mb-4">
-					{extraData.subtituloSeccion || 'Solidez Económica y Estrategia Política'}
-				</h3>
-				<p class="text-slate-600 mb-4">
-					{extraData.descripcion1 || 'En E³, respondemos con la disposición de Isaías ("Heme aquí") para resolver los desafíos más complejos de nuestros clientes. Somos una consultora especializada en transformar la incertidumbre en estructuras sólidas de crecimiento.'}
-				</p>
-				<p class="text-slate-600">
-					{extraData.descripcion2 || 'Nuestra fortaleza radica en la fusión del análisis económico riguroso con la precisión política, permitiendo que nuestros clientes construyan organizaciones verdaderamente resilientes y éticas.'}
-				</p>
+		<div class="grid md:grid-cols-2 gap-12 items-start">
+			<div class="neon-box relative p-1">
+				<div class="neon-inner bg-white rounded-xl p-8 relative">
+					<div class="text-6xl mb-6 text-center">🏛️</div>
+					<div class="text-slate-600 leading-relaxed space-y-4">
+						<p>
+							En E³, nuestra misión es fortalecer el núcleo vital de las organizaciones mediante la inteligencia económica y la estrategia política de alto nivel.
+						</p>
+						<p>
+							Bajo el lema "Estructura sobre la roca, resultados en la abundancia", nuestra fortaleza radica en la fusión de un análisis económico riguroso con la precisión política; una combinación única que permite a nuestros clientes edificar organizaciones verdaderamente resilientes, éticas e inquebrantables.
+						</p>
+					</div>
+				</div>
 			</div>
-			<div class="bg-gradient-to-br from-navy-800 to-gold-500 rounded-lg p-8 text-white border-2 border-gold-400 shadow-xl">
-				<h4 class="text-xl font-bold mb-6">Nuestros Valores Fundacionales</h4>
-				<ul class="space-y-3">
-					<li class="flex items-center gap-2">
-						<span class="text-gold-400">✓</span>
+
+			<div class="bg-gradient-to-br from-navy-800 to-gold-500 rounded-xl p-8 text-white shadow-xl">
+				<h3 class="text-2xl font-bold mb-6">Nuestros Valores Fundacionales</h3>
+				<ul class="space-y-4">
+					<li class="flex items-start gap-3">
+						<span class="text-gold-400 text-xl">✓</span>
 						<span>{extraData.valor1 || 'Precisión en el análisis económico'}</span>
 					</li>
-					<li class="flex items-center gap-2">
-						<span class="text-gold-400">✓</span>
+					<li class="flex items-start gap-3">
+						<span class="text-gold-400 text-xl">✓</span>
 						<span>{extraData.valor2 || 'Integridad en la acción estratégica'}</span>
 					</li>
-					<li class="flex items-center gap-2">
-						<span class="text-gold-400">✓</span>
+					<li class="flex items-start gap-3">
+						<span class="text-gold-400 text-xl">✓</span>
 						<span>{extraData.valor3 || 'Solidez estructural garantizada'}</span>
 					</li>
-					<li class="flex items-center gap-2">
-						<span class="text-gold-400">✓</span>
+					<li class="flex items-start gap-3">
+						<span class="text-gold-400 text-xl">✓</span>
 						<span>{extraData.valor4 || 'Resiliencia ante cualquier crisis'}</span>
 					</li>
-					<li class="flex items-center gap-2">
-						<span class="text-gold-400">✓</span>
+					<li class="flex items-start gap-3">
+						<span class="text-gold-400 text-xl">✓</span>
 						<span>{extraData.valor5 || 'Ética como pilar fundamental'}</span>
 					</li>
 				</ul>
-			</div>
-		</div>
 
-		<div class="mt-12 text-center bg-gold-50 rounded-lg p-8 border-l-4 border-r-4 border-navy-800 shadow-md">
-			<p class="text-2xl font-bold text-navy-800 italic">
-				{extraData.lema || '"Estructura sobre la roca, resultados en la abundancia"'}
-			</p>
+				<div class="mt-8 pt-6 border-t border-white/20">
+					<p class="text-lg font-semibold text-center text-gold-300 italic">
+						{extraData.lema || '"Estructura sobre la roca, resultados en la abundancia"'}
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
+
+<style>
+	.neon-box {
+		background: linear-gradient(135deg, #fde68a 0%, #fcd34d 50%, #fbbf24 100%);
+	}
+
+	.neon-inner {
+		box-shadow: 
+			inset 0 0 20px rgba(251, 191, 36, 0.4),
+			inset 3px 0 15px rgba(251, 191, 36, 0.5),
+			inset -3px 0 15px rgba(251, 191, 36, 0.5),
+			0 0 50px rgba(251, 191, 36, 0.3),
+			0 0 100px rgba(251, 191, 36, 0.15),
+			0 10px 30px rgba(0, 0, 0, 0.08);
+		transition: all 0.4s ease;
+	}
+
+	.neon-box:hover .neon-inner {
+		box-shadow: 
+			inset 0 0 30px rgba(251, 191, 36, 0.5),
+			inset 4px 0 20px rgba(251, 191, 36, 0.6),
+			inset -4px 0 20px rgba(251, 191, 36, 0.6),
+			0 0 80px rgba(251, 191, 36, 0.4),
+			0 0 150px rgba(251, 191, 36, 0.2),
+			0 15px 40px rgba(0, 0, 0, 0.1);
+	}
+</style>
