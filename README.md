@@ -608,6 +608,8 @@ curl -X POST "https://api.vercel.com/v1/integrations/deploy/HOOK_ID"
 
 ---
 
+---
+
 ## 📋 Requisitos del Sistema
 
 - **Node.js** >= 22.12.0
@@ -615,10 +617,252 @@ curl -X POST "https://api.vercel.com/v1/integrations/deploy/HOOK_ID"
 
 ---
 
+## 🧩 Componentes de Soluciones (Nuevos)
+
+### 📋 `SolucionesBanner.astro` - Banner de Casos de Éxito
+| Elemento | Descripción |
+|----------|-------------|
+| Título | "Casos de Éxito" (configurable) |
+| Subtítulo | Descripción del banner (configurable) |
+| Imagen fondo | URL configurable con overlay |
+| Grid preview | 4 mini-cards con imágenes |
+| Botón CTA | Enlace a `/soluciones` |
+
+**Props:**
+```typescript
+interface Props {
+    titulo?: string;      // default: 'Casos de Éxito'
+    subtitulo?: string;   // default: texto descriptivo
+    imagen?: string;      // URL de imagen de fondo
+}
+```
+
+---
+
+### 📋 `Soluciones.astro` - Grid de Casos de Éxito
+| Elemento | Descripción |
+|----------|-------------|
+| Título | Título de la sección |
+| Subtítulo | Descripción de la sección |
+| Cards casos | Grid de casos con efecto neon gold |
+| Imagen | Thumbnail del caso |
+| Testimonio | Quote con borde gold (opcional) |
+| Botón | Enlace a `/soluciones/[slug]` |
+
+**Props:**
+```typescript
+interface Props {
+    casos: CasoExito[];
+    titulo: string;
+    subtitulo: string;
+}
+```
+
+**Estilos especiales:**
+- Borde exterior: gradiente gold
+- Efecto neon: `box-shadow` con tonos gold
+- Hover: intensifica el glow y eleva
+
+---
+
+## 📁 Archivos de Datos - Soluciones
+
+### `src/data/soluciones.ts`
+
+```typescript
+export interface CasoExito {
+    id: number;
+    slug: string;
+    titulo: string;
+    descripcion: string;
+    imagen: string;
+    testimonio: {
+        autor: string;
+        cargo: string;
+        texto: string;
+    } | null;
+}
+
+export interface SolucionesData {
+    titulo: string;
+    subtitulo: string;
+    casos: CasoExito[];
+}
+
+export interface CasoDetalle extends CasoExito {
+    contenido: string;
+    resultados: string[];
+}
+```
+
+---
+
+## 📄 Páginas de Soluciones
+
+### `src/pages/soluciones.astro` - Página Principal
+```
+Orden de componentes:
+1. Header.astro
+2. Soluciones.astro (carga datos via JS fetch)
+3. CTA.astro
+4. Footer.astro
+```
+
+**Funcionalidad:**
+- Carga datos del API `${API_URL}/api/contenido/soluciones`
+- Renderiza cards con efecto glass/blur
+- Muestra testimonios si existen
+- Fallback a datos locales si API no disponible
+
+**API URL:**
+- Desarrollo: `http://localhost:5000`
+- Producción: `https://e3-admin-api.onrender.com`
+
+---
+
+### `src/pages/soluciones/[slug].astro` - Detalle de Caso
+```
+Orden de componentes:
+1. Header.astro
+2. Artículo (contenido del caso)
+3. CTA.astro
+4. Footer.astro
+```
+
+**Funcionalidad:**
+- Genera páginas dinámicas basadas en slugs
+- Obtiene datos del API `${API_URL}/api/contenido/soluciones/${slug}`
+- Muestra: imagen, título, descripción, contenido, resultados, testimonio
+- Timeout de 30 segundos para fallback
+- Botón "Volver a Soluciones"
+- CTA final para cotizaciones
+
+**API Endpoint:**
+- `GET /api/contenido/soluciones/[slug]`
+
+---
+
+## 📝 Sistema de Logging
+
+### `src/utils/logger.ts`
+```typescript
+// Funciones exportadas:
+
+logAction(action: string, details: Record<string, unknown>): Promise<void>
+// Registra una acción en logs/[fecha].log
+
+createRequestLogger(): Function
+// Crea middleware para logging de requests
+```
+
+**Ubicación de logs:**
+- Desarrollo: `./logs/[fecha].log`
+- Vercel: `/tmp/logs/[fecha].log`
+
+**Formato:**
+```
+[2024-01-15T10:30:00.000Z] VISIT | {"ip":"192.168.1.1","method":"GET","path":"/","userAgent":"..."}
+```
+
+---
+
+### `src/middleware.ts` - Middleware de Visitas
+```typescript
+// Registra cada visita automáticamente
+// Captura: IP, método, path, user-agent
+// Usa logAction() del utils/logger
+```
+
+---
+
+### `src/pages/api/log.ts` - API de Logging
+```
+POST /api/log
+
+Body:
+{
+    "action": "CLICK" | "FORM_SUBMIT" | etc,
+    ...details
+}
+
+Respuesta: { "success": true } | { "error": "Invalid request" }
+```
+
+**Uso desde frontend:**
+```javascript
+fetch('/api/log', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        action: 'CTA_CLICK',
+        element: 'ver-casos-button'
+    })
+});
+```
+
+---
+
+## 🗺️ Mapa de Dependencias Actualizado
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         index.astro (Página Principal)                  │
+│                                                                         │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌────────────────────┐        │
+│  │ Header  │  │  Hero   │  │Carousel │  │     Features        │        │
+│  └─────────┘  └─────────┘  └─────────┘  └────────────────────┘        │
+│                                                                         │
+│  ┌─────────┐  ┌─────────────────────┐  ┌──────────────────────────┐     │
+│  │AboutUs  │  │   MisionVision      │  │   SolucionesBanner       │     │
+│  └─────────┘  └─────────────────────┘  └──────────────────────────┘     │
+│                                                                         │
+│  ┌─────────┐  ┌─────────────┐  ┌─────────┐  ┌────────────────┐       │
+│  │  CTA    │  │  Contact     │  │ Footer  │  │                  │       │
+│  └─────────┘  └─────────────┘  └─────────┘  └────────────────┘       │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    soluciones.astro (Página Casos de Éxito)             │
+│                                                                         │
+│  ┌─────────┐  ┌─────────────────────┐  ┌─────────┐  ┌─────────┐       │
+│  │ Header  │  │     Soluciones      │  │   CTA   │  │ Footer  │       │
+│  │         │  │  (fetch API datos)   │  │         │  │         │       │
+│  └─────────┘  └─────────────────────┘  └─────────┘  └─────────┘       │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│               soluciones/[slug].astro (Detalle de Caso)                 │
+│                                                                         │
+│  ┌─────────┐  ┌─────────────────────────────┐  ┌─────────┐  ┌────────┐ │
+│  │ Header  │  │   Artículo (contenido)      │  │   CTA   │  │ Footer │ │
+│  │         │  │   - imagen                  │  │         │  │        │ │
+│  │         │  │   - titulo/descripcion       │  └─────────┘  └────────┘ │
+│  │         │  │   - contenido                │                          │
+│  │         │  │   - resultados               │                          │
+│  │         │  │   - testimonio (opcional)    │                          │
+│  └─────────┘  └─────────────────────────────┘                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔗 API Endpoints Completos
+
+| Endpoint | Método | Descripción | Afecta |
+|----------|--------|-------------|--------|
+| `GET /api/socios` | Lista | Socios activos | Carousel.astro |
+| `GET /api/componentes` | Lista | Textos editables | Todos |
+| `GET /api/contenido/soluciones` | Lista | Casos de éxito | Soluciones.astro |
+| `GET /api/contenido/soluciones/[slug]` | Detalle | Un caso | soluciones/[slug].astro |
+| `POST /api/log` | Log | Registrar acciones | Sistema |
+
+---
+
 ## 👥 Panel de Administración
 
 Ver [E3_Admin](../E3_Admin/README.md) para:
 - CRUD Socios → `carouselItems.ts` o API
+- CRUD Casos de Éxito → Soluciones
 - Editar textos → componentes
 - Gestionar usuarios admin
 
