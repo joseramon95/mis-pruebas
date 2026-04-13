@@ -1,14 +1,23 @@
+# Dependencies
 node_modules/
-dist/
-.env
-node_modules
-nul
+package-lock.json
 
-# Archivos del sistema
-.DS_Store
-Thumbs.db
-Desktop.ini
-*.log
+# Build output
+dist/
+build/
+out/
+
+# Astro
+.astro/
+
+# Vercel
+.vercel/
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.local
 
 # IDEs
 .vscode/
@@ -16,66 +25,24 @@ Desktop.ini
 *.swp
 *.swo
 
-# Archivos temporales
-tmp/
-temp/
-*.tmp
-errores-e3.txt
-
-# Builds
-build/
-out/
-*.egg-info/
-
-# Configuración local
-.env.local
-.env.*.local
-*.local
-
-# Django/Python
+# Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-*.egg
-*.egg-info/
-*.db
-instance/
 venv/
 .venv/
-*.pot
-*.log
+*.db
 
-# Astro
-.astro/
-
-# Capacitor/Android
-android/
-*.keystore
-*.jks
-
-# Flask
-.flaskenv
-.ruff_cache/
+# Logs
 logs/
+*.log
+ruff_cache/
 
-# Documentación local
-FLUJO_DEPENDENCIAS.md
-API_ENDPOINTS_REQUERIDOS.txt
-SESION-TRABAJO.md
-proyectos-descripcion.txt
-PENDIENTES_RENDER.txt
+# System
+.DS_Store
+Thumbs.db
+
+# Docs locales (no subir a git)
 AGENTS.md
-
-# Misceláneos
-.vercel
-file-organizer-cli/
-test-files/
-prueba.html
-package-lock.json
-
-# Proyectos específicos (ignorar carpetas de otras ramas)
-GUIAS/
-IDEAS/
+FLUJO_DEPENDENCIAS.md
+PENDIENTE_*.md
+SOLUCIONES_TEXTO_API.txt

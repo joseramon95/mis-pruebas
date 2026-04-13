@@ -30,7 +30,7 @@ let caso: CasoDetalle = defaultCaso;
 
 try {
     const response = await fetch(`${API_URL}/api/contenido/soluciones/${slug}`, { 
-        signal: AbortSignal.timeout(5000) 
+        signal: AbortSignal.timeout(30000) 
     });
     
     if (response.ok) {

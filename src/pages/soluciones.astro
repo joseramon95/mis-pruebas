@@ -4,70 +4,81 @@ import Header from '../components/Header.astro';
 import Soluciones from '../components/Soluciones.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
-import type { CasoExito, SolucionesData } from '../data/soluciones';
 
 export const prerender = false;
 
 const API_URL = import.meta.env.PUBLIC_API_URL || 'https://e3-admin-api.onrender.com';
 
-const defaultData: SolucionesData = {
+const defaultData = {
     titulo: 'Casos de Éxito',
-    subtitulo: 'Descubre cómo hemos ayudado a organizaciones a transformar su incertidumbre en crecimiento structured.',
-    casos: [
-        {
-            id: 1,
-            slug: 'transformacion-empresarial',
-            titulo: 'Transformación Empresarial',
-            descripcion: 'Implementación de estrategia integral de resiliencia organizacional.',
-            imagen: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&auto=format&fit=crop&q=60',
-            testimonio: null
-        },
-        {
-            id: 2,
-            slug: 'analisis-de-mercado',
-            titulo: 'Análisis de Mercado',
-            descripcion: 'Estudio profundo del sector que permitió decisiones estratégicas fundamentadas.',
-            imagen: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=60',
-            testimonio: null
-        },
-        {
-            id: 3,
-            slug: 'planificacion-estrategica',
-            titulo: 'Planificación Estratégica',
-            descripcion: 'Desarrollo de hoja de ruta para expansión con análisis de riesgo.',
-            imagen: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&auto=format&fit=crop&q=60',
-            testimonio: null
-        }
-    ]
+    subtitulo: 'Descubre cómo hemos ayudado a organizaciones a transformar su incertidumbre en crecimiento.',
+    casos: []
 };
-
-let data: SolucionesData = defaultData;
-
-try {
-    const response = await fetch(`${API_URL}/api/contenido/soluciones`, { 
-        signal: AbortSignal.timeout(5000) 
-    });
-    
-    if (response.ok) {
-        const apiData = await response.json();
-        if (apiData && typeof apiData === 'object') {
-            data = {
-                titulo: apiData.titulo || defaultData.titulo,
-                subtitulo: apiData.subtitulo || defaultData.subtitulo,
-                casos: Array.isArray(apiData.casos) && apiData.casos.length > 0 
-                    ? apiData.casos 
-                    : defaultData.casos
-            };
-        }
-    }
-} catch (error) {
-    console.error('API de soluciones no disponible, usando datos locales:', error);
-}
 ---
 
 <Layout title="Soluciones - E3" description="Casos de éxito y soluciones implementadas por E3">
     <Header />
-    <Soluciones casos={data.casos} titulo={data.titulo} subtitulo={data.subtitulo} />
+    <Soluciones casos={defaultData.casos} titulo={defaultData.titulo} subtitulo={defaultData.subtitulo} />
     <CTA />
     <Footer />
 </Layout>
+
+<script define:vars={{ API_URL }}>
+    async function fetchSoluciones() {
+        try {
+            const response = await fetch(`${API_URL}/api/contenido/soluciones`);
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.casos && data.casos.length > 0) {
+                    // Actualizar título
+                    if (data.titulo) {
+                        const titleEl = document.querySelector('#soluciones h2');
+                        if (titleEl) titleEl.textContent = data.titulo;
+                    }
+                    if (data.subtitulo) {
+                        const subtitleEl = document.querySelector('#soluciones p');
+                        if (subtitleEl) subtitleEl.textContent = data.subtitulo;
+                    }
+                    
+                    // Actualizar grid de casos
+                    const grid = document.querySelector('#soluciones .grid');
+                    if (grid) {
+                        grid.innerHTML = data.casos.map(caso => `
+                            <a href="/soluciones/${caso.slug}" class="group block">
+                                <div class="relative bg-gradient-to-br from-navy-800 via-navy-900 to-navy-800 rounded-2xl overflow-hidden h-full transition-all duration-500 hover:scale-[1.02] hover:shadow-golden border border-gold-500/30">
+                                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gold-400/20 to-yellow-600/10 rounded-full blur-2xl"></div>
+                                    <div class="aspect-video overflow-hidden">
+                                        <img src="${caso.imagen}" alt="${caso.titulo}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"/>
+                                    </div>
+                                    <div class="relative z-10 p-6">
+                                        <h3 class="text-xl font-bold text-white mb-2">${caso.titulo}</h3>
+                                        <p class="text-white/70 text-sm mb-4">${caso.descripcion}</p>
+                                        ${caso.testimonio ? `
+                                            <div class="border-t border-gold-500/30 pt-4">
+                                                <p class="text-gold-400 text-xs italic">"${caso.testimonio.texto}"</p>
+                                                <p class="text-white/60 text-xs mt-2">- ${caso.testimonio.autor}</p>
+                                            </div>
+                                        ` : ''}
+                                        <div class="mt-4 flex items-center gap-2 text-gold-500 text-sm font-medium group-hover:text-gold-400">
+                                            <span>Ver Caso</span>
+                                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        `).join('');
+                    }
+                }
+            }
+        } catch (error) {
+            console.log('API de soluciones no disponible, usando datos locales');
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchSoluciones();
+    });
+</script>

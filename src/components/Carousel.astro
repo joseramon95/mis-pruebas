@@ -2,14 +2,55 @@
 import type { CarouselItem } from '../data/carouselItems';
 import { sectionBackgrounds } from '../data/backgroundImages';
 
+const API_URL = import.meta.env.PUBLIC_API_URL || 'https://e3-admin-api.onrender.com';
+
 interface Props {
-	items: CarouselItem[];
+	items?: CarouselItem[];
 	title?: string;
 	description?: string;
 }
 
-const { items, title = 'POR QUE ESCOGERNOS?', description = 'Experimente la potencia de la arquitectura insular y la hidratación parcial para lograr tiempos de carga ultrarrápidos.' } = Astro.props;
+const { items: initialItems, title = 'POR QUE ESCOGERNOS?', description = 'Experiencia la potencia de la arquitectura insular y la hidratación parcial para lograr tiempos de carga ultrarrápidos.' } = Astro.props;
 const carouselBackground = sectionBackgrounds.carousel;
+
+// Fetch de datos en servidor (SSR)
+let items: CarouselItem[] = initialItems || [];
+
+try {
+    const response = await fetch(`${API_URL}/api/socios`, { 
+        signal: AbortSignal.timeout(5000) 
+    });
+    if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+            const validItems = data.filter((item: CarouselItem) => 
+                item.id && item.title && item.contact && item.contact.link
+            );
+            if (validItems.length > 0) {
+                items = validItems;
+            }
+        }
+    }
+} catch (error) {
+    console.log('API no disponible, usando datos locales');
+}
+
+// Fetch título y descripción del componente
+let componentTitle = title;
+let componentDescription = description;
+
+try {
+    const compResponse = await fetch(`${API_URL}/api/componentes/Features`, { 
+        signal: AbortSignal.timeout(5000) 
+    });
+    if (compResponse.ok) {
+        const componente = await compResponse.json();
+        if (componente) {
+            if (componente.titulo) componentTitle = componente.titulo;
+            if (componente.contenido) componentDescription = componente.contenido;
+        }
+    }
+} catch {}
 ---
 
 <section 
@@ -32,10 +73,10 @@ const carouselBackground = sectionBackgrounds.carousel;
 
 	<div class="max-w-6xl mx-auto relative z-10">
 		<h2 class="text-4xl font-bold text-center mb-4 text-navy-800">
-			{title}
+			{componentTitle}
 		</h2>
 		<p class="text-center text-navy-600 mb-12 max-w-2xl mx-auto font-medium">
-			{description}
+			{componentDescription}
 		</p>
 
 		<!-- Carousel Container -->
@@ -197,7 +238,7 @@ const carouselBackground = sectionBackgrounds.carousel;
 	}
 
 	// Inicializar carrusel
-	new CarouselController('carousel-track', 'indicator-btn');
+	window.carouselController = new CarouselController('carousel-track', 'indicator-btn');
 </script>
 
 <style>

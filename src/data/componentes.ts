@@ -11,7 +11,15 @@ const API_URL = import.meta.env.PUBLIC_API_URL || 'https://e3-admin-api.onrender
 
 export async function fetchComponentes(): Promise<Componente[]> {
     try {
-        const response = await fetch(`${API_URL}/api/componentes`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        
+        const response = await fetch(`${API_URL}/api/componentes`, {
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
         if (response.ok) {
             return await response.json();
         }
@@ -22,6 +30,21 @@ export async function fetchComponentes(): Promise<Componente[]> {
 }
 
 export async function getComponente(nombre: string): Promise<Componente | null> {
-    const componentes = await fetchComponentes();
-    return componentes.find(c => c.nombre === nombre) || null;
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        
+        const response = await fetch(`${API_URL}/api/componentes/${nombre}`, {
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.error(`Error fetching componente ${nombre}:`, error);
+    }
+    return null;
 }
