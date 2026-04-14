@@ -11,38 +11,72 @@ const link = componente?.link || '/cotizaciones';
 ---
 
 <section 
-	class="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
-	style={{
-		backgroundImage: `url('${heroBackground.imageUrl}')`,
-		backgroundSize: 'cover',
-		backgroundPosition: 'center',
-		backgroundAttachment: 'fixed',
-	}}
+	class="relative min-h-screen flex items-center justify-center overflow-hidden"
 >
-	<div
-		class="absolute inset-0"
+	<div 
+		class="absolute inset-0 bg-cover bg-center bg-no-repeat"
 		style={{
-			background: heroBackground.gradientOverlay,
-		}}
-	></div>
-
-	<div class="absolute top-10 right-10 w-40 h-40 bg-amber-300 rounded-full opacity-10 blur-3xl"></div>
-	<div class="absolute bottom-10 left-10 w-40 h-40 bg-amber-400 rounded-full opacity-10 blur-3xl"></div>
+			backgroundImage: `url('${heroBackground.imageUrl}')`,
+		}}	
+	>
+	</div>
 	
-	<div class="max-w-4xl mx-auto text-center relative z-10">
-		<h1 class="text-3xl md:text-4xl font-semibold text-white mb-4">
+	<div class="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-900/90 to-navy-800/80"></div>
+	
+	<div class="absolute inset-0">
+		<div class="absolute top-20 left-10 w-72 h-72 bg-gold-400/20 rounded-full blur-3xl animate-pulse"></div>
+		<div class="absolute bottom-20 right-10 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-navy-600/20 rounded-full blur-3xl"></div>
+	</div>
+
+	<div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23fbbf24%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-30"></div>
+	
+	<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+		<div class="inline-flex items-center gap-2 px-4 py-2 bg-gold-400/10 border border-gold-400/30 rounded-full mb-8">
+			<span class="w-2 h-2 bg-gold-400 rounded-full animate-pulse"></span>
+			<span class="text-gold-300 text-sm font-medium tracking-wide">Consultoría Estratégica Premium</span>
+		</div>
+		
+		<h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-tight">
 			{titulo}
 		</h1>
-		<h2 class="text-6xl md:text-8xl font-bold text-gold-400 mb-8">
-			{subtitulo}
-		</h2>
-		<p class="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
+		
+		<div class="relative mb-8">
+			<h2 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold relative inline-block">
+				<span class="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 bg-clip-text text-transparent">
+					{subtitulo}
+				</span>
+				<div class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></div>
+			</h2>
+		</div>
+		
+		<p class="text-lg sm:text-xl md:text-2xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed">
 			{contenido}
 		</p>
-		<div class="flex justify-center">
-			<a href={link} target="_blank" class="bg-gold-400 text-navy-900 px-8 py-4 rounded-lg font-bold hover:bg-gold-300 transition text-lg shadow-lg border-2 border-gold-500">
-				{componente?.extra_data || '¿Te Interesa Alguno de Nuestros Servicios?'}
+		
+		<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+			<a href={link} target="_blank" class="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-gold-400 to-gold-500 text-navy-900 font-bold text-lg rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-gold hover:-translate-y-1">
+				<span class="relative z-10">{componente?.extra_data || '¿Te Interesa Alguno de Nuestros Servicios?'}</span>
+				<svg class="relative z-10 w-6 h-6 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+				</svg>
+				<div class="absolute inset-0 bg-gradient-to-r from-gold-300 to-gold-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+			</a>
+			<a href="#quienes-somos" class="inline-flex items-center gap-2 px-8 py-5 text-white font-semibold rounded-2xl border-2 border-white/20 hover:border-gold-400/50 hover:bg-white/5 transition-all duration-300">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+				</svg>
+				Conoce más
 			</a>
 		</div>
+	</div>
+
+	<div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+		<a href="#quienes-somos" class="flex flex-col items-center gap-2 text-white/50 hover:text-gold-400 transition-colors">
+			<span class="text-xs tracking-widest uppercase">Scroll</span>
+			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+			</svg>
+		</a>
 	</div>
 </section>

@@ -5,52 +5,65 @@ const isSubPage = currentPath.startsWith('/soluciones') || currentPath === '/cot
 const getLink = (section: string) => {
     return isSubPage ? `/${section}` : section;
 };
-
-const getAnchorLink = (section: string) => {
-    return isSubPage ? `/${section}` : section;
-};
 ---
 
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
+<header class="sticky top-0 z-50 bg-navy-900/95 backdrop-blur-md border-b border-gold-500/20">
 	<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex justify-between items-center h-16">
+		<div class="flex justify-between items-center h-20">
 			<a href="/" class="flex items-center gap-3 group">
-				<img src="/e3.ico" alt="E3 Logo" class="w-10 h-10 transition-transform group-hover:scale-110" />
-				<span class="text-xl font-bold text-gray-900 tracking-tight">E³ Consultoría</span>
+				<div class="relative">
+					<img src="/e3.ico" alt="E3 Logo" class="w-12 h-12 transition-transform duration-300 group-hover:scale-110" />
+					<div class="absolute inset-0 rounded-full border-2 border-gold-400/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+				</div>
+				<div class="flex flex-col">
+					<span class="text-xl font-bold text-white tracking-wide">E³</span>
+					<span class="text-xs text-gold-400 font-medium tracking-widest uppercase">Consultoría</span>
+				</div>
 			</a>
 
-			<div class="hidden md:flex items-center gap-1">
-				<a href={getAnchorLink('#quienes-somos')} class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+			<div class="hidden lg:flex items-center gap-2">
+				<a href={getLink('#quienes-somos')} class="px-4 py-2 text-white/80 hover:text-gold-400 font-medium rounded-lg hover:bg-white/5 transition-all duration-200">
 					Quiénes Somos
 				</a>
-				<a href={getAnchorLink('#mision-vision')} class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href={getLink('#mision-vision')} class="px-4 py-2 text-white/80 hover:text-gold-400 font-medium rounded-lg hover:bg-white/5 transition-all duration-200">
 					Misión y Visión
 				</a>
-				<a href="/soluciones" class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href="/soluciones" class="px-4 py-2 text-white/80 hover:text-gold-400 font-medium rounded-lg hover:bg-white/5 transition-all duration-200">
 					Soluciones
 				</a>
-				<a href={getAnchorLink('#contacto')} class="px-4 py-2 text-gray-700 hover:text-primary font-medium rounded-lg hover:bg-gray-50 transition">
+				<a href={getLink('#contacto')} class="px-4 py-2 text-white/80 hover:text-gold-400 font-medium rounded-lg hover:bg-white/5 transition-all duration-200">
 					Contacto
 				</a>
 			</div>
 
-			<a href="/cotizaciones" class="hidden md:inline-flex items-center gap-2 bg-navy-800 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-navy-900 transition-all hover:shadow-lg border-2 border-gold-500 hover:-translate-y-0.5">
-				Cotiza con Nosotros
-			</a>
+			<div class="hidden lg:flex items-center gap-4">
+				<a href="/cotizaciones" class="group relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gold-400 to-gold-500 text-navy-900 font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-gold hover:-translate-y-0.5">
+					<span class="relative z-10">Cotiza con Nosotros</span>
+					<svg class="w-5 h-5 relative z-10 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+					</svg>
+					<div class="absolute inset-0 bg-gradient-to-r from-gold-300 to-gold-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+				</a>
+			</div>
 
-			<button id="menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition">
-				<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<button id="menu-btn" class="lg:hidden p-3 rounded-xl bg-white/5 hover:bg-white/10 transition text-gold-400">
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
 				</svg>
 			</button>
 		</div>
 
-		<div id="mobile-menu" class="hidden md:hidden pb-4">
-			<div class="flex flex-col gap-1 pt-2 border-t border-gray-100">
-				<a href={getAnchorLink('#quienes-somos')} class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Quiénes Somos</a>
-				<a href={getAnchorLink('#mision-vision')} class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Misión y Visión</a>
-				<a href="/soluciones" class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Soluciones</a>
-				<a href={getAnchorLink('#contacto')} class="px-4 py-2 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg transition">Contacto</a>
+		<div id="mobile-menu" class="hidden lg:hidden pb-6">
+			<div class="flex flex-col gap-2 pt-4 border-t border-white/10">
+				<a href={getLink('#quienes-somos')} class="px-4 py-3 text-white/80 hover:text-gold-400 hover:bg-white/5 rounded-lg transition">Quiénes Somos</a>
+				<a href={getLink('#mision-vision')} class="px-4 py-3 text-white/80 hover:text-gold-400 hover:bg-white/5 rounded-lg transition">Misión y Visión</a>
+				<a href="/soluciones" class="px-4 py-3 text-white/80 hover:text-gold-400 hover:bg-white/5 rounded-lg transition">Soluciones</a>
+				<a href={getLink('#contacto')} class="px-4 py-3 text-white/80 hover:text-gold-400 hover:bg-white/5 rounded-lg transition">Contacto</a>
+				<div class="pt-4 border-t border-white/10">
+					<a href="/cotizaciones" class="block w-full text-center px-6 py-3 bg-gradient-to-r from-gold-400 to-gold-500 text-navy-900 font-bold rounded-xl">
+						Cotiza con Nosotros
+					</a>
+				</div>
 			</div>
 		</div>
 	</nav>
