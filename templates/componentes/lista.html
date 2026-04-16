@@ -4,27 +4,27 @@
 
 {% block content %}
 <div class="mb-8">
-    <h1 class="text-3xl font-bold text-navy-800">Componentes</h1>
-    <p class="text-gray-500">Editar contenido de cada sección</p>
+    <h1 class="text-3xl font-bold text-slate-800">Componentes</h1>
+    <p class="text-slate-500">Editar contenido de cada sección</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     {% for comp in componentes %}
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
-        <div class="bg-navy-800 text-white px-6 py-4">
-            <h3 class="font-bold text-lg">{{ comp.nombre }}</h3>
-            <p class="text-navy-200 text-sm">{{ comp.titulo[:50] }}{% if comp.titulo and comp.titulo|length > 50 %}...{% endif %}</p>
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+        <div class="bg-slate-800 text-white px-5 py-3">
+            <h3 class="font-semibold">{{ comp.nombre }}</h3>
+            <p class="text-slate-400 text-sm truncate">{{ comp.titulo }}</p>
         </div>
-        <div class="p-6">
-            <div class="space-y-2 text-sm text-gray-600 mb-4">
+        <div class="p-5">
+            <div class="space-y-2 text-sm text-slate-600 mb-4">
                 {% if comp.subtitulo %}
-                <p><strong>Subtítulo:</strong> {{ comp.subtitulo[:40] }}{% if comp.subtitulo|length > 40 %}...{% endif %}</p>
+                <p><span class="font-medium">Subtítulo:</span> {{ comp.subtitulo[:40] }}{% if comp.subtitulo|length > 40 %}...{% endif %}</p>
                 {% endif %}
                 {% if comp.contenido %}
-                <p><strong>Contenido:</strong> {{ comp.contenido[:60] }}{% if comp.contenido|length > 60 %}...{% endif %}</p>
+                <p><span class="font-medium">Contenido:</span> {{ comp.contenido[:60] }}{% if comp.contenido|length > 60 %}...{% endif %}</p>
                 {% endif %}
             </div>
-            <a href="{{ url_for('editar_componente', id=comp.id) }}" class="block w-full bg-gold-500 text-navy-900 py-2 rounded-lg font-medium text-center hover:bg-gold-600 transition">
+            <a href="{{ url_for('crud.editar_componente', id=comp.id) }}" class="block w-full bg-amber-500 text-slate-900 py-2 rounded-lg font-medium text-center hover:bg-amber-400 hover:shadow-md transition border-2 border-amber-600">
                 Editar
             </a>
         </div>
