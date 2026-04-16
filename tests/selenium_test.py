@@ -13,13 +13,14 @@ import os
 def start_flask_server():
     env = os.environ.copy()
     env["FLASK_ENV"] = "development"
+    env["LOCAL_DB_URL"] = "sqlite:///test.db"
     proc = subprocess.Popen(
-        [sys.executable, "app.py"],
+        [sys.executable, "run.py"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         env=env,
     )
-    time.sleep(3)
+    time.sleep(5)
     yield
     proc.terminate()
     proc.wait()
