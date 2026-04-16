@@ -1,7 +1,8 @@
 node_modules/
 dist/
 .env
-node_modules
+*.db
+.env.local
 nul
 .vercel
 file-organizer-cli/
@@ -23,3 +24,7 @@ instance/
 *.db
 GUIAS/
 IDEAS/
+DEPLOY_CLI.md
+FLUJO_DEPENDENCIAS.md
+mis-pruebas-1.env
+README.md
